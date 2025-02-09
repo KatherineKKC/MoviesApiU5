@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">unidad5</string>
+    <string name="et_password">Password</string>
+    <string name="et_email">Email</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_login2">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mttv_description">Detalle de la pelicula</string>
+    <string name="btn_login_txt">Iniciar Sesión</string>
+    <string name="btn_sing">Registrarse</string>
+    <string name="tv_title_original">Título original</string>
+    <string name="tv_sinopsis">Sinopsis</string>
+    <string name="btn_favoritos_description">Favoritos</string>
+</resources>
