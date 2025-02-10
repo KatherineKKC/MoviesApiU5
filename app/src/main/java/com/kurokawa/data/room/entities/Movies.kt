@@ -1,6 +1,5 @@
-package com.kurokawa.data.room.model
+package com.kurokawa.data.room.entities
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -14,5 +13,6 @@ data class Movies(
     val overview:String,
     val releaseDate:String,
     val voteAverage:Int,
-    var isFavoriteMovie: Boolean = false
+    var isFavoriteMovie: Boolean = false,
+    val category: String = ""
 )

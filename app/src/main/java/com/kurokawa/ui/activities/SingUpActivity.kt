@@ -1,14 +1,13 @@
-package com.kurokawa.ui.sing
+package com.kurokawa.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.kurokawa.ui.login.LoginActivity
 import com.kurokawa.application.MyApplication
 import com.kurokawa.databinding.ActivitySingUpBinding
-import com.kurokawa.data.room.model.User
+import com.kurokawa.data.room.entities.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

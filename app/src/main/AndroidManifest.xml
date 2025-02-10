@@ -14,19 +14,19 @@
         android:theme="@style/Theme.Unidad5"
         tools:targetApi="31">
         <activity
-            android:name=".ui.favorite.FavoriteActivity"
+            android:name=".ui.activities.FavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.movieList.MoviesListActivity"
+            android:name=".ui.activities.MoviesListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.detail.MovieDetailActivity"
+            android:name=".ui.activities.MovieDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.sing.SingUpActivity"
+            android:name=".ui.activities.SingUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

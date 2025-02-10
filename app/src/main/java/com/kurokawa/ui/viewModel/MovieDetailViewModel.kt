@@ -1,14 +1,13 @@
-package com.kurokawa.ui.detail
+package com.kurokawa.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.data.room.MovieDatabase
-import com.kurokawa.data.room.model.Movies
+import com.kurokawa.data.room.database.MovieDatabase
+import com.kurokawa.data.room.entities.Movies
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieDetailViewModel(private val movieDao: MovieDatabase) : ViewModel() {
     private val _movie = MutableLiveData<Movies>()

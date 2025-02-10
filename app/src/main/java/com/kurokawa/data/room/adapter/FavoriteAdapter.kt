@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.data.room.model.Movies
+import com.kurokawa.data.room.entities.Movies
 
 class FavoriteAdapter : ListAdapter<Movies, FavoriteAdapter.FavoriteViewHolder>(DiffCallback()) {
 
@@ -24,7 +24,7 @@ class FavoriteAdapter : ListAdapter<Movies, FavoriteAdapter.FavoriteViewHolder>(
         holder.bind(getItem(position))
     }
 
-    class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.tvFavoriteTitle)
         private val poster: ImageView = itemView.findViewById(R.id.imgFavoritePoster)
 

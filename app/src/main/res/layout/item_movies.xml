@@ -9,14 +9,14 @@
     android:textAlignment="center">
 
     <ImageView
-        android:id="@+id/img_movie"
+        android:id="@+id/img_movie_list"
         android:layout_width="18dp"
         android:layout_height="100dp"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
-        android:id="@+id/tv_title_movie"
+        android:id="@+id/tv_title_movie_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

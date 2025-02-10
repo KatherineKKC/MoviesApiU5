@@ -1,4 +1,4 @@
-package com.kurokawa.data.room.model
+package com.kurokawa.data.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

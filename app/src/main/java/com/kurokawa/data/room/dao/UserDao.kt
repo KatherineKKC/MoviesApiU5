@@ -3,7 +3,7 @@ package com.kurokawa.data.room.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.kurokawa.data.room.model.User
+import com.kurokawa.data.room.entities.User
 
 @Dao
 interface UserDao {

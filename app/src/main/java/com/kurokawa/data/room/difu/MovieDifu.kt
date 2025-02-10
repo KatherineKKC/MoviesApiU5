@@ -1,7 +1,7 @@
 package com.kurokawa.data.room.difu
 
 import androidx.recyclerview.widget.DiffUtil
-import com.kurokawa.data.room.model.Movies
+import com.kurokawa.data.room.entities.Movies
 
 class MovieDifu(
     private val oldList: List<Movies>,

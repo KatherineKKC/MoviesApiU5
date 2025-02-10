@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
 }
-
 android {
     namespace = "com.kurokawa"
     compileSdk = 35
@@ -16,6 +15,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
     viewBinding {
         enable = true
@@ -67,7 +68,7 @@ dependencies {
     implementation(libs.retrofit)
             implementation(libs.retrofit.gson)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.lifecycle.livedata)
+            implementation(libs.lifecycle.livedata)//Observer
             implementation(libs.lifecycle.runtime)
 
 }

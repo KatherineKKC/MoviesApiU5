@@ -1,13 +1,10 @@
-package com.kurokawa.ui.detail
+package com.kurokawa.ui.activities
 
-import android.R
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.kurokawa.data.room.model.Movies
 import com.kurokawa.databinding.ActivityMovieDetailBinding
-import com.kurokawa.ui.movieList.adapter.MoviesAdapter
+import com.kurokawa.ui.viewModel.MovieDetailViewModel
 
 class MovieDetailActivity : AppCompatActivity() {
     // BINDING

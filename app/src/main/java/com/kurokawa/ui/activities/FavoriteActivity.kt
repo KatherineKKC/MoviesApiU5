@@ -1,11 +1,12 @@
-package com.kurokawa.ui.favorite
+package com.kurokawa.ui.activities
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kurokawa.databinding.ActivityFavoriteBinding
-import com.kurokawa.R
+import com.kurokawa.ui.favorite.FavoriteAdapter
+import com.kurokawa.ui.viewModel.FavoriteViewModel
 
 class FavoriteActivity : AppCompatActivity() {
     //BINDING

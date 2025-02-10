@@ -1,7 +1,6 @@
 package com.kurokawa.data.network
 
-import com.kurokawa.data.room.model.MovieResponse
-import org.intellij.lang.annotations.Language
+import com.kurokawa.data.room.entities.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
