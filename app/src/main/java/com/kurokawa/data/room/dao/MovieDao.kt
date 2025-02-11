@@ -27,7 +27,7 @@ interface MovieDao {
     suspend fun deleteMovie(movies: Movies)
 
     @Query("SELECT * FROM movies")
-    fun getAllMovies(): List<Movies>
+    fun getAllMovies(): LiveData<List<Movies>>
 
     @Query("SELECT * FROM movies WHERE isFavoriteMovie = 1")
     fun getFavoriteMovies(): LiveData<List<Movies>>
@@ -35,4 +35,9 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE idMovie = :movieId LIMIT 1")
     fun getMovieById(movieId: Int): LiveData<Movies>
 
+    @Query("SELECT * FROM movies WHERE idMovie = :movieId LIMIT 1")
+    fun getMovieDetailById(movieId: Int): Movies
+
+    @Query("SELECT COUNT(*) FROM movies")
+    suspend fun getMovieCount(): Int
 }

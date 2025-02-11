@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import com.kurokawa.data.room.dao.MovieDao
 import com.kurokawa.data.room.entities.Movies
 
-@Database(entities = [Movies::class], version = 3, exportSchema = false)
+@Database(entities = [Movies::class], version = 5, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 } 

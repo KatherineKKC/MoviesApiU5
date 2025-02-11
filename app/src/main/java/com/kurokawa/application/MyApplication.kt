@@ -6,11 +6,18 @@ import com.kurokawa.data.room.database.MyDataBaseRoom
 import com.kurokawa.data.room.database.MovieDatabase
 
 class MyApplication : Application() {
+
+    companion object {
+        lateinit var instance: MyApplication
+            private set
+    }
+
     lateinit var myDataBaseRoom: MyDataBaseRoom
     lateinit var movieDatabaseRoom: MovieDatabase
 
     override fun onCreate() {
         super.onCreate()
+        instance = this  // ✅ Instancia global
 
         myDataBaseRoom = Room.databaseBuilder(
             applicationContext,

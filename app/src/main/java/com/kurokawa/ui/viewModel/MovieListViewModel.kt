@@ -4,32 +4,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import com.kurokawa.application.MyApplication
-import com.kurokawa.data.room.adapter.MoviesListAdapter
-import com.kurokawa.data.room.database.MovieDatabase
 import com.kurokawa.data.room.entities.Movies
-import com.kurokawa.repository.ApiRepository
 import com.kurokawa.repository.MovieListRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MovieListViewModel() : ViewModel(){
-    private lateinit var applicacion : MyApplication
+class MovieListViewModel : ViewModel() {
 
     private val _movieListResult = MutableLiveData<List<Movies>>()
-    val movieListResult : LiveData<List<Movies>> get() = _movieListResult
+    val movieListResult: LiveData<List<Movies>> get() = _movieListResult
 
+    // Repositorio
+    private val repository: MovieListRepository = MovieListRepository(
+        (MyApplication.instance).movieDatabaseRoom.movieDao()
+    )
 
-    private lateinit var repository : MovieListRepository
-
-    fun getAllMovies(){
-        viewModelScope.launch {
-            val moviesList = repository.getMovies()
-            _movieListResult.postValue(moviesList)
-        }
+    init {
+        // Cargar películas automáticamente cuando se crea el ViewModel
+        loadMovies()
     }
 
-
-
+    fun loadMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val count = repository.getMovieCount()
+                if (count != 0) {
+                    repository.getMovies().observeForever { movies ->
+                        _movieListResult.postValue(movies)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.kurokawa.repository
 
+import android.util.Log
 import com.kurokawa.data.network.RetrofitClient
 import com.kurokawa.data.room.dao.MovieDao
 import com.kurokawa.data.room.entities.MovieResponse
@@ -30,7 +31,7 @@ class ApiRepository(private val movieDao: MovieDao) {
                             val movieEntities = movieResponse.results.map { movie ->
                                 Movies(
                                     idMovie = movie.idMovie,
-                                    posterPath = movie.posterPath,
+                                    posterPath = movie.posterPath ?: "",
                                     title = movie.title,
                                     originalTitle = movie.originalTitle,
                                     overview = movie.overview,
@@ -44,6 +45,8 @@ class ApiRepository(private val movieDao: MovieDao) {
                             // Insertar en la base de datos (usando Coroutine)
                             CoroutineScope(Dispatchers.IO).launch {
                                 movieDao.insertMovies(movieEntities)
+                                val count = movieDao.getMovieCount()
+                                Log.d("Database", "Número de películas insertadas: $count")
                             }
                         }
                         onResult(movieResponse)
@@ -69,7 +72,7 @@ class ApiRepository(private val movieDao: MovieDao) {
                             val movieEntities = movieResponse.results.map { movie ->
                                 Movies(
                                     idMovie = movie.idMovie,
-                                    posterPath = movie.posterPath,
+                                    posterPath = movie.posterPath ?: "",
                                     title = movie.title,
                                     originalTitle = movie.originalTitle,
                                     overview = movie.overview,
@@ -108,7 +111,7 @@ class ApiRepository(private val movieDao: MovieDao) {
                             val movieEntity = movieResponse.results.map { movie ->
                                 Movies(
                                     idMovie = movie.idMovie,
-                                    posterPath = movie.posterPath,
+                                    posterPath = movie.posterPath ?: "",
                                     title = movie.title,
                                     originalTitle = movie.originalTitle,
                                     overview = movie.overview,
@@ -144,7 +147,7 @@ class ApiRepository(private val movieDao: MovieDao) {
                             val movieEntities = movieResponse.results.map { movie ->
                                 Movies(
                                     idMovie = movie.idMovie,
-                                    posterPath = movie.posterPath,
+                                    posterPath = movie.posterPath ?: "",
                                     title = movie.title,
                                     originalTitle = movie.originalTitle,
                                     overview = movie.overview,

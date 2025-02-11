@@ -26,7 +26,6 @@ class FavoriteActivity : AppCompatActivity() {
 
         setUpReciclerView()
 
-        observeFavorites()
     }
 
     private fun setUpReciclerView() {
@@ -34,9 +33,5 @@ class FavoriteActivity : AppCompatActivity() {
         binding.recyclerViewFavorites.adapter = adapter
     }
 
-    private fun observeFavorites() {
-        viewModel.favoriteMovies.observe(this){ favoriteList ->
-            adapter.submitList(favoriteList)
-        }
-    }
+
 }

@@ -45,7 +45,7 @@ class SingUpActivity : AppCompatActivity() {
 
     private fun validateUser(email: String, password: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            var user = applicacion .room.userDao().getUser(email,password)
+            var user = applicacion .myDataBaseRoom.userDao().getUser(email,password)
             if (user != null) {
                     withContext(Dispatchers.Main){
                         Snackbar.make(binding.root, "El usuario ya existe", Snackbar.LENGTH_SHORT)
@@ -62,7 +62,7 @@ class SingUpActivity : AppCompatActivity() {
     private fun addUser(email: String, password: String){
         var user = User(0,email,password)
         lifecycleScope.launch(Dispatchers.IO){
-            applicacion.room.userDao().addUser(user)
+            applicacion.myDataBaseRoom.userDao().addUser(user)
             withContext(Dispatchers.Main){
                 Snackbar.make(binding.root, "El usuario se ha registrado con exito", Snackbar.LENGTH_SHORT)
                     .show()

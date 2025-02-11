@@ -12,18 +12,23 @@ import com.bumptech.glide.Glide
 import com.kurokawa.R
 import com.kurokawa.data.room.entities.Movies
 
-class MoviesListAdapter : ListAdapter<Movies, MoviesListAdapter.MoviesListHolder>(DiffCallback()){
+class MoviesListAdapter(
+    private val onItemClick: (Int) -> Unit
+): ListAdapter<Movies, MoviesListAdapter.MoviesListHolder>(DiffCallback()){
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesListAdapter.MoviesListHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movies, parent, false)
         return MoviesListHolder(view)
     }
 
     override fun onBindViewHolder(holder: MoviesListHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    fun submitList(moviesList: Unit) {
-
+        val movie = getItem(position)
+        holder.bind(movie)
+        
+        //Clicl 
+        holder.itemView.setOnClickListener{
+            onItemClick(movie.idMovie)
+        }
     }
 
 

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.kurokawa.data.room.dao.UserDao
 import com.kurokawa.data.room.entities.User
 
-@Database(entities = [ User::class], version = 1)
+@Database(entities = [ User::class], version = 2)
 abstract  class MyDataBaseRoom : RoomDatabase(){
     abstract fun userDao(): UserDao
 }

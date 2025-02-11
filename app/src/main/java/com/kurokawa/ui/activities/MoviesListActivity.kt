@@ -1,11 +1,13 @@
 package com.kurokawa.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.search.SearchView
 import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.databinding.ActivityMoviesListBinding
 import com.kurokawa.ui.viewModel.MovieListViewModel
@@ -17,7 +19,6 @@ class MoviesListActivity : AppCompatActivity() {
 
 
     //ADAPTER Y RECICLER
-    private lateinit var recycleView: RecyclerView
     private lateinit var adapter: MoviesListAdapter
 
     //VIEWMODEL
@@ -29,16 +30,17 @@ class MoviesListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //ADAPTER
-        adapter = MoviesListAdapter()
+        adapter = MoviesListAdapter{ movieIdelected ->
+            navigateToDetail(movieIdelected )
+        }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         //Observar los datos del viewModel
         observer()
         //Obtener Peliculas
-        getMovies()
+        viewModel.loadMovies()
 
-        //Filtrar pelis
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 filterMovies(query.orEmpty())
@@ -51,20 +53,31 @@ class MoviesListActivity : AppCompatActivity() {
             }
         })
 
+
+    }
+
+    private fun navigateToDetail(movieIdSelected: Int) {
+        val intent = Intent(this, MovieDetailActivity::class.java)
+        intent.putExtra("MOVIE_ID_SELECTED", movieIdSelected)
+        startActivity(intent)
+
     }
 
     private fun observer(){
         viewModel.movieListResult.observe(this){ moviesList ->
-            adapter.submitList(moviesList)
+            if(moviesList.isEmpty()){
+                binding.tvMessegeList.visibility = View.VISIBLE
+            }else{
+                adapter.submitList(moviesList)
+            }
+
         }
     }
-    private fun getMovies(){
-       val moviesList = viewModel.getAllMovies()
-    }
 
-    private fun filterMovies(query: String) {
+
+    private fun filterMovies(nameMovie: String) {
         val filteredList = viewModel.movieListResult.value?.filter { movie ->
-            movie.title.contains(query, ignoreCase = true)
+            movie.title.contains(nameMovie, ignoreCase = true)
         }
         adapter.submitList(filteredList)
     }

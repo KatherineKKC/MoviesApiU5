@@ -2,6 +2,7 @@ package com.kurokawa.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.BoringLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.kurokawa.ui.viewModel.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var _binding : ActivityLoginBinding
@@ -62,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun observeLogin(){
+    private fun observeLogin() {
         viewModel.loginResult.observe(this, Observer { isLoggedIn ->
             if (isLoggedIn) {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
@@ -73,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 
 
 
