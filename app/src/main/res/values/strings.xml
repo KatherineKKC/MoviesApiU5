@@ -12,4 +12,5 @@
     <string name="tv_title_original">Título original</string>
     <string name="tv_sinopsis">Sinopsis</string>
     <string name="btn_favoritos_description">Favoritos</string>
+    <string name="buscar_peliculas">Buscar peliculas</string>
 </resources>

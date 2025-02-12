@@ -1,4 +1,3 @@
-// MovieDatabase.kt
 package com.kurokawa.data.room.database
 
 import android.content.Context
@@ -8,7 +7,27 @@ import androidx.room.RoomDatabase
 import com.kurokawa.data.room.dao.MovieDao
 import com.kurokawa.data.room.entities.Movies
 
-@Database(entities = [Movies::class], version = 5, exportSchema = false)
+// 🎬 1. Base de datos Room
+@Database(entities = [Movies::class], version = 6, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
-} 
+
+    companion object {
+        @Volatile
+        private var INSTANCE: MovieDatabase? = null
+
+        fun getDatabase(context: Context): MovieDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    MovieDatabase::class.java,
+                    "movie_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
+
+

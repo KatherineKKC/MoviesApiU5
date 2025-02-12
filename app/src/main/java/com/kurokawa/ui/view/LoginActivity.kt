@@ -1,22 +1,14 @@
-package com.kurokawa.ui.activities
+package com.kurokawa.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.BoringLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.kurokawa.databinding.ActivityLoginBinding
 import com.kurokawa.application.MyApplication
 import com.kurokawa.ui.viewModel.LoginViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var _binding : ActivityLoginBinding

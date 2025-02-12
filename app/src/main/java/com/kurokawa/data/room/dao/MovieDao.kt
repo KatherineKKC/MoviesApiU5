@@ -40,4 +40,7 @@ interface MovieDao {
 
     @Query("SELECT COUNT(*) FROM movies")
     suspend fun getMovieCount(): Int
+
+    @Query("SELECT * FROM movies WHERE category = :category")
+    fun getMoviesByCategory(category: String): LiveData<List<Movies>>
 }

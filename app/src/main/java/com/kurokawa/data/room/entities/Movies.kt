@@ -17,5 +17,5 @@ data class Movies(
     @SerializedName("vote_average")     val voteAverage: Double,    // Mejor en Double para decimales
 
     var isFavoriteMovie: Boolean = false,  // Valor por defecto porque no viene de la API
-    var category: String = ""              // También controlado internamente
+    var category: String? = null            // También controlado internamente
 )

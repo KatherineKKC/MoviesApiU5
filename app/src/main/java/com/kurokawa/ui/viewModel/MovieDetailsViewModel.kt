@@ -8,7 +8,6 @@ import com.kurokawa.application.MyApplication
 import com.kurokawa.data.room.entities.Movies
 import com.kurokawa.repository.LoginRepository
 import com.kurokawa.repository.MovieDetailRepository
-import com.kurokawa.repository.MovieListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

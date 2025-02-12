@@ -1,4 +1,4 @@
-package com.kurokawa.ui.activities
+package com.kurokawa.ui.view
 
 import android.content.Intent
 import android.os.Bundle

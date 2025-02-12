@@ -1,54 +1,57 @@
 package com.kurokawa.data.room.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kurokawa.R
 import com.kurokawa.data.room.entities.Movies
+import com.kurokawa.databinding.ItemMoviesBinding
+import com.kurokawa.data.room.difu.MovieDifu
 
 class MoviesListAdapter(
-    private val onItemClick: (Int) -> Unit
-): ListAdapter<Movies, MoviesListAdapter.MoviesListHolder>(DiffCallback()){
-    
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesListAdapter.MoviesListHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movies, parent, false)
-        return MoviesListHolder(view)
+    private val onItemClick: (Int) -> Unit  // Callback para clics
+) : RecyclerView.Adapter<MoviesListAdapter.MovieViewHolder>() {
+
+    private val movies = mutableListOf<Movies>()
+
+    // Actualizar la lista de películas usando DiffUtil
+    fun submitList(newMovies: List<Movies>) {
+        val diffResult = DiffUtil.calculateDiff(MovieDifu(movies, newMovies))
+        movies.clear()
+        movies.addAll(newMovies)
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun onBindViewHolder(holder: MoviesListHolder, position: Int) {
-        val movie = getItem(position)
-        holder.bind(movie)
-        
-        //Clicl 
-        holder.itemView.setOnClickListener{
-            onItemClick(movie.idMovie)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val binding = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieViewHolder(binding)
     }
 
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        holder.bind(movies[position])
+    }
 
-    inner class MoviesListHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val title: TextView = itemView.findViewById(R.id.tv_title_movie_list)
-        private val poster: ImageView = itemView.findViewById(R.id.img_movie_list)
+    override fun getItemCount(): Int = movies.size
+
+    inner class MovieViewHolder(private val binding: ItemMoviesBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movies) {
-            title.text = movie.title
+            binding.tvTitleMovieList.text = movie.title
+
+            // Cargar imagen del póster con Glide
             Glide.with(itemView.context)
                 .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                .into(poster)
+                .placeholder(R.drawable.ic_launcher_foreground)  // Placeholder mientras carga
+                .error(R.drawable.ic_launcher_background)         // Imagen por defecto si hay error
+                .into(binding.imgMovieList)
 
+            // Manejo del clic en el ítem
+            binding.root.setOnClickListener {
+                onItemClick(movie.idMovie)
+            }
         }
-
     }
-
-    class DiffCallback : DiffUtil.ItemCallback<Movies>() {
-        override fun areItemsTheSame(oldItem: Movies, newItem: Movies): Boolean = oldItem.idMovie == newItem.idMovie
-        override fun areContentsTheSame(oldItem: Movies, newItem: Movies): Boolean = oldItem == newItem
-    }
-
 }

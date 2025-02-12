@@ -4,39 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.application.MyApplication
+import com.kurokawa.data.repository.MovieCategory
+import com.kurokawa.data.repository.MovieRepository
 import com.kurokawa.data.room.entities.Movies
-import com.kurokawa.repository.MovieListRepository
-import kotlinx.coroutines.Dispatchers
+import com.kurokawa.utils.Resource
 import kotlinx.coroutines.launch
 
-class MovieListViewModel : ViewModel() {
+class MovieListViewModel(private val repository: MovieRepository) : ViewModel() {
 
-    private val _movieListResult = MutableLiveData<List<Movies>>()
-    val movieListResult: LiveData<List<Movies>> get() = _movieListResult
+    private val _movies = MutableLiveData<Resource<List<Movies>>>()
+    val movies: LiveData<Resource<List<Movies>>> get() = _movies
 
-    // Repositorio
-    private val repository: MovieListRepository = MovieListRepository(
-        (MyApplication.instance).movieDatabaseRoom.movieDao()
-    )
-
-    init {
-        // Cargar películas automáticamente cuando se crea el ViewModel
-        loadMovies()
+    fun fetchMovies(category: MovieCategory, page: Int) {
+        viewModelScope.launch {
+            _movies.value = Resource.Loading()
+            val result = repository.fetchAndSaveMovies(category, page)
+            _movies.value = result
+        }
     }
 
-    fun loadMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val count = repository.getMovieCount()
-                if (count != 0) {
-                    repository.getMovies().observeForever { movies ->
-                        _movieListResult.postValue(movies)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    fun getLocalMovies(category: MovieCategory): LiveData<List<Movies>> {
+        return repository.getLocalMoviesByCategory(category)
     }
 }
