@@ -1,4 +1,4 @@
-package com.kurokawa.ui.view
+package com.kurokawa.view
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kurokawa.databinding.ActivityMovieDetailBinding
-import com.kurokawa.ui.viewModel.MovieDetailsViewModel
+import com.kurokawa.viewModel.MovieDetailsViewModel
 
 class MovieDetailActivity : AppCompatActivity() {
     // BINDING

@@ -1,4 +1,4 @@
-package com.kurokawa.ui.view
+package com.kurokawa.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.kurokawa.databinding.ActivityLoginBinding
 import com.kurokawa.application.MyApplication
-import com.kurokawa.ui.viewModel.LoginViewModel
+import com.kurokawa.viewModel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var _binding : ActivityLoginBinding

@@ -1,4 +1,4 @@
-package com.kurokawa.repository
+package com.kurokawa.data.repository
 
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.room.dao.UserDao

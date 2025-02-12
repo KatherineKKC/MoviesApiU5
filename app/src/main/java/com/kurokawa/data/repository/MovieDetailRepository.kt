@@ -1,21 +1,19 @@
-package com.kurokawa.repository
+package com.kurokawa.data.repository
 
-import androidx.lifecycle.LiveData
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.room.dao.MovieDao
-import com.kurokawa.data.room.dao.UserDao
-import com.kurokawa.data.room.entities.Movies
+import com.kurokawa.data.room.entities.MovieEntity
 
 class MovieDetailRepository(private val movieDao: MovieDao){
     private lateinit var application: MyApplication
 
 
-    suspend  fun getMovieDetail(movieId: Int): Movies{
+    suspend  fun getMovieDetail(movieId: Int): MovieEntity{
        var movie = application.movieDatabaseRoom.movieDao().getMovieDetailById(movieId)
         return movie
     }
 
-     suspend fun updateFavoriteStatus(movie: Movies) {
+     suspend fun updateFavoriteStatus(movie: MovieEntity) {
          application.movieDatabaseRoom.movieDao().updateMovie(movie)
      }
 

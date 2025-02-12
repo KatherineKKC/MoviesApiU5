@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kurokawa.data.room.dao.MovieDao
-import com.kurokawa.data.room.entities.Movies
+import com.kurokawa.data.room.entities.MovieEntity
 
 // 🎬 1. Base de datos Room
-@Database(entities = [Movies::class], version = 6, exportSchema = false)
+@Database(entities = [MovieEntity::class], version = 6, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 

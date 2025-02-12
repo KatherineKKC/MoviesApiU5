@@ -19,16 +19,16 @@
             android:name=".ui.view.FavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.MoviesListActivity"
+            android:name=".view.MoviesListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.MovieDetailActivity"
+            android:name=".view.MovieDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.SingUpActivity"
+            android:name=".view.SingUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.LoginActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

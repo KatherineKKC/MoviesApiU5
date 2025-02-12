@@ -1,4 +1,4 @@
-package com.kurokawa.ui.viewModel
+package com.kurokawa.viewModel
 
 import android.text.BoringLayout
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurokawa.application.MyApplication
-import com.kurokawa.repository.LoginRepository
+import com.kurokawa.data.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    id("kotlin-parcelize")
+
+    alias(libs.plugins.kotlin.serialization)
 }
 android {
     namespace = "com.kurokawa"
@@ -91,5 +94,11 @@ android {
 
         //hhttp
         implementation(libs.okhttp.logging.interceptor)
+
+        //Serialize
+        implementation(libs.kotlinx.serialization.core)
+        implementation(libs.kotlinx.serialization.json)
+
     }
+
 

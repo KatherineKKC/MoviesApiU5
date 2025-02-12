@@ -1,11 +1,11 @@
 package com.kurokawa.data.room.difu
 
 import androidx.recyclerview.widget.DiffUtil
-import com.kurokawa.data.room.entities.Movies
+import com.kurokawa.data.room.entities.MovieEntity
 
 class MovieDifu(
-    private val oldList: List<Movies>,
-    private val newList: List<Movies>
+    private val oldList: MutableList<MovieEntity>,
+    private val newList: List<MovieEntity>
 
 ) :DiffUtil.Callback() {
     override fun getOldListSize(): Int {
@@ -17,7 +17,7 @@ class MovieDifu(
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].idMovie == newList[newItemPosition].idMovie
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

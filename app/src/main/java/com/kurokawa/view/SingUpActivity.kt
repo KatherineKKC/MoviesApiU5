@@ -1,4 +1,4 @@
-package com.kurokawa.ui.view
+package com.kurokawa.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.kurokawa.application.MyApplication
 import com.kurokawa.databinding.ActivitySingUpBinding
-import com.kurokawa.data.room.entities.User
+import com.kurokawa.data.room.entities.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,7 +60,7 @@ class SingUpActivity : AppCompatActivity() {
     }
 
     private fun addUser(email: String, password: String){
-        var user = User(0,email,password)
+        var user = UserEntity(0,email,password)
         lifecycleScope.launch(Dispatchers.IO){
             applicacion.myDataBaseRoom.userDao().addUser(user)
             withContext(Dispatchers.Main){
