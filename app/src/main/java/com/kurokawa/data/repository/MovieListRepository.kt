@@ -1,7 +1,6 @@
 package com.kurokawa.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.room.entities.MovieEntity
@@ -18,7 +17,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
             moviesModel?.let { listMovies ->
                 val movieListEntity = listMovies.map { movieModel ->
                     MovieEntity(
-                        idMovie = 0,
+                        idMovie = movieModel.id,
                         title = movieModel.title,
                         posterPath = movieModel.posterPath,
                         originalTitle = movieModel.originalTitle,
@@ -30,7 +29,8 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                     )
                 }
                 applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
-                showMessageSuccessfulConsole()
+                showMessageSuccessfulConsole(movieListEntity)
+
             }
         }else{
             showErrorToConsole()
@@ -47,7 +47,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
             moviesModel?.let { listMovies ->
                 val movieListEntity = listMovies.map { movieModel ->
                     MovieEntity(
-                        idMovie = 0,
+                        idMovie =movieModel.id,
                         title = movieModel.title,
                         posterPath = movieModel.posterPath,
                         originalTitle = movieModel.originalTitle,
@@ -59,7 +59,8 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                     )
                 }
                 applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
-                showMessageSuccessfulConsole()
+                showMessageSuccessfulConsole(movieListEntity)
+
             }
         }else{
             showErrorToConsole()
@@ -76,7 +77,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
             moviesModel?.let { listMovies ->
                 val movieListEntity = listMovies.map { movieModel ->
                     MovieEntity(
-                        idMovie = 0,
+                        idMovie = movieModel.id,
                         title = movieModel.title,
                         posterPath = movieModel.posterPath,
                         originalTitle = movieModel.originalTitle,
@@ -88,7 +89,8 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                     )
                 }
                 applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
-                showMessageSuccessfulConsole()
+                showMessageSuccessfulConsole(movieListEntity)
+
             }
         }else{
             showErrorToConsole()
@@ -105,7 +107,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
             moviesModel?.let { listMovies ->
                 val movieListEntity = listMovies.map { movieModel ->
                     MovieEntity(
-                        idMovie = 0,
+                        idMovie = movieModel.id,
                         title = movieModel.title,
                         posterPath = movieModel.posterPath,
                         originalTitle = movieModel.originalTitle,
@@ -117,7 +119,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                     )
                 }
                 applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
-                showMessageSuccessfulConsole()
+                showMessageSuccessfulConsole(movieListEntity)
             }
 
             return moviesModel
@@ -128,32 +130,21 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-     fun getPopularRoom(): LiveData<List<MovieEntity>>
-    =applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory("Popular")
-
-     fun getTopRatedRoom(): LiveData<List<MovieEntity>>
-    =applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory("TopRated")
-
-    fun getNowPlayingRoom(): LiveData<List<MovieEntity>>
-    =applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory("NowPlaying")
-
-     fun getUpcomingRoom(): LiveData<List<MovieEntity>>
-    =applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory("Upcoming")
-
+   suspend fun getByCategory(category: String)=applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-     fun getAllMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getAllMovies()
+    suspend fun getAllMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getAllMovies()
 
 
     /**OBTENER TODAS LAS PELICULAS FAVORITAS */
-    fun getAllFavoriteMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getFavoriteMovies()
+    suspend fun getAllFavoriteMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getFavoriteMovies()
 
 
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
     /**INSERT  MOVIES */
-    fun showMessageSuccessfulConsole(){
-        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en ROOM  ")
+    fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>){
+        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en ROOM  ${listIntoRoom.size}")
     }
 
     /**ERROR INSERTAR MOVIES */

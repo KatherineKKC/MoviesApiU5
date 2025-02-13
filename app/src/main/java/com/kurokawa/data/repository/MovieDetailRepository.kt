@@ -4,17 +4,15 @@ import com.kurokawa.application.MyApplication
 import com.kurokawa.data.room.dao.MovieDao
 import com.kurokawa.data.room.entities.MovieEntity
 
-class MovieDetailRepository(private val movieDao: MovieDao){
-    private lateinit var application: MyApplication
-
+class MovieDetailRepository(private val applicacion :MyApplication){
 
     suspend  fun getMovieDetail(movieId: Int): MovieEntity{
-       var movie = application.movieDatabaseRoom.movieDao().getMovieDetailById(movieId)
+       var movie = applicacion.movieDatabaseRoom.movieDao().getMovieById(movieId)
         return movie
     }
 
      suspend fun updateFavoriteStatus(movie: MovieEntity) {
-         application.movieDatabaseRoom.movieDao().updateMovie(movie)
+         applicacion.movieDatabaseRoom.movieDao().updateMovie(movie)
      }
 
 

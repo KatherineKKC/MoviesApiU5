@@ -11,35 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(): ViewModel() {
-    private var _movieDetailResult = MutableLiveData<MovieEntity>()
-    val movieDetailResponse : LiveData<MovieEntity> get() = _movieDetailResult
 
-    //REPOSITORIO
-    private val repository: MovieDetailRepository = MovieDetailRepository(
-        MyApplication.instance.movieDatabaseRoom.movieDao()
-    )
 
-    fun getMovieDetails(movieId :Int){
-        var movieDetail :MovieEntity
-        viewModelScope.launch(Dispatchers.IO){
-            movieDetail = repository.getMovieDetail(movieId)
-            _movieDetailResult.postValue(movieDetail)
-        }
 
-    }
-
-    fun toggleFavorite() {
-        _movieDetailResult.value?.let { movie ->
-            val updatedMovie = movie.copy(isFavoriteMovie = !movie.isFavoriteMovie)
-            _movieDetailResult.postValue(updatedMovie)
-            updateFavoriteInDatabase(updatedMovie)
-        }
-    }
-    private fun updateFavoriteInDatabase(movie: MovieEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateFavoriteStatus(movie)
-        }
-    }
 
 
 }

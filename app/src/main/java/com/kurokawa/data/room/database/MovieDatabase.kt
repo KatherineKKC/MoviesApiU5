@@ -8,7 +8,7 @@ import com.kurokawa.data.room.dao.MovieDao
 import com.kurokawa.data.room.entities.MovieEntity
 
 // 🎬 1. Base de datos Room
-@Database(entities = [MovieEntity::class], version = 6, exportSchema = false)
+@Database(entities = [MovieEntity::class], version = 7, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 

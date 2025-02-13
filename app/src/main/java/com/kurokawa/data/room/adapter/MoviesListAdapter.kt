@@ -13,7 +13,6 @@ class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,
     private val onClick: (MovieEntity) -> Unit) : RecyclerView.Adapter<MovieListViewHolder>() {
 
-    private val movies = mutableListOf<MovieEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         val binding = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,21 +20,21 @@ class MoviesListAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
-        val movie = movies[position]
+        val movie = listMovies[position]
         holder.bind(movie, onClick)
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = listMovies.size
 
     //Actualiza la lista de peliculas
-    fun submitList(newMovies: List<MovieEntity>) {
-        val diffResult = DiffUtil.calculateDiff(MovieDifu(movies, newMovies))
-        movies.clear()
-        movies.addAll(newMovies)
+    fun submitList(newlistMovies: List<MovieEntity>) {
+        val diffResult = DiffUtil.calculateDiff(MovieDifu(listMovies, newlistMovies))
+        listMovies.clear()
+        listMovies.addAll(newlistMovies)
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun updateData(movies: List<MovieModel>?) {
+    fun updateData(listMovies: List<MovieModel>?) {
 
     }
 
