@@ -11,6 +11,7 @@ import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ActivityFavoriteMovieBinding
 import com.kurokawa.data.repository.FavoriteRepository
+import com.kurokawa.data.room.adapter.FavoriteListAdapter
 
 class FavoriteMovieActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityFavoriteMovieBinding
@@ -30,13 +31,11 @@ class FavoriteMovieActivity : AppCompatActivity() {
 
         inicializer()
 
-
-        /**INICIALIZACION DE ADAPTER */
-
+        setupRecycler()
 
 
-        binding.reciclerFavorite.layoutManager = GridLayoutManager(this, 2)
-        binding.reciclerFavorite.adapter = adapter
+
+
 
         /**OBTENER Y MOSTRAR LAS PELICULAS FAVORITAS*/
 
@@ -46,15 +45,13 @@ class FavoriteMovieActivity : AppCompatActivity() {
 
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    /**INICIA APP, REPO Y VIEWMODEL*/
-
+    /**INICIALIZACION DE ADAPTER Y RECYCLER*/
     private fun setupRecycler(){
-        val listMovies = mutableListOf<MovieEntity>()
-        adapter = MoviesListAdapter(listMovies){ movies ->
-            onItemSelected(movies)
-            observerStateMovies(movies.idMovie)
-        }
+
+        binding.reciclerFavorite.layoutManager = GridLayoutManager(this, 2)
+        binding.reciclerFavorite.adapter = adapter
     }
+
 
     private fun inicializer(){
         applicacion = application as MyApplication
@@ -73,7 +70,7 @@ class FavoriteMovieActivity : AppCompatActivity() {
     private fun setupFavorites() {
        favoriteViewModel.favorites.observe(this) { favoritesList ->
            val uniqueList = favoritesList.distinctBy { it.idMovie }
-           adapter.submitList(uniqueList)
+         //  adapter.submitFavoriteList(uniqueList)
         }
     }
 
