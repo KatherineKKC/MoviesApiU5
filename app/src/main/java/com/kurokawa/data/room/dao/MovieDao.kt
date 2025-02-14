@@ -30,7 +30,7 @@ interface MovieDao {
 
 
 
-    @Query("UPDATE movies SET isFavoriteMovie = :isFavorite WHERE idMovie = :idMovie") // ✅ Solo idMovie
+    @Query("UPDATE movies SET isFavoriteMovie = :isFavorite WHERE idMovie = :idMovie")
     suspend fun updateFavoriteStatus(idMovie: Long, isFavorite: Boolean)
 
 

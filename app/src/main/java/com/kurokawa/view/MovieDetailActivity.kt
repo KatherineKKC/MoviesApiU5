@@ -80,4 +80,5 @@ class MovieDetailActivity : AppCompatActivity() {
         Log.e("MOVIE-DETAIL-ACTIVITY", "Actualizando UI con favorito: ${movie.isFavoriteMovie}")
     }
 
+
 }

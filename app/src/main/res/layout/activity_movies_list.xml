@@ -70,9 +70,11 @@
 
     <Button
         android:id="@+id/btn_favorite_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="138dp"
+        android:layout_height="65dp"
         android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:focusable="true"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -138,11 +138,6 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
     suspend fun getAllMoviesRoom() = applicacion.myDataBase.movieDao().getAllMovies()
 
 
-    /**OBTENER TODAS LAS PELICULAS FAVORITAS */
-    suspend fun getAllFavoriteMoviesRoom() = applicacion.myDataBase.movieDao().getAllFavoritesMovies()
-
-
-
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
     /**INSERT  MOVIES */
     fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>){

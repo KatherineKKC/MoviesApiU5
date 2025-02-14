@@ -54,9 +54,12 @@ class MoviesListActivity : AppCompatActivity() {
         /**FUNCION PARA CONTROLAR LLAMADAS A LA API Y CARGAR TODAS LAS MOVIES*/
         loadMoviesApi()
 
-        /**BOTON PARA NAVEGAR A LA ACTIVITY FAVORITE*/
-        setupFavoritesObserver()
+        binding.btnFavoriteActivity.setOnClickListener {
+            navigateToFAvorite()
+        }
+
     }
+
 
 
     /**FUNCIONES ---------------------------------------------------------------------------------*/
@@ -73,9 +76,7 @@ class MoviesListActivity : AppCompatActivity() {
                 Log.e("MOVIES-LIST-ACTIVITY", "Las de ROOM sin movies duplicadas por categorias son: :${localMovies.size}")
             }
         }
-        binding.btnFavoriteActivity.setOnClickListener{
-            movieViewModel.getAllMoviesRoom()
-        }
+
     }
 
     /**CARGA TODAS LAS CATEGORIAS DE MOVIES DESDE LA API  Y LAS CONCATENA EN UNA SOLA LISTA */
@@ -124,23 +125,14 @@ class MoviesListActivity : AppCompatActivity() {
     }
 
 
+    private fun navigateToFAvorite() {
 
-    //llamar esta funcion desde el boton favoritos
-    private fun setupFavoritesObserver() {
-        movieViewModel.getAllFavoritesMoviesRoom()
-        movieViewModel.moviesFavoritesFromRoom.observe(this) { favoritesList ->
-            favoritesList?.let {
-                sendListFavorites(favoritesList)
-            }
-        }
-    }
-
-    private fun sendListFavorites(favoritesList: List<MovieEntity>) {
-        val intent = Intent(this, FavoriteMovieActivity::class.java).apply {
-            putParcelableArrayListExtra("MOVIE-FAVORITES", ArrayList(favoritesList))
-        }
+        val intent = Intent(this, FavoriteMovieActivity::class.java)
         startActivity(intent)
+        Log.e("MOVIES-LIST-ACTIVITY", "Navegando a la movie activity ")
+
     }
+
 
 
 }

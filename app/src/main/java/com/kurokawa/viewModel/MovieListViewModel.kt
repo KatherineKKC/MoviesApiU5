@@ -24,8 +24,6 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     private val _moviesFromRoom = MutableLiveData<List<MovieEntity>>()
     val moviesFromRoom: LiveData<List<MovieEntity>> get() = _moviesFromRoom
 
-    private val _moviesFavoritesFromRoom = MutableLiveData<List<MovieEntity>>()
-    val moviesFavoritesFromRoom: LiveData<List<MovieEntity>> get() = _moviesFavoritesFromRoom
 
     /**LIVE DATA PARA ACTUALIZAR CADA CATEGORIA---------------------------------------------------*/
     private val _popularMovie = MutableLiveData<List<MovieModel>?>()
@@ -53,17 +51,7 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
         }
     }
 
-    /**TODAS FAVORITAS*/
-    fun getAllFavoritesMoviesRoom() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val movies = repository.getAllFavoriteMoviesRoom()
-            _moviesFavoritesFromRoom.postValue(movies)
-            Log.e(
-                "MOVIE-LIST-VIEW-MODEL",
-                "Películas favoritas obtenidas desde Room: ${movies.size}"
-            )
-        }
-    }
+
 
 
     /**FUNCION PARA ACTIVAR LA CARGA DE  TODAS LAS CATEGORIAS DE MOVIES DE LA API ----------------*/
