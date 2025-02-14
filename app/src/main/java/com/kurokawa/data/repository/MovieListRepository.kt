@@ -132,14 +132,14 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-   suspend fun getByCategory(category: String)=applicacion.myDataBase.movieDao().getMoviesByCategory(category)
+    suspend fun getByCategory(category: String)=applicacion.myDataBase.movieDao().getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
     suspend fun getAllMoviesRoom() = applicacion.myDataBase.movieDao().getAllMovies()
 
 
     /**OBTENER TODAS LAS PELICULAS FAVORITAS */
-    suspend fun getAllFavoriteMoviesRoom() = applicacion.myDataBase.movieDao().getFavoriteMovies()
+    suspend fun getAllFavoriteMoviesRoom() = applicacion.myDataBase.movieDao().getAllFavoritesMovies()
 
 
 
@@ -153,6 +153,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
     fun showErrorToConsole(){
         Log.e("---MOVIE-LIST-REPOSITORY---","Error al INSERTAR las movies EN ROOM")
     }
+
 
 
 

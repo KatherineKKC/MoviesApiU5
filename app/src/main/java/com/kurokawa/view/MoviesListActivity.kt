@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.remote.retrofit.RetrofitClient
 import com.kurokawa.data.remote.service.MovieApiService
-import com.kurokawa.data.repository.MovieDetailRepository
 import com.kurokawa.data.repository.MovieListRepository
 import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMoviesListBinding
 import com.kurokawa.model.MovieModel
 import com.kurokawa.viewModel.MovieListViewModel
+import java.util.ArrayList
 
 class MoviesListActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
@@ -51,73 +51,51 @@ class MoviesListActivity : AppCompatActivity() {
 
 
         /**FUNCION PARA CONTROLAR LLAMADAS A LA API Y CARGAR TODAS LAS MOVIES*/
-        validateList()
-
+        loadMoviesApi()
     }
 
 
     /**FUNCIONES ---------------------------------------------------------------------------------*/
     /**SI OBTIENE LISTAS VACIAS DE LA API LLAMA DE NUEVO SINO CARGA LAS MOVIES DESDE ROOM*/
-    private fun validateList() {
-        loadMoviesApi { moviesApiList ->
-            if(moviesApiList.all { it.isNullOrEmpty() }){
-                Log.d("MOVIES-LIST-ACTIVITY", "Las listas estaban vacías, reintentando cargar desde la API...")
-                reLoadMoviesApi()
-            }else{
-                loadAllMoviesRoom()
-            }
-        }
-    }
-
-
-    /**REPITE LA LLAMADA A LA API / CARGA LAS MOVIES DESDE ROOM*/
-    private fun reLoadMoviesApi() {
-        loadMoviesApi { moviesApiList ->
-            if (moviesApiList.all { it.isNullOrEmpty() }) {
-                Log.e("MOVIES-LIST-ACTIVITY", "No se pudieron cargar películas desde la API después del reintento.")
-            } else {
-                loadAllMoviesRoom()
-            }
-        }
-    }
-
-
     /**CARGA TODAS LAS MOVIES DE ROOM Y LAS ACTUALIZA CON EL ADAPTER*/
     private fun loadAllMoviesRoom() {
-        movieViewModel.moviesFromRoom.observe(this) { movies ->
-            if (movies.isNullOrEmpty()) {
+        movieViewModel.getAllMoviesRoom()
+        movieViewModel.moviesFromRoom.observe(this) { localMovies ->
+            if (localMovies.isEmpty()) {
                 Log.e("MOVIES-LIST-ACTIVITY", "Las listas de ROOM estan vacias")
+                loadMoviesApi()
             } else {
-                adapter.submitList(movies)
-                Log.e("MOVIES-LIST-ACTIVITY", "Las de ROOM sin movies duplicadas por categorias son: :${movies.size}")
+                adapter.submitList(localMovies)
+                Log.e("MOVIES-LIST-ACTIVITY", "Las de ROOM sin movies duplicadas por categorias son: :${localMovies.size}")
             }
         }
         movieViewModel.getAllMoviesRoom()
     }
 
     /**CARGA TODAS LAS CATEGORIAS DE MOVIES DESDE LA API  Y LAS CONCATENA EN UNA SOLA LISTA */
-    private fun loadMoviesApi(isLoad: (List<List<MovieModel>?>) -> Unit) {
+    private fun loadMoviesApi() {
         movieViewModel.loadAllMovies()
 
-        val moviesLiveData = listOf(
+        val liveDataList = listOf(
             movieViewModel.popularMovie,
             movieViewModel.topRatedMovie,
             movieViewModel.nowPlayingMovie,
             movieViewModel.upcomingMovie
         )
-
         val moviesResults = mutableListOf<List<MovieModel>?>()
-        moviesLiveData.forEach { liveData ->
-            liveData.observe(this) { movies ->
-                moviesResults.add(movies)
-                if (moviesResults.size == moviesLiveData.size) {
-                    isLoad(moviesResults)
-                    Log.e("MOVIES-LIST-ACTIVITY", "Las listas cargadas desde la API son: ${moviesResults.size}")
-
+        liveDataList.forEach { liveData ->
+            liveData.observe(this) { moviesApi ->
+                if (!moviesApi.isNullOrEmpty()) {
+                      moviesResults.add(moviesApi)
+                    if (moviesResults.size == liveDataList.size) {
+                        Log.d("MOVIE-LIST-ACTIVITY", "Datos API recibidos, actualizando Room...")
+                        loadAllMoviesRoom() // Actualizar UI con datos combinados
+                    }
                 }
             }
         }
     }
+
 
 
 
@@ -137,6 +115,23 @@ class MoviesListActivity : AppCompatActivity() {
         startActivity(intent)
         Log.e("MOVIES-LIST-ACTIVITY", "La movie enviada a la activity detail es: $movieSelected ")
 
+    }
+
+
+
+    private fun setupFavoritesObserver() {
+        movieViewModel.moviesFavoritesFromRoom.observe(this) { favorites ->
+            favorites?.let {
+                sendListFavorites(favorites)
+            }
+        }
+    }
+
+    private fun sendListFavorites(favorites: List<MovieEntity>) {
+        val intent = Intent(this, FavoriteMovieActivity::class.java)
+        if (favorites!=null){
+            intent.putParcelableArrayListExtra("MOVIES-FAVORITES ", ArrayList(favorites))
+        }
     }
 
 

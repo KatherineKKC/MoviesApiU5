@@ -15,19 +15,20 @@ class MovieDetailsViewModel(private val repository: MovieDetailRepository): View
         return repository.getMovieById(id)
     }
 
-    fun updateFavoriteMovies(movieSelected: MovieEntity){
-
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateFavoriteMovie(movieSelected)
-            Log.e("MOVIE-DETAILS-ViEW-MODEL", "El estado de favorito es: ${movieSelected.isFavoriteMovie}")
+    fun updateFavoriteMovies(movieSelected: MovieEntity) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val updatedMovie = movieSelected.copy(isFavoriteMovie = !movieSelected.isFavoriteMovie)
+                repository.updateFavoriteMovie(updatedMovie) // ✅ Envía el nuevo estado
+            }
         }
 
+    fun getAllFavoritesMovies(): LiveData<List<MovieEntity>>{
+           return repository.getAllFavoritesMovies()
     }
-
-
-
-
-
-
-
 }
+
+
+
+
+
+

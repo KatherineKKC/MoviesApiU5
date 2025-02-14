@@ -13,14 +13,13 @@ import com.kurokawa.data.room.entities.MovieEntity
 interface MovieDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovies(movies:List<MovieEntity>)
 
     @Query("SELECT * FROM movies")
     suspend fun getAllMovies(): List<MovieEntity>
 
-    @Query("SELECT * FROM movies WHERE isFavoriteMovie = 1")
-    suspend fun getFavoriteMovies():  List<MovieEntity>
+
 
     @Query("SELECT * FROM movies WHERE idMovie = :id")
     fun getMovieById(id: Long): LiveData<MovieEntity>
@@ -31,13 +30,12 @@ interface MovieDao {
 
 
 
-    @Query("UPDATE movies SET isFavoriteMovie = :isFavorite WHERE idMovie = :idMovie AND category = :category")
-    suspend fun updateFavoriteStatus(idMovie: Long, category: String, isFavorite: Boolean)
+    @Query("UPDATE movies SET isFavoriteMovie = :isFavorite WHERE idMovie = :idMovie") // ✅ Solo idMovie
+    suspend fun updateFavoriteStatus(idMovie: Long, isFavorite: Boolean)
 
 
-    @Query("SELECT * FROM movies WHERE isFavoriteMovie= :isFavorite")
-    suspend fun getAllFavoritesMovies (isFavorite: Boolean):List<MovieEntity>
-
+    @Query("SELECT * FROM movies WHERE isFavoriteMovie= 1")
+    suspend fun getAllFavoritesMovies ():List<MovieEntity>
 
 
 }

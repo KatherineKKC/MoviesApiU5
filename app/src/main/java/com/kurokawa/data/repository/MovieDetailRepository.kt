@@ -8,15 +8,19 @@ import com.kurokawa.data.room.entities.MovieEntity
 
 class MovieDetailRepository(private val applicacion :MyApplication){
     suspend fun updateFavoriteMovie(movieEntity: MovieEntity) {
-        val category = movieEntity.category
         var isFavorite = movieEntity.isFavoriteMovie
         val idFavorite = movieEntity.idMovie
-        applicacion.myDataBase.movieDao().updateFavoriteStatus(idFavorite,category,isFavorite)
-        Log.e("MOVIE-DETAILS-REPOSITORY", "El estado de IDfAVORITO es: $idFavorite")
+        applicacion.myDataBase.movieDao().updateFavoriteStatus(idFavorite,isFavorite)
+        Log.e("MOVIE-DETAILS-REPOSITORY", "El estado de favorito  es: $isFavorite")
 
     }
 
     fun getMovieById(id: Long): LiveData<MovieEntity> {
         return applicacion.myDataBase.movieDao().getMovieById(id)
+    }
+
+    fun getAllFavoritesMovies(): LiveData<List<MovieEntity>>  {
+        return applicacion.myDataBase.movieDao().getFavoriteMovies()
+
     }
 }
