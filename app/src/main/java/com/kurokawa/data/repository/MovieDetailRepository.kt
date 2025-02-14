@@ -19,8 +19,4 @@ class MovieDetailRepository(private val applicacion :MyApplication){
         return applicacion.myDataBase.movieDao().getMovieById(id)
     }
 
-    fun getAllFavoritesMovies(): LiveData<List<MovieEntity>>  {
-        return applicacion.myDataBase.movieDao().getFavoriteMovies()
-
-    }
 }

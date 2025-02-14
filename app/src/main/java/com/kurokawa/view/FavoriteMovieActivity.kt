@@ -1,6 +1,8 @@
 package com.kurokawa.view
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.application.MyApplication
@@ -28,12 +30,20 @@ class FavoriteMovieActivity : AppCompatActivity() {
         binding.reciclerFavorite.layoutManager = GridLayoutManager(this, 2)
         binding.reciclerFavorite.adapter = adapter
 
+        /**OBTENER Y MOSTRAR LAS PELICULAS FAVORITAS*/
+        getFavoritesMovies()
     }
 
-
     private fun getFavoritesMovies() {
+        val favoritesList: List<MovieEntity> = intent
+            .getParcelableArrayListExtra<MovieEntity>("MOVIE-FAVORITES")
+            ?: emptyList()
 
-        val lisFavoritesMovies = intent.putParcelableArrayListExtra("MOVIE-FAVORITES", ArrayList())
-
+        if (favoritesList.isNotEmpty()) {
+            adapter.submitList(favoritesList)
+            Log.e("FAVORITE-MOVIE-ACTIVITY","Las peliculas favoritas obtenidas del intent son : ${favoritesList.size}")
+        } else {
+            Toast.makeText(this, "No tienes películas favoritas", Toast.LENGTH_SHORT).show()
+        }
     }
 }

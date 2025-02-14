@@ -3,6 +3,7 @@ package com.kurokawa.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.application.MyApplication
@@ -52,6 +53,9 @@ class MoviesListActivity : AppCompatActivity() {
 
         /**FUNCION PARA CONTROLAR LLAMADAS A LA API Y CARGAR TODAS LAS MOVIES*/
         loadMoviesApi()
+
+        /**BOTON PARA NAVEGAR A LA ACTIVITY FAVORITE*/
+        setupFavoritesObserver()
     }
 
 
@@ -69,7 +73,9 @@ class MoviesListActivity : AppCompatActivity() {
                 Log.e("MOVIES-LIST-ACTIVITY", "Las de ROOM sin movies duplicadas por categorias son: :${localMovies.size}")
             }
         }
-        movieViewModel.getAllMoviesRoom()
+        binding.btnFavoriteActivity.setOnClickListener{
+            movieViewModel.getAllMoviesRoom()
+        }
     }
 
     /**CARGA TODAS LAS CATEGORIAS DE MOVIES DESDE LA API  Y LAS CONCATENA EN UNA SOLA LISTA */
@@ -119,19 +125,21 @@ class MoviesListActivity : AppCompatActivity() {
 
 
 
+    //llamar esta funcion desde el boton favoritos
     private fun setupFavoritesObserver() {
-        movieViewModel.moviesFavoritesFromRoom.observe(this) { favorites ->
-            favorites?.let {
-                sendListFavorites(favorites)
+        movieViewModel.getAllFavoritesMoviesRoom()
+        movieViewModel.moviesFavoritesFromRoom.observe(this) { favoritesList ->
+            favoritesList?.let {
+                sendListFavorites(favoritesList)
             }
         }
     }
 
-    private fun sendListFavorites(favorites: List<MovieEntity>) {
-        val intent = Intent(this, FavoriteMovieActivity::class.java)
-        if (favorites!=null){
-            intent.putParcelableArrayListExtra("MOVIES-FAVORITES ", ArrayList(favorites))
+    private fun sendListFavorites(favoritesList: List<MovieEntity>) {
+        val intent = Intent(this, FavoriteMovieActivity::class.java).apply {
+            putParcelableArrayListExtra("MOVIE-FAVORITES", ArrayList(favoritesList))
         }
+        startActivity(intent)
     }
 
 

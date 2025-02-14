@@ -22,9 +22,6 @@ class MovieDetailsViewModel(private val repository: MovieDetailRepository): View
             }
         }
 
-    fun getAllFavoritesMovies(): LiveData<List<MovieEntity>>{
-           return repository.getAllFavoritesMovies()
-    }
 }
 
 
