@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.remote.retrofit.RetrofitClient
+import com.kurokawa.data.remote.service.MovieApiService
+import com.kurokawa.data.repository.MovieDetailRepository
 import com.kurokawa.data.repository.MovieListRepository
 import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
@@ -16,11 +18,12 @@ import com.kurokawa.viewModel.MovieListViewModel
 
 class MoviesListActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-
     private lateinit var binding: ActivityMoviesListBinding
     private lateinit var movieViewModel: MovieListViewModel
     private lateinit var adapter : MoviesListAdapter
     private lateinit var applicacion: MyApplication
+    private lateinit var repository: MovieListRepository
+    private lateinit var apiService: MovieApiService
 
     /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +45,8 @@ class MoviesListActivity : AppCompatActivity() {
         applicacion = application as MyApplication
 
         /**INICIALIZACION DE API, REPOSITORY Y VIEWMODEL*/
-        val apiService = RetrofitClient.apiService
-        val repository = MovieListRepository(apiService,applicacion)
+        apiService = RetrofitClient.apiService
+        repository = MovieListRepository(apiService,applicacion)
         movieViewModel = MovieListViewModel(repository)
 
 

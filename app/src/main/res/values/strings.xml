@@ -14,4 +14,6 @@
     <string name="btn_favoritos_description">Favoritos</string>
     <string name="buscar_peliculas">Buscar peliculas</string>
     <string name="el_padrino">El padrino</string>
+    <string name="tv_title_original_fixed">Título Original</string>
+    <string name="tv_vote">Calificación</string>
 </resources>

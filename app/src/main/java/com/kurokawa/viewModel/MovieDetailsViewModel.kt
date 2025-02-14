@@ -1,5 +1,6 @@
 package com.kurokawa.viewModel
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,10 +11,14 @@ import com.kurokawa.data.repository.MovieDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieDetailsViewModel(): ViewModel() {
+class MovieDetailsViewModel(private val repository: MovieDetailRepository): ViewModel() {
+    fun movieIsFavorite(isFavorite: Boolean, movieFavorite: MovieEntity) {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.addFavoriteMovie(isFavorite, movieFavorite)
 
+        }
 
-
+    }
 
 
 }

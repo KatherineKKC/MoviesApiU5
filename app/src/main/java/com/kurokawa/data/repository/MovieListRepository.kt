@@ -1,6 +1,8 @@
 package com.kurokawa.data.repository
 
 import android.util.Log
+import com.bumptech.glide.Glide
+import com.kurokawa.R
 import com.kurokawa.application.MyApplication
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.room.entities.MovieEntity

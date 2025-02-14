@@ -1,64 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E47676"
-    android:orientation="vertical"
+    android:background="#FBF9F9"
+    android:padding="20dp"
     tools:context=".view.MovieDetailActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="238dp">
+    <!-- Botón de favoritos -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/btn_favoritos_description"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#21005C"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
 
-        <!-- Imagen del póster -->
-        <ImageView
-            android:id="@+id/img_poster_path"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <!-- Botón para marcar como favorito -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_star_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:contentDescription="@string/btn_favoritos_description"
-            app:layout_constraintBottom_toBottomOf="@+id/img_poster_path"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.098"
-            app:srcCompat="@android:drawable/btn_star_big_off"
-            tools:ignore="MissingConstraints" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Imagen de la película -->
+    <ImageView
+        android:id="@+id/img_poster"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/btn_favorite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Título de la película -->
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#664FA3"
         android:text="Título"
         android:textAlignment="center"
-        tools:ignore="HardcodedText" />
+        android:textColor="#FBFBFB"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_poster" />
+
+    <!-- Etiqueta "Título original" -->
+    <TextView
+        android:id="@+id/tv_label_original"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_title_original_fixed"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Título original -->
     <TextView
-        android:id="@+id/tv_original_title"
+        android:id="@+id/tv_original"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="20dp"
-        android:text="Título original" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#654EA2"
+        android:padding="10dp"
+        android:text="Título original"
+        android:textColor="#F8F8F8"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_original" />
+
+    <!-- Etiqueta "Valoración del público" -->
+    <TextView
+        android:id="@+id/tv_label_vote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF"
+        android:text="@string/tv_vote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_original" />
+
+    <!-- Valoración del público -->
+    <TextView
+        android:id="@+id/tv_vote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#664FA3"
+        android:padding="10dp"
+        android:text="Valoración del público"
+        android:textColor="#FFFEFE"
+        android:textColorLink="#664FA3"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_vote" />
+
+    <!-- Fecha de estreno -->
+    <TextView
+        android:id="@+id/tv_release"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fecha de estreno"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_vote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Sinopsis -->
     <TextView
@@ -66,23 +121,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Sinopsis" />
+        android:background="#664FA3"
+        android:padding="10dp"
+        android:text="Sinopsis"
+        android:textColor="#FAF9F9"
+        android:textColorLink="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_release" />
 
-    <!-- Fecha de estreno -->
-    <TextView
-        android:id="@+id/tv_release_date"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Fecha de estreno" />
-
-    <!-- Valoración del público -->
-    <TextView
-        android:id="@+id/tv_vote_average"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_margin="20dp"
-        android:text="Valoración del público" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
