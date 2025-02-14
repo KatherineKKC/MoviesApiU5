@@ -1,9 +1,8 @@
 package com.kurokawa.view
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -35,52 +34,61 @@ class MovieDetailActivity : AppCompatActivity() {
          repository = MovieDetailRepository(applicacion)
          movieViewModel  = MovieDetailsViewModel(repository)
 
-        /**OBTENER EL ID DE LA MOVIE SELECCIONADA L*/
+        /**OBTENER EL ID DE LA MOVIE SELECCIONADA Y MOSTRAR LOS DETALLES DE LA MOVIE*/
          val movieSelected = intent.getParcelableExtra<MovieEntity>("MOVIE")
-
-        showDetailsMovie(movieSelected)
-
         /**SELECCION DE MOVIE FAVORITA*/
-        var isFavorite :Boolean = true
-        binding.btnFavorite.setOnClickListener{
-           isFavorite =!isFavorite
-            if (movieSelected != null) {
-                isFavorite(isFavorite, movieSelected)
+
+        // Listener para marcar como favorita
+        binding.btnFavorite.setOnClickListener {
+            movieSelected?.let {
+                val newFavoriteState = !it.isFavoriteMovie
+                Log.e("MOVIE-DETAIL-ACTIVITY", "Nuevo estado de favorito: $newFavoriteState")
+                movieViewModel.updateFavoriteMovies(it.copy(isFavoriteMovie = newFavoriteState))
             }
         }
 
+        if (movieSelected != null) {
+            Log.e("MOVIE-DETAIL-ACTIVITY", "Película recibida: $movieSelected")
+
+            movieViewModel.getMovieById(movieSelected.idMovie).observe(this) { movie ->
+                movie?.let { movie ->
+                    Log.e("MOVIE-DETAIL-ACTIVITY", "Datos observados de Room: $movie")
+                    showDetailsMovie(movie)
+                }
+            }
+        } else {
+            Log.e("MOVIE-DETAIL-ACTIVITY", "No se recibió película en el Intent")
+            Toast.makeText(this, "Error al cargar detalles de la película", Toast.LENGTH_SHORT).show()
+        }
 
     }
+
 
     @SuppressLint("SetTextI18n")
-    private fun showDetailsMovie(movie: MovieEntity?) {
-        if (movie != null){
-            binding.tvTitle.text = movie.title
-            binding.tvOriginal.text = movie.originalTitle
-            binding.tvOverview.text = movie.overview
-            binding.tvRelease.text = movie.releaseDate
-            binding.tvVote.text = movie.voteAverage.toString()
-            Glide.with(this)
-                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_background)
-                .into(binding.imgPoster)
-        }else{
-            Toast.makeText(this, "No se pudo obtener el detalle de la pelicula ", Toast.LENGTH_SHORT).show()
-        }
+    private fun showDetailsMovie(movie: MovieEntity) {
+        binding.tvTitle.text = movie.title
+        binding.tvOriginal.text = movie.originalTitle
+        binding.tvOverview.text = movie.overview
+        binding.tvRelease.text = movie.releaseDate
+        binding.tvVote.text = movie.voteAverage.toString()
 
+        binding.btnFavorite.isChecked = movie.isFavoriteMovie
+        Log.e("MOVIE-DETAIL-ACTIVITY", "Actualizando UI con favorito: ${movie.isFavoriteMovie}")
+
+        Glide.with(this)
+            .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgPoster)
     }
 
 
-    private fun isFavorite(isFavorite :Boolean, movieSelected: MovieEntity){
-        if (isFavorite ){
-            binding.btnFavorite.imageTintList = ColorStateList.valueOf(Color.parseColor("#FFD700"))
 
-                movieViewModel.movieIsFavorite(isFavorite, movieSelected)
-        }else{
-            binding.btnFavorite.imageTintList = ColorStateList.valueOf(Color.parseColor("#21005C"))
-        }
+
+    private fun movieFavorite( movieSelected: MovieEntity){
+            /** ENVIA LA MOVIE  */
+                movieViewModel.updateFavoriteMovies(movieSelected)
+                Toast.makeText(this, "Lista de Favoritas actualizada", Toast.LENGTH_SHORT).show()
     }
-
 
 }

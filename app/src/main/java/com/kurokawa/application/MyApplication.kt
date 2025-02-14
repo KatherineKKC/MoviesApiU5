@@ -2,8 +2,7 @@ package com.kurokawa.application
 
 import android.app.Application
 import androidx.room.Room
-import com.kurokawa.data.room.database.MyDataBaseRoom
-import com.kurokawa.data.room.database.MovieDatabase
+import com.kurokawa.data.room.database.MyDataBase
 
 class MyApplication : Application() {
 
@@ -12,22 +11,15 @@ class MyApplication : Application() {
             private set
     }
 
-    lateinit var myDataBaseRoom: MyDataBaseRoom
-    lateinit var movieDatabaseRoom: MovieDatabase
+    lateinit var myDataBase:MyDataBase
 
     override fun onCreate() {
         super.onCreate()
         instance = this  // ✅ Instancia global
 
-        myDataBaseRoom = Room.databaseBuilder(
+        myDataBase = Room.databaseBuilder(
             applicationContext,
-            MyDataBaseRoom::class.java,
-            "MyDataBaseRoom"
-        ).fallbackToDestructiveMigration().build()
-
-        movieDatabaseRoom = Room.databaseBuilder(
-            applicationContext,
-            MovieDatabase::class.java,
+            MyDataBase::class.java,
             "MovieDatabase"
         ).fallbackToDestructiveMigration().build()
     }

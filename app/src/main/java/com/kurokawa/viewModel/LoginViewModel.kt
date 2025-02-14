@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel(): ViewModel() {
     private val repository: LoginRepository = LoginRepository(
-        (MyApplication.instance).myDataBaseRoom.userDao()
+        (MyApplication.instance).myDataBase.userDao()
     )
 
     private val _loginResult = MutableLiveData<Boolean>()

@@ -10,7 +10,7 @@
     tools:context=".view.MovieDetailActivity">
 
     <!-- Botón de favoritos -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <CheckBox
         android:id="@+id/btn_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="#21005C"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        android:button="@drawable/checkbox_favorite_star" />
 
     <!-- Imagen de la película -->
     <ImageView

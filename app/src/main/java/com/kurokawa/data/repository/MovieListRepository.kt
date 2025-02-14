@@ -30,7 +30,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "Popular",
                     )
                 }
-                applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
+                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -60,7 +60,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "TopRated",
                     )
                 }
-                applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
+                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -90,7 +90,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "NowPlaying",
                     )
                 }
-                applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
+                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -120,7 +120,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "Upcoming",
                     )
                 }
-                applicacion.movieDatabaseRoom.movieDao().insertMovies(movieListEntity)
+                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
@@ -132,14 +132,14 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-   suspend fun getByCategory(category: String)=applicacion.movieDatabaseRoom.movieDao().getMoviesByCategory(category)
+   suspend fun getByCategory(category: String)=applicacion.myDataBase.movieDao().getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-    suspend fun getAllMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getAllMovies()
+    suspend fun getAllMoviesRoom() = applicacion.myDataBase.movieDao().getAllMovies()
 
 
     /**OBTENER TODAS LAS PELICULAS FAVORITAS */
-    suspend fun getAllFavoriteMoviesRoom() = applicacion.movieDatabaseRoom.movieDao().getFavoriteMovies()
+    suspend fun getAllFavoriteMoviesRoom() = applicacion.myDataBase.movieDao().getFavoriteMovies()
 
 
 
