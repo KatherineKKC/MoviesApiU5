@@ -1,14 +1,15 @@
-package com.kurokawa.data.repository
+package com.kurokawa.repository
 
 import android.util.Log
-import com.bumptech.glide.Glide
-import com.kurokawa.R
-import com.kurokawa.application.MyApplication
+import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
+import com.kurokawa.data.room.dao.MovieDao
+import com.kurokawa.data.room.database.MyDataBase
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.model.MovieModel
 
-class MovieListRepository(private val apiService: MovieApiService, private val applicacion: MyApplication) {
+
+class MovieListRepository( private val apiService: MovieApiService, private val movieDao: MovieDao) {
 
     /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
@@ -30,7 +31,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "Popular",
                     )
                 }
-                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
+             movieDao.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -60,7 +61,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "TopRated",
                     )
                 }
-                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
+            movieDao.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -90,7 +91,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "NowPlaying",
                     )
                 }
-                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
+            movieDao.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -99,6 +100,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
         }
         return if( response.isSuccessful) response.body()?.results else null
     }
+
 
 
     /**PROXIMOS ESTRENOS UPCOMING */
@@ -120,7 +122,7 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
                         category = "Upcoming",
                     )
                 }
-                applicacion.myDataBase.movieDao().insertMovies(movieListEntity)
+            movieDao.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
@@ -132,10 +134,17 @@ class MovieListRepository(private val apiService: MovieApiService, private val a
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    suspend fun getByCategory(category: String)=applicacion.myDataBase.movieDao().getMoviesByCategory(category)
+    suspend fun getByCategory(category: String)= movieDao.getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-    suspend fun getAllMoviesRoom() = applicacion.myDataBase.movieDao().getAllMovies()
+    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> {
+        return movieDao.getAllMovies()
+    }
+
+    /**OBTENER TODAS LAS FAVORITAS */
+    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
+        return movieDao.getAllFavoritesMovies()
+    }
 
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/

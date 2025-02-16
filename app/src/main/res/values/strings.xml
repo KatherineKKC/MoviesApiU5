@@ -16,4 +16,9 @@
     <string name="el_padrino">El padrino</string>
     <string name="tv_title_original_fixed">Título Original</string>
     <string name="tv_vote">Calificación</string>
+    <string name="mas_votadas">Mas votadas</string>
+    <string name="en_cartelera">En cartelera</string>
+    <string name="pr_ximos_estrenos">Próximos estrenos</string>
+    <string name="populares">Populares</string>
+    <string name="favoritas">Favoritas</string>
 </resources>

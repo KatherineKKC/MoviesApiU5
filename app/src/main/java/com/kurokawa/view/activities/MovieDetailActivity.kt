@@ -1,24 +1,22 @@
-package com.kurokawa.view
+package com.kurokawa.view.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.application.MyApplication
-import com.kurokawa.data.repository.MovieDetailRepository
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMovieDetailBinding
 import com.kurokawa.viewModel.MovieDetailsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieDetailActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding: ActivityMovieDetailBinding
     private val binding: ActivityMovieDetailBinding get() = _binding
-    private lateinit var applicacion :MyApplication
-    private lateinit var movieViewModel :MovieDetailsViewModel
-    private lateinit var repository: MovieDetailRepository
+    private val movieViewModel :MovieDetailsViewModel by  viewModel()
     private var currentMovie :MovieEntity? = null
 
 
@@ -27,9 +25,6 @@ class MovieDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        /**INICIALIZACION DE APPLICACION, REPOSITORY Y VIEWMODEL*/
-        inicializer()
 
         /**OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE*/
         val movieSelected = intent.getParcelableExtra<MovieEntity>("MOVIE")
@@ -46,12 +41,7 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    /**INICIA APP, REPO Y VIEWMODEL*/
-    private fun inicializer() {
-        applicacion = application as MyApplication
-        repository = MovieDetailRepository(applicacion)
-        movieViewModel  = MovieDetailsViewModel(repository)
-    }
+
 
     /**OBSERVA LA MOVIE Y ACTUALIZA LA VISTA*/
     private fun observerStateMovies(idMovie: Long) {

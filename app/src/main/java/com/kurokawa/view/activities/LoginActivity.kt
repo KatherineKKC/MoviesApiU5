@@ -1,4 +1,4 @@
-package com.kurokawa.view
+package com.kurokawa.view.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,22 +9,22 @@ import androidx.lifecycle.Observer
 import com.kurokawa.databinding.ActivityLoginBinding
 import com.kurokawa.application.MyApplication
 import com.kurokawa.viewModel.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var _binding : ActivityLoginBinding
     private val binding: ActivityLoginBinding get() = _binding
-    private lateinit var applicacion: MyApplication
-    private val viewModel : LoginViewModel by viewModels()
+
+    private val viewModel : LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        applicacion = application as MyApplication
         binding.btnLogin.setOnClickListener{
-            var email = binding.etEmail.text.toString().trim()
-            var password = binding.etPassword.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
                 validateFields(email,password)
         }
         binding.btnSingup.setOnClickListener{

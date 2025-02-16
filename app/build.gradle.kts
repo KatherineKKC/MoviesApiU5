@@ -46,59 +46,63 @@ android {
 
 
 
-    dependencies {
-        // AndroidX
-        implementation(libs.androidx.core.ktx)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.androidx.activity)
-        implementation(libs.androidx.constraintlayout)
+dependencies {
+    // AndroidX
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
-        // Material Design
-        implementation(libs.material)
+    // Material Design
+    implementation(libs.material)
 
-        // Room
-        implementation(libs.room.runtime)
-        implementation(libs.room.ktx)
-        ksp(libs.room.ksp)
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.ksp)
 
-        // Navigation
-        implementation(libs.navigation.fragment.ktx)
-        implementation(libs.navigation.ui.ktx)
+    // Navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
-        // Glide
-        implementation(libs.glide)
-        ksp(libs.glide.ksp)
+    // Glide
+    implementation(libs.glide)
+    ksp(libs.glide.ksp)
 
-        // Retrofit
-        implementation(libs.retrofit)
-        implementation(libs.retrofit.gson)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
-        // Lifecycle
-        implementation(libs.lifecycle.viewmodel)
-        implementation(libs.lifecycle.livedata)
-        implementation(libs.lifecycle.runtime)
+    // Lifecycle
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.livedata)
+    implementation(libs.lifecycle.runtime)
 
-        // Corrutinas
-        implementation(libs.coroutines.core)
-        implementation(libs.coroutines.android)
+    // Corrutinas
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 
-        // Hilt
+    // Hilt
 
-        // Testing
-        testImplementation(libs.junit)
-        androidTestImplementation(libs.androidx.junit)
-        androidTestImplementation(libs.androidx.espresso.core)
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-        //javapoet
-        implementation(libs.javapoet)
+    //javapoet
+    implementation(libs.javapoet)
 
-        //hhttp
-        implementation(libs.okhttp.logging.interceptor)
+    //hhttp
+    implementation(libs.okhttp.logging.interceptor)
 
-        //Serialize
-        implementation(libs.kotlinx.serialization.core)
-        implementation(libs.kotlinx.serialization.json)
+    //Serialize
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
 
-    }
+    //Koin similar a Dagger
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.navigation)
 
 
+}

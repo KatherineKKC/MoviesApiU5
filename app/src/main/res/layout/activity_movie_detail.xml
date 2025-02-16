@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FBF9F9"
     android:padding="20dp"
-    tools:context=".view.MovieDetailActivity">
+    tools:context=".view.activities.MovieDetailActivity">
 
     <!-- Botón de favoritos -->
     <CheckBox

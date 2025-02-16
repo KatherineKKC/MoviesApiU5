@@ -10,28 +10,24 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Unidad5"
         tools:targetApi="31">
+
+
         <activity
-            android:name=".view.FavoriteMovieActivity"
+            android:name=".view.activities.MoviesListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.FavoriteActivity"
+            android:name=".view.activities.MovieDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".view.MoviesListActivity"
+            android:name=".view.activities.SingUpActivity"
             android:exported="false" />
         <activity
-            android:name=".view.MovieDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SingUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

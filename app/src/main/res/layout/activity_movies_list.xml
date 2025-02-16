@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MoviesListActivity">
+    android:background="@color/white"
+    tools:context=".view.activities.MoviesListActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -22,19 +23,6 @@
         app:layout_constraintVertical_bias="0.0"
         app:navigationIcon="@android:drawable/alert_dark_frame" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="628dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="100"
-        tools:listitem="@layout/item_movies" />
-
     <ProgressBar
         android:id="@+id/progres"
         android:layout_width="0dp"
@@ -44,6 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/tv_messege_list"
         android:layout_width="0dp"
@@ -61,25 +50,25 @@
         android:id="@+id/searchView"
         android:layout_width="322dp"
         android:layout_height="74dp"
+        android:hint="@string/buscar_peliculas"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintHorizontal_bias="0.719"
         app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        android:hint="@string/buscar_peliculas"/>
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-    <Button
-        android:id="@+id/btn_favorite_activity"
-        android:layout_width="138dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="Button"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_graph_movies"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="150dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph_movies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

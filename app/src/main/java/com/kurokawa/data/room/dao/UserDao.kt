@@ -15,5 +15,5 @@ interface UserDao {
    suspend fun getUsers(): List<UserEntity>
 
    @Query("SELECT * FROM user WHERE email=:emailParameter AND password= :passwordParameter")
-   suspend fun getUser(emailParameter :String, passwordParameter:String) : UserEntity
+   suspend fun getUser(emailParameter :String, passwordParameter:String) : UserEntity?
 }
