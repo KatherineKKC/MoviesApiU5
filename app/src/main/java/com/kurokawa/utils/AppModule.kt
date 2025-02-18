@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.kurokawa.data.remote.retrofit.RetrofitClient
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.room.database.MyDataBase
+import com.kurokawa.databinding.FragmentNowPlayingMovieBinding
 import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.repository.LoginRepository
 import com.kurokawa.repository.MovieDetailRepository

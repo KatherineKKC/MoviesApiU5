@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.TopRatedMovieFragment">
 
+    <TextView
+        android:id="@+id/tv_messegeList4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/lista_vac_a"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView_favorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_top_rated"
         android:layout_width="match_parent"

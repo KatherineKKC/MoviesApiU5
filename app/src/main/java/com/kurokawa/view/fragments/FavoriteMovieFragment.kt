@@ -13,14 +13,15 @@ import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.FragmentFavoriteMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class FavoriteMovieFragment : Fragment() {
     private lateinit var _binding : FragmentFavoriteMovieBinding
     private val binding: FragmentFavoriteMovieBinding get() = _binding
 
     private lateinit var adapter: MoviesListAdapter
-    private val favoriteViewModel : MovieListViewModel by viewModel()
+    private val viewModel : MovieListViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,8 @@ class FavoriteMovieFragment : Fragment() {
         /**INICIALIZACION DE ADAPTER */
 
         setupRecycler()
-        observeViewModel()
+        getAllFavoritesMovies()
+        observerFilter()
 
     }
 
@@ -54,13 +56,19 @@ class FavoriteMovieFragment : Fragment() {
         binding.recyclerViewFavorites.adapter = adapter
     }
 
-    private fun observeViewModel() {
-        favoriteViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
-            val uniqueList = movies.distinctBy { it.idMovie }
-            adapter.submitList(movies)
+
+
+
+    private fun observerFilter() {
+        viewModel.filteredFavorites.observe(viewLifecycleOwner) { filteredList ->
+            Log.e(
+                "ALL-MOVIES-FRAGMENT",
+                "Actualizando RecyclerView con ${filteredList.size} películas"
+            )
+            val uniqueList = filteredList.distinctBy { it.idMovie }
+            adapter.submitList(uniqueList)
         }
     }
-
 
     private fun navigateToMovieDetail(movieSelected: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
@@ -69,4 +77,11 @@ class FavoriteMovieFragment : Fragment() {
         Log.e("MOVIES-LIST-ACTIVITY", "La movie enviada a la activity detail es: $movieSelected ")
     }
 
+    private fun getAllFavoritesMovies() {
+        viewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
+            val uniqueList = movies.distinctBy { it.idMovie }
+            Log.e("ALL-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
+            adapter.submitList(uniqueList)
+        }
+    }
 }

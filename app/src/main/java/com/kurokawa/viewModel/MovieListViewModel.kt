@@ -16,12 +16,42 @@ import kotlinx.coroutines.withContext
 class MovieListViewModel (private val repository: MovieListRepository) : ViewModel() {
 
 
+
     /**APY Y MOVIES POR CONSOLA-------------------------------------------------------------------*/
     val apiKey = Constants.API_KEY
 
-    /**LIVE DATA PARA OBTENER LAS FAVORITAS ------------------------------------------------------*/
-    val getAllFavoriteMovies: LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
-    val getAllMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesRoom()
+    /**LIVE DATA PARA OBTENER LAS FAVORITAS */
+
+        val getAllMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesRoom()
+        val getAllFavoriteMovies: LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
+
+        private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
+        val filteredMovies: LiveData<List<MovieEntity>> get() = _filteredMovies
+
+        private val _filteredFavorites = MutableLiveData<List<MovieEntity>>() // 🔹 LiveData separado para favoritos
+        val filteredFavorites: LiveData<List<MovieEntity>> get() = _filteredFavorites
+
+        fun filterMovies(query: String) {
+            val allMovies = getAllMovies.value ?: emptyList() // 🔹 Filtra TODAS las películas
+            _filteredMovies.value = if (query.isEmpty()) {
+                allMovies
+            } else {
+                allMovies.filter { it.title.contains(query, ignoreCase = true) }
+            }
+        }
+
+        fun filterFavorites(query: String) {
+            val allFavorites = getAllFavoriteMovies.value ?: emptyList() // 🔹 Filtra SOLO favoritos
+            _filteredFavorites.value = if (query.isEmpty()) {
+                allFavorites
+            } else {
+                allFavorites.filter { it.title.contains(query, ignoreCase = true) }
+            }
+        }
+
+
+
+
 
     /**LIVEDATA PARA ACTUALIZAR TODAS DESDE ROOM--------------------------------------------------*/
 
@@ -72,12 +102,27 @@ class MovieListViewModel (private val repository: MovieListRepository) : ViewMod
     }
 
 
-    /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
 
-    /**ERROR CARGAR MOVIES */
+
+
+
+    /**RECIBIR TODAS LAS PELICULAS POR CATEGORIA -------------------------------------------------*/
+    fun getMovieByCategory(category: String):LiveData<List<MovieEntity>>{
+        return repository.getByCategory(category)
+    }
+
+
+    /**FUNCIONES PARA MOSTRAR ERRORES POR CONSOLA-------------------------------------------------*/
     fun showErrorToConsole() {
         Log.e("MOVIE-LIST-VIEW-MODEL", "Se ha recibido una lista Vacia de la fun loadAllMovies")
     }
 
 
+
+
+
+
+
 }
+
+

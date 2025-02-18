@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/allMoviesFragment"
         android:name="com.kurokawa.view.fragments.AllMoviesFragment"
-        android:label="fragment_all_movies"
-        tools:layout="@layout/fragment_all_movies" >
+        tools:layout="@layout/fragment_all_movies">
         <action
             android:id="@+id/action_allMoviesFragment_to_popularMovieFragment"
             app:destination="@id/popularMovieFragment" />
@@ -20,17 +19,17 @@
             android:id="@+id/action_allMoviesFragment_to_favoriteMovieFragment"
             app:destination="@id/favoriteMovieFragment" />
         <action
-            android:id="@+id/action_allMoviesFragment_to_upcomingMovieFragment"
-            app:destination="@id/upcomingMovieFragment" />
-        <action
             android:id="@+id/action_allMoviesFragment_to_topRatedMovieFragment"
             app:destination="@id/topRatedMovieFragment" />
+        <action
+            android:id="@+id/action_allMoviesFragment_to_upcomingMovieFragment"
+            app:destination="@id/upcomingMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteMovieFragment"
         android:name="com.kurokawa.view.fragments.FavoriteMovieFragment"
-        android:label="fragment_favorite_movie"
-        tools:layout="@layout/fragment_favorite_movie" >
+        tools:layout="@layout/fragment_favorite_movie"
+        android:label="Favoritas">
         <action
             android:id="@+id/action_favoriteMovieFragment_to_allMoviesFragment"
             app:destination="@id/allMoviesFragment" />
@@ -38,8 +37,9 @@
     <fragment
         android:id="@+id/nowPlayingMovieFragment"
         android:name="com.kurokawa.view.fragments.NowPlayingMovieFragment"
-        android:label="fragment_now_playing_movie"
-        tools:layout="@layout/fragment_now_playing_movie" >
+        tools:layout="@layout/fragment_now_playing_movie"
+        android:label="En cartelera">
+
         <action
             android:id="@+id/action_nowPlayingMovieFragment_to_allMoviesFragment"
             app:destination="@id/allMoviesFragment" />
@@ -47,8 +47,9 @@
     <fragment
         android:id="@+id/popularMovieFragment"
         android:name="com.kurokawa.view.fragments.PopularMovieFragment"
-        android:label="fragment_popular_movie"
-        tools:layout="@layout/fragment_popular_movie" >
+        tools:layout="@layout/fragment_popular_movie"
+        android:label="Populares">
+
         <action
             android:id="@+id/action_popularMovieFragment_to_allMoviesFragment"
             app:destination="@id/allMoviesFragment" />
@@ -56,8 +57,8 @@
     <fragment
         android:id="@+id/topRatedMovieFragment"
         android:name="com.kurokawa.view.fragments.TopRatedMovieFragment"
-        android:label="fragment_top_rated_movie"
-        tools:layout="@layout/fragment_top_rated_movie" >
+        tools:layout="@layout/fragment_top_rated_movie"
+        android:label="@string/mas_votadas">
         <action
             android:id="@+id/action_topRatedMovieFragment_to_allMoviesFragment"
             app:destination="@id/allMoviesFragment" />
@@ -65,8 +66,8 @@
     <fragment
         android:id="@+id/upcomingMovieFragment"
         android:name="com.kurokawa.view.fragments.UpcomingMovieFragment"
-        android:label="fragment_upcoming_movie"
-        tools:layout="@layout/fragment_upcoming_movie" >
+        tools:layout="@layout/fragment_upcoming_movie"
+        android:label="Proximamente">
         <action
             android:id="@+id/action_upcomingMovieFragment_to_allMoviesFragment"
             app:destination="@id/allMoviesFragment" />

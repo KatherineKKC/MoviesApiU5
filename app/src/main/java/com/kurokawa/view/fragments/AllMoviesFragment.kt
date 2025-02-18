@@ -2,10 +2,12 @@ package com.kurokawa.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.room.adapter.MoviesListAdapter
@@ -13,6 +15,7 @@ import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.FragmentAllMoviesBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AllMoviesFragment : Fragment() {
@@ -20,7 +23,7 @@ class AllMoviesFragment : Fragment() {
     private val binding: FragmentAllMoviesBinding get() = _binding
 
     private lateinit var adapter: MoviesListAdapter
-    private val allViewModel : MovieListViewModel by viewModel()
+    private val allViewModel : MovieListViewModel by  sharedViewModel() // activityViewModels() si fuera activity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAllMoviesBinding.inflate(inflater)
@@ -32,7 +35,7 @@ class AllMoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
         observeViewModel()
-
+        observerFilter()
     }
 
 
@@ -48,11 +51,21 @@ class AllMoviesFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        allViewModel.getAllMovies.observe(viewLifecycleOwner) { movies ->
-            adapter.submitList(movies)
+        allViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
+            val uniqueList = movies.distinctBy { it.idMovie }
+            adapter.submitList(uniqueList)
         }
     }
 
+
+    private fun observerFilter(){
+        allViewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
+            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+            val uniqueList = filteredList.distinctBy { it.idMovie }
+            adapter.submitList(uniqueList)
+        }
+
+    }
 
     private fun navigateToMovieDetail(movieSelected: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)

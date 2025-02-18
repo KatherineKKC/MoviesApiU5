@@ -26,14 +26,14 @@ interface MovieDao {
 
 
     @Query("SELECT * FROM movies WHERE category = :category")
-    suspend fun getMoviesByCategory(category: String):  List<MovieEntity>
+     fun getMoviesByCategory(category: String): LiveData<List<MovieEntity>>
 
 
 
     @Query("UPDATE movies SET isFavoriteMovie = :isFavorite WHERE idMovie = :idMovie")
     suspend fun updateFavoriteStatus(idMovie: Long, isFavorite: Boolean)
 
-    @Query("SELECT DISTINCT * FROM movies WHERE isFavoriteMovie = 1")
+    @Query("SELECT DISTINCT * FROM movies WHERE isFavoriteMovie =1")
     fun getAllFavoritesMovies(): LiveData<List<MovieEntity>>
 
 

@@ -21,4 +21,9 @@
     <string name="pr_ximos_estrenos">Próximos estrenos</string>
     <string name="populares">Populares</string>
     <string name="favoritas">Favoritas</string>
+    <string name="tv_favoritas">Favoritas</string>
+    <string name="no_se_ha_encontrado_ninguna_pelicula_con_ese_nombre">No se ha encontrado ninguna pelicula con ese nombre</string>
+    <string name="buscar">Buscar</string>
+    <string name="ver_todas">Ver todas</string>
+    <string name="lista_vac_a">Lista vacía</string>
 </resources>

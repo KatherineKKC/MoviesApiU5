@@ -134,17 +134,15 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    suspend fun getByCategory(category: String)= movieDao.getMoviesByCategory(category)
+    fun getByCategory(category: String)= movieDao.getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> {
-        return movieDao.getAllMovies()
-    }
+    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> =movieDao.getAllMovies()
+
 
     /**OBTENER TODAS LAS FAVORITAS */
-    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
-        return movieDao.getAllFavoritesMovies()
-    }
+    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> = movieDao.getAllFavoritesMovies()
+
 
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
