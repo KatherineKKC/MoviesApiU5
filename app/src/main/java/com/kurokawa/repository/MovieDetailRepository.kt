@@ -6,6 +6,7 @@ import com.kurokawa.data.room.database.MyDataBase
 import com.kurokawa.data.room.entities.MovieEntity
 
 class MovieDetailRepository(private val myDataBase: MyDataBase){
+    /**FUNCIONES----------------------------------------------------------------------------------*/
     suspend fun updateFavoriteMovie(movieEntity: MovieEntity) {
         var isFavorite = movieEntity.isFavoriteMovie
         val idFavorite = movieEntity.idMovie

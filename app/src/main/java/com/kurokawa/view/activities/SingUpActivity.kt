@@ -10,26 +10,30 @@ import com.kurokawa.viewModel.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SingUpActivity : AppCompatActivity() {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding: ActivitySingUpBinding
     private val binding: ActivitySingUpBinding get() = _binding
-
-    // 🔥 Inyectar ViewModel con Koin
     private val signUpViewModel: SignUpViewModel by viewModel()
 
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySingUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Boton para registrar un usuario
         binding.btnSing.setOnClickListener {
             val email = binding.etEmailSing.text.toString().trim()
             val password = binding.etPasswordSing.text.toString().trim()
             validateField(email, password)
         }
 
+        //Funcion llamada
         observeSignUpResult()
     }
 
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+    //Verifica que los campos no esten vacios y registra el usuario
     private fun validateField(email: String, password: String) {
         if (email.isEmpty() || password.isEmpty()) {
             Snackbar.make(binding.root, "Los campos de texto deben estar llenos", Snackbar.LENGTH_SHORT).show()
@@ -38,6 +42,7 @@ class SingUpActivity : AppCompatActivity() {
         }
     }
 
+    //Verifica si el usuario ya existia o navega de nuevo a login para que inicie sesion
     private fun observeSignUpResult() {
         signUpViewModel.signUpResult.observe(this, Observer { isSuccess ->
             if (isSuccess) {
@@ -49,6 +54,7 @@ class SingUpActivity : AppCompatActivity() {
         })
     }
 
+    //Navega a la vista de Login
     private fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()

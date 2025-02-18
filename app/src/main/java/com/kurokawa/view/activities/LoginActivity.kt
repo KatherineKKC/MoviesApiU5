@@ -12,28 +12,36 @@ import com.kurokawa.viewModel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding : ActivityLoginBinding
     private val binding: ActivityLoginBinding get() = _binding
-
     private val viewModel : LoginViewModel by viewModel()
 
+
+
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Boton para entrar en la app
         binding.btnLogin.setOnClickListener{
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
                 validateFields(email,password)
         }
+
+        //Navega a la activity de registro
         binding.btnSingup.setOnClickListener{
             navigateToSingUp()
         }
+
+        //Funciones llamadas
         observeLogin()
     }
 
-
+    /**FUNCIONES----------------------------------------------------------------------------------*/
     //Funcion para navegar a la vista SingUp Registro
     private fun navigateToSingUp() {
         val intent = Intent(this, SingUpActivity::class.java)
@@ -50,12 +58,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
-    private fun navigateToMovies() {
-        val intent = Intent(this, MoviesListActivity::class.java)
-        startActivity(intent)
-    }
-
+    //Validar el usuario y navegar a la vista principal
     private fun observeLogin() {
         viewModel.loginResult.observe(this, Observer { isLoggedIn ->
             if (isLoggedIn) {
@@ -69,6 +72,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
+    //Navegar a la vista principal
+    private fun navigateToMovies() {
+        val intent = Intent(this, MoviesListActivity::class.java)
+        startActivity(intent)
+    }
 
 }

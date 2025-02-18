@@ -10,10 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val repository: SignUpRepository) : ViewModel() {
-
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private val _signUpResult = MutableLiveData<Boolean>()
     val signUpResult: LiveData<Boolean> get() = _signUpResult
 
+
+    /**FUNCIONES----------------------------------------------------------------------------------*/
     fun registerUser(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val isRegistered = repository.isUserRegistered(email,password)

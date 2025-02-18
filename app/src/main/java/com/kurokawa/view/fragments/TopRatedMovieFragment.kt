@@ -15,43 +15,40 @@ import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class TopRatedMovieFragment : Fragment() {
-
+class TopRatedMovieFragment : Fragment(), FragmentMetodos {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding : FragmentTopRatedMovieBinding
     private val binding: FragmentTopRatedMovieBinding get() = _binding
-
     private lateinit var adapter: MoviesListAdapter
     private val viewModel : MovieListViewModel by sharedViewModel()
 
+    /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding  = FragmentTopRatedMovieBinding.inflate(inflater)
         return binding.root
     }
 
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecicler()
-        getAllTopRatedMovies()
+        setupRecycler()
+        getMovies()
         observerFilter()
     }
 
-    private fun setupRecicler(){
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+
+    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()){ movieDetail ->
-            navigateToDetail(movieDetail)
+            navigateToMovieDetail(movieDetail)
         }
         binding.recyclerViewTopRated.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerViewTopRated.adapter = adapter
     }
 
 
-    private fun navigateToDetail(movieDetail: MovieEntity) {
-        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail)
-        startActivity(intent)
-    }
-
-    private fun observerFilter(){
+   override fun observerFilter(){
         viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
             Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
             val uniqueList = filteredList.distinctBy { it.idMovie }
@@ -60,11 +57,18 @@ class TopRatedMovieFragment : Fragment() {
 
     }
 
-    private fun getAllTopRatedMovies(){
+    override fun getMovies() {
         viewModel.getMovieByCategory("TopRated").observe(viewLifecycleOwner){topRatedList->
             val uniqueList = topRatedList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
-
     }
+
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+        intent.putExtra("MOVIE", movieDetail)
+        startActivity(intent)
+    }
+
+
 }

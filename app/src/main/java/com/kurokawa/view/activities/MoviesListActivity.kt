@@ -16,86 +16,82 @@ import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MoviesListActivity : AppCompatActivity(){
-    /** VARIABLE PARA VIEW BINDING */
+class MoviesListActivity : AppCompatActivity() {
+    /** VARIABLES- BINDING - ADAPTER- VIEWMODEL-NAVCONTROLLER-------------------------------------*/
     private lateinit var _binding: ActivityMoviesListBinding
     private val binding: ActivityMoviesListBinding get() = _binding
     private lateinit var adapter: MoviesListAdapter
-
-    /** INYECCIÓN DE VIEWMODEL */
     private val viewModel: MovieListViewModel by viewModel()
-
-    /** CONTROLADOR DE NAVEGACIÓN */
     private lateinit var navController: NavController
 
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMoviesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Llamamos las funciones para inicializar variables e imprimir las movies
         inicializarUI()
         loadInitialData()
     }
 
-    /** CONFIGURAR TOOLBAR Y NAVIGATION */
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+    //Inicializa adapter - toolbar- navHostFragment
     private fun inicializarUI() {
+        //Adapter hasta la vista detalles con  la movie seleccionada
         adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
             navigaToDetail(movieDetail)
         }
+        //Toolbar
         setSupportActionBar(binding.toolbar)
         binding.toolbar.title = ""
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_graph_movies) as NavHostFragment
+        //NavhostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_graph_movies) as NavHostFragment
         navController = navHostFragment.navController
 
-
+        //Limpiar el campo de busqueda
         navController.addOnDestinationChangedListener { _, _, _ ->
             clearSearchView()
         }
-
-
     }
 
+    //Limpia el campo de busqueda de movies
     private fun clearSearchView() {
         val searchItem = binding.toolbar.menu.findItem(R.id.menu_search)
         val searchView = searchItem?.actionView as? androidx.appcompat.widget.SearchView
-        searchView?.setQuery("", false) // 🔹 Borra el texto de búsqueda
-        searchView?.clearFocus() // 🔹 Evita que el teclado siga abierto
-        searchView?.onActionViewCollapsed() // 🔹 Cierra la barra de búsqueda si estaba expandida
+        searchView?.setQuery("", false) //Borra el texto de búsqueda
+        searchView?.clearFocus() // Evita que el teclado siga abierto
+        searchView?.onActionViewCollapsed() // Cierra la barra de búsqueda si estaba expandida
     }
 
-
+    //Navegar con la movie seleccionada  a la vista detail
     private fun navigaToDetail(movieDetail: MovieEntity) {
         val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail)
+        intent.putExtra("MOVIE", movieDetail)//Movie que recibira la MovieDetail Activity
         startActivity(intent)
     }
 
-
-    /** CARGAR DATOS INICIALES */
+    //Carga la lista de todas las movies de room, si es empty realiza una nueva consulta a la API
     private fun loadInitialData() {
-      viewModel.loadAllMovies()
-      viewModel.getAllMovies.observe(this) { allMovies ->
+        viewModel.loadAllMovies()
+        viewModel.getAllMovies.observe(this) { allMovies ->
             if (allMovies.isNullOrEmpty()) {
                 loadMoviesApi()
-            }else{
-             viewModel.filterMovies("")
+            } else {
+                viewModel.filterMovies("")
             }
         }
     }
 
-
-
-    /** CARGAR PELÍCULAS DESDE LA API */
+   //Carga las movies desde la API y las contiene en una misma lista
     private fun loadMoviesApi() {
-      viewModel.loadAllMovies()
-
+        viewModel.loadAllMovies()
         val liveDataList = listOf(
-          viewModel.popularMovie,
-          viewModel.topRatedMovie,
-          viewModel.nowPlayingMovie,
-          viewModel.upcomingMovie
+            viewModel.popularMovie,
+            viewModel.topRatedMovie,
+            viewModel.nowPlayingMovie,
+            viewModel.upcomingMovie
         )
 
         val moviesResults = mutableListOf<List<MovieModel>?>()
@@ -111,42 +107,7 @@ class MoviesListActivity : AppCompatActivity(){
         }
     }
 
-    /** CONFIGURACIÓN DEL MENÚ TOOLBAR */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-
-        val searchItem = menu?.findItem(R.id.menu_search) // Asegúrate de que el ID sea correcto
-        val searchView = searchItem?.actionView as? androidx.appcompat.widget.SearchView // 🔹 Casting seguro
-
-        if (searchView == null) {
-            Log.e("MOVIE-LIST-ACTIVITY", "SearchView no encontrado en el menú")
-            return true
-        }else{
-
-        }
-
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-              viewModel.filterMovies(query ?: "")
-                return false
-            }
-
-           
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val currentFragment = navController.currentDestination?.id
-                if (currentFragment == R.id.favoriteMovieFragment) {
-                    viewModel.filterFavorites(newText ?: "")
-                } else {
-                    viewModel.filterMovies(newText ?: "")
-                }
-                return true
-            }
-
-        })
-
-        return true
-    }
-
+    //Navega al fragmento según la opcion del toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_favorites -> navigateTo(R.id.favoriteMovieFragment)
@@ -158,7 +119,7 @@ class MoviesListActivity : AppCompatActivity(){
         }
     }
 
-    /** Función reutilizable para navegar entre fragmentos */
+    //Permite la navegacion de los fragmentos  en todas las direcciones
     private fun navigateTo(destination: Int): Boolean {
         if (navController.currentDestination?.id != destination) {
             navController.navigate(destination)
@@ -167,12 +128,39 @@ class MoviesListActivity : AppCompatActivity(){
         return false
     }
 
+    //Configuracion del TOOLBAR FIlTRAR movies
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)//Infla el menu toolbar
+        val searchItem = menu?.findItem(R.id.menu_search) //Le damos el menu
+        val searchView = searchItem?.actionView as? androidx.appcompat.widget.SearchView
 
+        if (searchView == null) {
+            Log.e("MOVIE-LIST-ACTIVITY", "SearchView no encontrado en el menú")
+            return true
+        }
 
+        //Escucha lo que el usuario esta escribiendo
+        searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.filterMovies(query ?: "")
+                return false
+            }
 
+            //Filtre unicamente movies favoritas en el Favoritefragmento y todas las movies en cualquier fragment
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val currentFragment = navController.currentDestination?.id
+                if (currentFragment == R.id.favoriteMovieFragment) {
+                    viewModel.filterFavorites(newText ?: "")
+                } else {
+                    viewModel.filterMovies(newText ?: "")
+                }
+                return true
+            }
+        })
 
-
-
+        return true
+    }
 }
 
 

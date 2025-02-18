@@ -17,15 +17,6 @@ import com.kurokawa.viewModel.SignUpViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 
 val appModule = module {
-    single { RetrofitClient.apiService }
-
-
-    // Inyectar Repositorios
-    single { MovieListRepository(get(), get()) }
-
-    // Inyectar ViewModel correctamente
-
-
     single {
         Room.databaseBuilder(
             androidApplication(),
@@ -35,19 +26,22 @@ val appModule = module {
     }
     viewModelOf(::MovieListViewModel)
 
-    // 🔥 Inyectar DAOs
+    //Api
+    single { RetrofitClient.apiService }
+
+    // Inyectar DAOs
     single { get<MyDataBase>().movieDao() }
     single { get<MyDataBase>().userDao() }
 
-    // 🔥 Inyectar Repositories
+    //  Inyectar Repositories
     single { MovieDetailRepository(get()) }
     single { MovieListRepository(get(), get()) }
-    single { LoginRepository(get()) } // Asegurar que se inyecta correctamente
+    single { LoginRepository(get()) }
     single { SignUpRepository(get())}
 
-    // 🔥 Inyectar ViewModels
+    //Inyectar ViewModels
     viewModel { MovieDetailsViewModel(get()) }
     viewModel { MovieListViewModel(get()) }
-    viewModel { LoginViewModel(get())} // LoginViewModel correctamente inyectado
+    viewModel { LoginViewModel(get())}
     viewModel { SignUpViewModel(get())}
 }

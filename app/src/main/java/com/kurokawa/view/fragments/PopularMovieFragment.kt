@@ -15,14 +15,14 @@ import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class PopularMovieFragment : Fragment(){
-
+class PopularMovieFragment : Fragment(),FragmentMetodos{
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding : FragmentPopularMovieBinding
     private val binding: FragmentPopularMovieBinding get() = _binding
-
     private lateinit var adapter: MoviesListAdapter
     private val viewModel : MovieListViewModel by sharedViewModel()
 
+    /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,15 +32,16 @@ class PopularMovieFragment : Fragment(){
         return binding.root
     }
 
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecicler()
-        getAllNowPopularMovies()
+       setupRecycler()
+        getMovies()
         observerFilter()
-
     }
 
-    private fun setupRecicler(){
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+   override fun setupRecycler(){
         adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
             navigateToMovieDetail(movieDetail)
         }
@@ -48,7 +49,7 @@ class PopularMovieFragment : Fragment(){
         binding.recyclerViewPopular.adapter = adapter
     }
 
-    private fun observerFilter(){
+    override fun observerFilter(){
         viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
             Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
             val uniqueList = filteredList.distinctBy { it.idMovie }
@@ -57,17 +58,17 @@ class PopularMovieFragment : Fragment(){
 
     }
 
-    private fun navigateToMovieDetail(movieDetail: MovieEntity) {
-        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail)
-        startActivity(intent)
-    }
-
-    private fun getAllNowPopularMovies(){
+    override fun getMovies(){
         viewModel.getMovieByCategory("Popular").observe(viewLifecycleOwner){ nowPlayingMoveList->
             val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
 
+    }
+
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+        intent.putExtra("MOVIE", movieDetail)
+        startActivity(intent)
     }
 }

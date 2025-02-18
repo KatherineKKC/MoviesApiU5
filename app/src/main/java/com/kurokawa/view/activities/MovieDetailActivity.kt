@@ -25,31 +25,29 @@ class MovieDetailActivity : AppCompatActivity() {
         _binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /**OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE*/
+        //OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE
         val movieSelected = intent.getParcelableExtra<MovieEntity>("MOVIE")
         if (movieSelected != null){
             observerStateMovies(movieSelected.idMovie)
         }
 
-        /**ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE*/
+        //ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE
         binding.btnFavorite.setOnClickListener {
             currentMovie?.let { movie ->
                 movieViewModel.updateFavoriteMovies(movie)
             }
         }
 
+        //Boton para regresar a la vista anterior
         binding.btnBack.setOnClickListener{
             navigateToLastView()
         }
     }
-    private fun navigateToLastView() {
-        onBackPressedDispatcher.onBackPressed() // 🔹 Esto simula el botón "Atrás" del sistema
-    }
+
+
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-
-
-    /**OBSERVA LA MOVIE Y ACTUALIZA LA VISTA*/
+    //Observa que la movie haya sido seleccionada como Favorita o no y la actualiza
     private fun observerStateMovies(idMovie: Long) {
         movieViewModel.getMovieById(idMovie).observe(this){ updateMovie->
             currentMovie =updateMovie
@@ -58,7 +56,7 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
 
-    /**IMPRIME TODOS LOS DETALLES DE LA MOVIE*/
+   //Muestra todos los detalles de la Movie recibida
     @SuppressLint("SetTextI18n")
     private fun showDetailsMovie(movie: MovieEntity) {
         binding.tvTitle.text = movie.title
@@ -74,6 +72,12 @@ class MovieDetailActivity : AppCompatActivity() {
             .into(binding.imgPoster)
 
         Log.e("MOVIE-DETAIL-ACTIVITY", "Actualizando UI con favorito: ${movie.isFavoriteMovie}")
+    }
+
+
+    //Navega a la vista anterior
+    private fun navigateToLastView() {
+        onBackPressedDispatcher.onBackPressed()
     }
 
 

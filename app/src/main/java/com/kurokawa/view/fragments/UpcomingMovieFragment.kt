@@ -18,58 +18,63 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UpcomingMovieFragment : Fragment() {
-
-    private lateinit var _binding : FragmentUpcomingMovieBinding
+class UpcomingMovieFragment : Fragment(), FragmentMetodos {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
+    private lateinit var _binding: FragmentUpcomingMovieBinding
     private val binding: FragmentUpcomingMovieBinding get() = _binding
-
     private lateinit var adapter: MoviesListAdapter
-    private val viewModel : MovieListViewModel by sharedViewModel()
+    private val viewModel: MovieListViewModel by sharedViewModel()
 
+    /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ):  View? {
+    ): View? {
 
         _binding = FragmentUpcomingMovieBinding.inflate(inflater)
         return binding.root
     }
+
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecicler()
-        getAllUpcomingMovies()
+        setupRecycler()
+        getMovies()
         observerFilter()
     }
 
-    private fun setupRecicler(){
-        adapter = MoviesListAdapter(mutableListOf()){ movieDetail ->
-            navigateToDetail(movieDetail)
+    /**FUNCIONES IMPLEMENTADAS--------------------------------------------------------------------*/
+    override fun setupRecycler() {
+        adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
+            navigateToMovieDetail(movieDetail)
         }
         binding.recyclerViewUpcoming.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerViewUpcoming.adapter = adapter
     }
 
-    private fun observerFilter(){
+    override fun observerFilter() {
         viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+            Log.e(
+                "ALL-MOVIES-FRAGMENT",
+                "Actualizando RecyclerView con ${filteredList.size} películas"
+            )
             val uniqueList = filteredList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
-
     }
 
-    private fun navigateToDetail(movieDetail: MovieEntity) {
-        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail)
-        startActivity(intent)
-    }
-
-    private fun getAllUpcomingMovies(){
-        viewModel.getMovieByCategory("Upcoming").observe(viewLifecycleOwner){upcommingList ->
+    override fun getMovies() {
+        viewModel.getMovieByCategory("Upcoming").observe(viewLifecycleOwner) { upcommingList ->
             val uniqueList = upcommingList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
+    }
 
+
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+        intent.putExtra("MOVIE", movieDetail )
+        startActivity(intent)
     }
 
 }

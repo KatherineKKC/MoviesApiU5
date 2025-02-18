@@ -16,13 +16,14 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-class FavoriteMovieFragment : Fragment() {
+class FavoriteMovieFragment : Fragment(),FragmentMetodos {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding : FragmentFavoriteMovieBinding
     private val binding: FragmentFavoriteMovieBinding get() = _binding
-
     private lateinit var adapter: MoviesListAdapter
     private val viewModel : MovieListViewModel by sharedViewModel()
 
+    /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,24 +32,18 @@ class FavoriteMovieFragment : Fragment() {
         return binding.root
     }
 
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /**INICIALIZACION DE ADAPTER */
-
+        //Funciones llamadas
         setupRecycler()
-        getAllFavoritesMovies()
+        getMovies()
         observerFilter()
 
     }
 
-
-
-
-
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    /**INICIALIZACION DE ADAPTER Y RECYCLER*/
-
-    private fun setupRecycler() {
+    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movie ->
             navigateToMovieDetail(movie)
         }
@@ -56,10 +51,7 @@ class FavoriteMovieFragment : Fragment() {
         binding.recyclerViewFavorites.adapter = adapter
     }
 
-
-
-
-    private fun observerFilter() {
+    override  fun observerFilter() {
         viewModel.filteredFavorites.observe(viewLifecycleOwner) { filteredList ->
             Log.e(
                 "ALL-MOVIES-FRAGMENT",
@@ -70,18 +62,18 @@ class FavoriteMovieFragment : Fragment() {
         }
     }
 
-    private fun navigateToMovieDetail(movieSelected: MovieEntity) {
-        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieSelected)
-        startActivity(intent)
-        Log.e("MOVIES-LIST-ACTIVITY", "La movie enviada a la activity detail es: $movieSelected ")
-    }
-
-    private fun getAllFavoritesMovies() {
+  override fun getMovies() {
         viewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
             val uniqueList = movies.distinctBy { it.idMovie }
             Log.e("ALL-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
             adapter.submitList(uniqueList)
         }
+    }
+
+   override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+        intent.putExtra("MOVIE", movieDetail)
+        startActivity(intent)
+        Log.e("MOVIES-LIST-ACTIVITY", "La movie enviada a la activity detail es: $movieDetail")
     }
 }

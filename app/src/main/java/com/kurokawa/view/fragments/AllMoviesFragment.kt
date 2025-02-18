@@ -18,7 +18,7 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AllMoviesFragment : Fragment() {
+class AllMoviesFragment : Fragment(), FragmentMetodos {
     private lateinit var _binding : FragmentAllMoviesBinding
     private val binding: FragmentAllMoviesBinding get() = _binding
 
@@ -34,15 +34,14 @@ class AllMoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
-        observeViewModel()
+        getMovies()
         observerFilter()
     }
 
 
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-
-    private fun setupRecycler() {
+   override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movie ->
             navigateToMovieDetail(movie)
         }
@@ -50,15 +49,14 @@ class AllMoviesFragment : Fragment() {
         binding.recyclerViewAll.adapter = adapter
     }
 
-    private fun observeViewModel() {
+    override fun getMovies() {
         allViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
             val uniqueList = movies.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
     }
 
-
-    private fun observerFilter(){
+    override fun observerFilter(){
         allViewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
             Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
             val uniqueList = filteredList.distinctBy { it.idMovie }
@@ -67,9 +65,9 @@ class AllMoviesFragment : Fragment() {
 
     }
 
-    private fun navigateToMovieDetail(movieSelected: MovieEntity) {
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieSelected)
+        intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)
     }
 }
