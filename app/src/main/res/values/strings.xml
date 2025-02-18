@@ -26,4 +26,22 @@
     <string name="buscar">Buscar</string>
     <string name="ver_todas">Ver todas</string>
     <string name="lista_vac_a">Lista vacía</string>
+    <string name="intro1">Intro1</string>
+    <string name="intro2">intro2</string>
+    <string name="intro3">intro3</string>
+    <string name="navegar_entre_vistas">navegar entre vistas</string>
+    <string name="valoraci_n_del_p_blico">Valoración del Público:</string>
+    <string name="t_tulo_original">Título Original:</string>
+    <string name="t_tulo_de_la_pel_cula">Título de la Película</string>
+    <string name="tv_tulo_original">Título Original</string>
+    <string name="fecha_de_estreno">Fecha de Estreno:</string>
+    <string name="tv_title_pelicula">Título de la Película</string>
+    <string name="tv_title_originals">Título Original:</string>
+    <string name="tv_original">Título Original</string>
+    <string name="tv_valoracion">Valoración del Público:</string>
+    <string name="tv_valoracion_publico">8.5/10</string>
+    <string name="tv_date">Fecha de Estreno:</string>
+    <string name="tv_dates">12 de julio de 2023</string>
+    <string name="sinopsis_de_la_pel_cula">Sinopsis de la película...</string>
+    <string name="btn_back">Volver al menú principal</string>
 </resources>

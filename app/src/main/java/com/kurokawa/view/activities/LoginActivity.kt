@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this, Observer { isLoggedIn ->
             if (isLoggedIn) {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
-                navigateToMovies()
+                navigateToIntro()
                 finish()
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
@@ -71,11 +71,11 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-
-    //Navegar a la vista principal
-    private fun navigateToMovies() {
-        val intent = Intent(this, MoviesListActivity::class.java)
+    private fun navigateToIntro() {
+        val intent = Intent(this, IntroActivity::class.java)
         startActivity(intent)
     }
+
+
 
 }

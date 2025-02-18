@@ -65,7 +65,7 @@ class MovieDetailActivity : AppCompatActivity() {
         binding.tvOverview.text = movie.overview
         binding.tvRelease.text = movie.releaseDate
         binding.tvVote.text = movie.voteAverage.toString()
-        binding.btnFavorite.isChecked = movie.isFavoriteMovie
+        binding.btnFavorite.isChecked= movie.isFavoriteMovie
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             .placeholder(R.drawable.ic_launcher_foreground)

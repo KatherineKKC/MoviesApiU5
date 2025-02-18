@@ -1,8 +1,30 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Unidad5" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme similar to Netflix -->
+    <style name="Base.Theme.Unidad5" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Fondo principal negro -->
+        <item name="android:colorBackground">@color/black</item>
+        <item name="android:windowBackground">@color/black</item>
+
+        <!-- Color de los textos -->
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorSurface">@color/dark_gray</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <!-- Rojo vibrante de Netflix -->
+        <item name="colorPrimary">@color/netflix_red</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Color para elementos en segundo plano -->
+        <item name="colorSecondary">@color/dark_gray</item>
+        <item name="colorOnSecondary">@color/light_gray</item>
+
+        <!-- Personalización de botones -->
+        <item name="colorButtonNormal">@color/netflix_red</item>
+        <item name="android:colorControlHighlight">@color/netflix_red</item>
+
+        <!-- Sin bordes en la barra de estado (modo inmersivo) -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/black</item>
     </style>
 
     <style name="Theme.Unidad5" parent="Base.Theme.Unidad5" />

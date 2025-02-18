@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="red">#830000</color>
+    <color name="dark_gray">#141414</color> <!-- Fondo de listas en Netflix -->
+    <color name="light_gray">#B3B3B3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="netflix_red">#E50914</color> <!-- Rojo característico de Netflix -->
+
 </resources>

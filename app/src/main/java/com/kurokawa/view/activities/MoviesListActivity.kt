@@ -52,24 +52,44 @@ class MoviesListActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.popularMovieFragment,
-                R.id.topRatedMovieFragment,
-                R.id.upcomingMovieFragment,
-                R.id.nowPlayingMovieFragment,
+                R.id.popularMovieFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
+                    supportActionBar?.title = "Películas Populares" // Título específico
+                }
+                R.id.topRatedMovieFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
+                    supportActionBar?.title = "Películas Mejor Valoradas"
+                }
+                R.id.upcomingMovieFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
+                    supportActionBar?.title = "Próximos Estrenos"
+                }
+                R.id.nowPlayingMovieFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
+                    supportActionBar?.title = "Películas en Cartelera"
+                }
                 R.id.favoriteMovieFragment -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true) // Muestra el boton volver
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true //Muestra el item
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
+                    supportActionBar?.title = "Mis Favoritas"
                 }
                 R.id.allMoviesFragment -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false) // Oculta botón volver
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = false //oculta el item ver todas
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = false
+                    supportActionBar?.title = "Todas las Películas"
                 }
                 else -> {
-                    Log.e("MOVIES-LIST-ACTIVITY", "Error al mostrar los item del toolbar")
+                    Log.e("MOVIES-LIST-ACTIVITY", "Error al mostrar los items del toolbar")
                 }
             }
             // Limpiar el campo de búsqueda
             clearSearchView()
+
+
         }
 
     }
@@ -186,9 +206,10 @@ class MoviesListActivity : AppCompatActivity() {
                 return true
             }
         })
-
         return true
     }
+
+
 }
 
 

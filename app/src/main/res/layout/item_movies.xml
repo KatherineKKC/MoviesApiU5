@@ -2,32 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="150dp"
-    android:layout_height="270dp"
-    android:layout_margin="20dp"
-    android:background="#664FA3"
+    android:layout_width="160dp"
+    android:layout_height="260dp"
+    android:layout_margin="10dp"
+    android:background="@color/dark_gray"
     android:orientation="vertical"
-    android:textAlignment="center">
+    android:padding="5dp">
 
-
+    <!-- Imagen de la película -->
     <ImageView
         android:id="@+id/img_movie_list"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+    <!-- Título de la película -->
     <TextView
         android:id="@+id/tv_title_movie_list"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:gravity="center"
         android:text="@string/el_padrino"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FDFCFC"
-        android:textColorLink="#FFFFFF"
-        android:textStyle="bold" />
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:paddingTop="8dp"/>
 </LinearLayout>
