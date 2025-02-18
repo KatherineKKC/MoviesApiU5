@@ -1,6 +1,7 @@
 package com.kurokawa.view.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -77,7 +78,9 @@ class MovieDetailActivity : AppCompatActivity() {
 
     //Navega a la vista anterior
     private fun navigateToLastView() {
-        onBackPressedDispatcher.onBackPressed()
+       val intent = Intent(this, MoviesListActivity::class.java)
+        startActivity(intent)
+
     }
 
 

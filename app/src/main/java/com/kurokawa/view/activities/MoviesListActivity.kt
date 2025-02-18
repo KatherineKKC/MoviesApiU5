@@ -50,10 +50,28 @@ class MoviesListActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_graph_movies) as NavHostFragment
         navController = navHostFragment.navController
 
-        //Limpiar el campo de busqueda
-        navController.addOnDestinationChangedListener { _, _, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.popularMovieFragment,
+                R.id.topRatedMovieFragment,
+                R.id.upcomingMovieFragment,
+                R.id.nowPlayingMovieFragment,
+                R.id.favoriteMovieFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true) // Muestra el boton volver
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true //Muestra el item
+                }
+                R.id.allMoviesFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false) // Oculta botón volver
+                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = false //oculta el item ver todas
+                }
+                else -> {
+                    Log.e("MOVIES-LIST-ACTIVITY", "Error al mostrar los item del toolbar")
+                }
+            }
+            // Limpiar el campo de búsqueda
             clearSearchView()
         }
+
     }
 
     //Limpia el campo de busqueda de movies
@@ -109,24 +127,34 @@ class MoviesListActivity : AppCompatActivity() {
 
     //Navega al fragmento según la opcion del toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_favorites -> navigateTo(R.id.favoriteMovieFragment)
-            R.id.menu_populares -> navigateTo(R.id.popularMovieFragment)
-            R.id.menu_top_rated -> navigateTo(R.id.topRatedMovieFragment)
-            R.id.menu_upcomming -> navigateTo(R.id.upcomingMovieFragment)
-            R.id.menu_now_playing -> navigateTo(R.id.nowPlayingMovieFragment)
-            else -> super.onOptionsItemSelected(item)
-        }
+
+            return when (item.itemId) {
+                R.id.menu_favorites -> navigateTo(R.id.favoriteMovieFragment)
+                R.id.menu_populares -> navigateTo(R.id.popularMovieFragment)
+                R.id.menu_top_rated -> navigateTo(R.id.topRatedMovieFragment)
+                R.id.menu_upcomming -> navigateTo(R.id.upcomingMovieFragment)
+                R.id.menu_now_playing -> navigateTo(R.id.nowPlayingMovieFragment)
+                R.id.menu_all_movies -> navigateTo(R.id.allMoviesFragment)
+                else -> super.onOptionsItemSelected(item)
+            }
+
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     //Permite la navegacion de los fragmentos  en todas las direcciones
     private fun navigateTo(destination: Int): Boolean {
-        if (navController.currentDestination?.id != destination) {
+        return if (navController.currentDestination?.id != destination) {
             navController.navigate(destination)
-            return true
+            true
+        } else {
+            false
         }
-        return false
     }
+
 
     //Configuracion del TOOLBAR FIlTRAR movies
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
