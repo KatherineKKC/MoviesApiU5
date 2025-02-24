@@ -2,6 +2,7 @@ package com.kurokawa.view.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -27,10 +28,7 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE
-        val movieSelected = intent.getParcelableExtra<MovieEntity>("MOVIE")
-        if (movieSelected != null){
-            observerStateMovies(movieSelected.idMovie)
-        }
+       getMovieIntent()
 
         //ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE
         binding.btnFavorite.setOnClickListener {
@@ -48,6 +46,20 @@ class MovieDetailActivity : AppCompatActivity() {
 
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
+    private fun getMovieIntent(){
+        val movieSelected: MovieEntity? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("MOVIE", MovieEntity::class.java)
+        } else {
+            @Suppress("DEPRECATION") // Suprime la advertencia en versiones antiguas
+            intent.getParcelableExtra("MOVIE")
+        }
+
+        if (movieSelected != null) {
+            observerStateMovies(movieSelected.idMovie)
+        }
+
+    }
+
     //Observa que la movie haya sido seleccionada como Favorita o no y la actualiza
     private fun observerStateMovies(idMovie: Long) {
         movieViewModel.getMovieById(idMovie).observe(this){ updateMovie->
@@ -78,10 +90,9 @@ class MovieDetailActivity : AppCompatActivity() {
 
     //Navega a la vista anterior
     private fun navigateToLastView() {
-       val intent = Intent(this, MoviesListActivity::class.java)
-        startActivity(intent)
-
+        finish() // Cierra la actividad actual y vuelve a la anterior sin recargarla
     }
+
 
 
 }
