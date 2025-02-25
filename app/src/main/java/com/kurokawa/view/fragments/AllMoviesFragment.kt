@@ -16,6 +16,7 @@ import com.kurokawa.databinding.FragmentAllMoviesBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
     private lateinit var _binding : FragmentAllMoviesBinding
@@ -49,7 +50,7 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
     override fun observerFilter() {
-        allViewModel.allMovies.observe(viewLifecycleOwner){ listMovies ->
+        allViewModel.filteredMovies.observe(viewLifecycleOwner){ listMovies ->
                 adapter.submitList(listMovies)
         }
     }
@@ -57,6 +58,7 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
         allViewModel.allMovies.observe(viewLifecycleOwner) { movies ->
+            allViewModel.filterMovies("")
             adapter.submitList(movies)
         }
 

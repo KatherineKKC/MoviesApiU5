@@ -61,6 +61,7 @@ class TopRatedMovieFragment : Fragment(), FragmentMetodos {
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
        viewModel.getMovieByCategory("TopRated").observe(viewLifecycleOwner) {topMovies->
+           viewModel.filterMovies("")
            adapter.submitList(topMovies)
        }
     }

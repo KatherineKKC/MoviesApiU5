@@ -64,6 +64,7 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
         val upcomingListMovies = viewModel.getMovieByCategory("Upcoming").observe(viewLifecycleOwner){ umpcomingMovies->
+            viewModel.filterMovies("")
             adapter.submitList(umpcomingMovies)
         }
     }

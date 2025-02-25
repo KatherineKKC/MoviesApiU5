@@ -62,6 +62,7 @@ class PopularMovieFragment : Fragment(),FragmentMetodos{
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies(){
       viewModel.getMovieByCategory("Popular").observe(viewLifecycleOwner) {popularMovies ->
+          viewModel.filterMovies("")
           adapter.submitList(popularMovies)
       }
     }

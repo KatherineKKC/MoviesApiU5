@@ -20,7 +20,7 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     /**VARIABLES LIVE DATA------------------------------------------------------------------------*/
 
     val allMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesSharedPreferenceStorage()
-    val getAllFavoriteMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
+    val allFavoriteMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
 
     //Obtiene las filtraciones de busqueda de todas las movies
     private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
@@ -50,28 +50,23 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
 
     /**FUNCIONES PARA FILTRAR---------------------------------------------------------------------*/
     //Recibe el texto introducido en la barra de busqueda y filtra TODAS las movies
+    // 🔹 Filtro de todas las películas
     fun filterMovies(query: String) {
-        val allMovies = repository.getAllFavoriteMovies().value ?: emptyList()
+        val movies = allMovies.value ?: emptyList()
         _filteredMovies.value = if (query.isEmpty()) {
-            allMovies
+            movies
         } else {
-            allMovies.filter { it.title.contains(query, ignoreCase = true) }
-
+            movies.filter { it.title.contains(query, ignoreCase = true) }
         }
     }
 
-    //Recibe el texto introducido en la barra de busqueda y filtra las movies Favoritas
+    // 🔹 Filtro de películas favoritas
     fun filterFavorites(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val allFavorites = repository.getAllFavoriteMovies().value ?: emptyList()
-            val filtered = if (query.isEmpty()) {
-                allFavorites
-            } else {
-                allFavorites.filter { it.title.contains(query, ignoreCase = true) }
-            }
-            withContext(Dispatchers.Main) {
-                _filteredFavorites.value = filtered
-            }
+        val favorites = allFavoriteMovies.value ?: emptyList()
+        _filteredFavorites.value = if (query.isEmpty()) {
+            favorites
+        } else {
+            favorites.filter { it.title.contains(query, ignoreCase = true) }
         }
     }
 

@@ -61,6 +61,7 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
    @SuppressLint("SuspiciousIndentation")
    override fun getMovies(){
         viewModel.getMovieByCategory("NowPlaying").observe(viewLifecycleOwner) { moviesNowPlaying ->
+            viewModel.filterMovies("")
            adapter.submitList(moviesNowPlaying)
        }
     }

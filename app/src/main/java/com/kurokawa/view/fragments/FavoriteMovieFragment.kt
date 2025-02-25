@@ -59,12 +59,14 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
                 "ALL-MOVIES-FRAGMENT",
                 "Actualizando RecyclerView con ${filteredList} películas"
             )
+            adapter.submitList(filteredList)
         }
     }
 
   @SuppressLint("SuspiciousIndentation")
   override fun getMovies() {
-      viewModel.getAllFavoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
+      viewModel.allFavoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
+          viewModel.filterFavorites("")
       Log.e("FAVORITE-MOVIES-FRAGMENT", "Películas favoritas obtenidas: ${favoriteMovies.size}")
       adapter.submitList(favoriteMovies)
   })
