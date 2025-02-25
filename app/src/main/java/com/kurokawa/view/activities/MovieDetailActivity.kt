@@ -61,16 +61,19 @@ class MovieDetailActivity : AppCompatActivity() {
 
     //Observa que la movie haya sido seleccionada como Favorita o no y la actualiza
     private fun observerStateMovies(idMovie: Long) {
-       val updateMovie =  movieViewModel.getMovieById(idMovie)
-            currentMovie =updateMovie
+        val updateMovie = movieViewModel.getMovieById(idMovie)
         if (updateMovie != null) {
+            currentMovie = updateMovie
             showDetailsMovie(updateMovie)
+        } else {
+            Log.e("MOVIE-DETAIL", "No se encontró la película con ID: $idMovie")
+            binding.tvTitle.text = "Película no encontrada"
         }
     }
 
 
 
-   //Muestra todos los detalles de la Movie recibida
+    //Muestra todos los detalles de la Movie recibida
     @SuppressLint("SetTextI18n")
     private fun showDetailsMovie(movie: MovieEntity) {
         binding.tvTitle.text = movie.title

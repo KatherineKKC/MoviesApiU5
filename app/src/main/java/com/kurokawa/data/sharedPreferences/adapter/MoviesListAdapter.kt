@@ -33,12 +33,9 @@ class MoviesListAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun updateMovie(updatedMovie: MovieEntity) {
-        val index = listMovies.indexOfFirst { it.idMovie == updatedMovie.idMovie }
-        if (index != -1) {
-            listMovies[index] = updatedMovie
-            notifyItemChanged(index)
-        }
+    fun updateData(newMovies: List<MovieEntity>) {
+        listMovies = newMovies.toMutableList()
+        notifyDataSetChanged()
     }
 
 

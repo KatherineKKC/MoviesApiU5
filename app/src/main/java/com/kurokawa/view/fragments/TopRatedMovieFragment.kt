@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -57,9 +58,11 @@ class TopRatedMovieFragment : Fragment(), FragmentMetodos {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
-       val topRatedListMovies = viewModel.getMovieByCategory("TopRated")
-            adapter.submitList(topRatedListMovies)
+       viewModel.getMovieByCategory("TopRated").observe(viewLifecycleOwner) {topMovies->
+           adapter.submitList(topMovies)
+       }
     }
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {

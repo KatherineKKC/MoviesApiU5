@@ -110,13 +110,13 @@ class MoviesListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    //Carga la lista de todas las movies de room, si es empty realiza una nueva consulta a la API
+    //Carga la lista de todas las movies de shared, si es empty realiza una nueva consulta a la API
     private fun loadInitialData() {
-        viewModel.loadAllMovies()
-        var allMovies = viewModel.getAllMovies
-            if (allMovies.isNullOrEmpty()) {
+        val  moviesList = viewModel.loadAllMovies()
+            if (moviesList != null) {
                 loadMoviesApi()
             } else {
+                adapter.submitList(moviesList)
                 viewModel.filterMovies("")
             }
         }
@@ -192,6 +192,7 @@ class MoviesListActivity : AppCompatActivity() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.filterMovies(query ?: "")
+                Log.e("MOVI-LIST-ACTIVITY","$query")
                 return false
             }
 

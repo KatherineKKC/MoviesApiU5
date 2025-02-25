@@ -1,6 +1,7 @@
 package com.kurokawa.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovies
@@ -132,26 +133,27 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String)= sharedStorageMovies.getMoviesByCategory(category)
+    fun getByCategory(category: String):List<MovieEntity> = sharedStorageMovies.getMoviesByCategory(category)
+
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesSharedPreferenceStorage() :List<MovieEntity> =sharedStorageMovies.getAllMovies()
+    fun getAllMoviesSharedPreferenceStorage() :LiveData<List<MovieEntity>> = sharedStorageMovies.allMovies
 
 
     /**OBTENER TODAS LAS FAVORITAS */
-    fun getAllFavoriteMovies(): List<MovieEntity> = sharedStorageMovies.getAllFavoriteMovies()
-
-
+    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
+        return sharedStorageMovies.getAllFavoriteMovies()
+    }
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
     /**INSERT  MOVIES */
     fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>){
-        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en ROOM  ${listIntoRoom.size}")
+        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en SharedPreferencese  ${listIntoRoom.size}")
     }
 
     /**ERROR INSERTAR MOVIES */
     fun showErrorToConsole(){
-        Log.e("---MOVIE-LIST-REPOSITORY---","Error al INSERTAR las movies EN ROOM")
+        Log.e("---MOVIE-LIST-REPOSITORY---","Error al INSERTAR las movies EN SharedPreferencese")
     }
 
 

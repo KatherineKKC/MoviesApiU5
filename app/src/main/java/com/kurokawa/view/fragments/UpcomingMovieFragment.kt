@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -56,13 +57,15 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
                 "Actualizando RecyclerView con ${filteredList.size} películas"
             )
             val uniqueList = filteredList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
+            adapter.updateData(uniqueList)
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
-        val upcomingListMovies = viewModel.getMovieByCategory("Upcoming")
-            adapter.submitList(upcomingListMovies)
+        val upcomingListMovies = viewModel.getMovieByCategory("Upcoming").observe(viewLifecycleOwner){ umpcomingMovies->
+            adapter.submitList(umpcomingMovies)
+        }
     }
 
 

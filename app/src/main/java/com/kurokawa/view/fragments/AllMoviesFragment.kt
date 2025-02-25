@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
@@ -47,13 +49,16 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
     override fun observerFilter() {
-        val listMovies = allViewModel.getAllMovies
-        adapter.submitList(listMovies)
+        allViewModel.allMovies.observe(viewLifecycleOwner){ listMovies ->
+                adapter.submitList(listMovies)
+        }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
-        val listFavoritesMovies = allViewModel.getAllFavoriteMovies
-            adapter.submitList(listFavoritesMovies)
+        allViewModel.allMovies.observe(viewLifecycleOwner) { movies ->
+            adapter.submitList(movies)
+        }
 
     }
 

@@ -14,12 +14,13 @@ kspPlugin = "1.9.0-1.0.13"
 navigation = "2.8.7"
 glide = "4.16.0"
 retrofit = "2.11.0"
-lifecycle = "2.8.7"
+lifecycle = "2.6.2"
 coroutines = "1.8.0" # Dependencia para corrutinas
 javapoet = "1.13.0"
 okhttp = "4.11.0"
 kotlinxSerialization = "1.6.3"
 koin = "3.5.3"
+
 
 [libraries]
 # AndroidX
@@ -77,6 +78,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

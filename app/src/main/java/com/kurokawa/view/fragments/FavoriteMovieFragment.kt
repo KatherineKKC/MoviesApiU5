@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
@@ -55,17 +57,17 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
         viewModel.filteredFavorites.observe(viewLifecycleOwner) { filteredList ->
             Log.e(
                 "ALL-MOVIES-FRAGMENT",
-                "Actualizando RecyclerView con ${filteredList.size} películas"
+                "Actualizando RecyclerView con ${filteredList} películas"
             )
-            val uniqueList = filteredList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
         }
     }
 
+  @SuppressLint("SuspiciousIndentation")
   override fun getMovies() {
-       val favoriteListMovies = viewModel.getAllFavoriteMovies
-            adapter.submitList(favoriteListMovies)
-
+      viewModel.getAllFavoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
+      Log.e("FAVORITE-MOVIES-FRAGMENT", "Películas favoritas obtenidas: ${favoriteMovies.size}")
+      adapter.submitList(favoriteMovies)
+  })
     }
 
    override fun navigateToMovieDetail(movieDetail: MovieEntity) {

@@ -1,73 +1,84 @@
 package com.kurokawa.data.sharedPreferences.storage
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 
-class SharedPreferencesStorageMovies (private val context: Context) {
-    // Nombre del almacenamiento de datos
-    private val sharedStorageMovies= "SharedPreferencesDB"
+class SharedPreferencesStorageMovies(context: Context) {
+    private val sharedPreferences = context.getSharedPreferences("movies", Context.MODE_PRIVATE)
 
-    // Instancia de SharedPreferences
-    private val sharedPreferencesStorage: SharedPreferences =
-        context.getSharedPreferences(sharedStorageMovies, Context.MODE_PRIVATE)
+    // 🔹 LiveData para todas las películas
+    private val _allMovies = MutableLiveData<List<MovieEntity>>(emptyList())
+    val allMovies: LiveData<List<MovieEntity>> get() = _allMovies
 
-    private val gson = Gson()
 
-    // Método para guardar una lista de películas en SharedPreferences
-    fun saveMovies(movies: List<MovieEntity>) {
-        val editor = sharedPreferencesStorage.edit()
-        val json = gson.toJson(movies)
-        editor.putString("movie_list", json)
-        editor.apply()
+
+    init {
+        loadMoviesFromPreferences() // Cargar películas al iniciar
     }
 
-    // Método para obtener todas las películas
-    fun getAllMovies(): List<MovieEntity> {
-        val json = sharedPreferencesStorage.getString("movie_list", null)
-        return if (json != null) {
-            val type = object : TypeToken<List<MovieEntity>>() {}.type
-            gson.fromJson(json, type)
+    // 🔹 Guardar películas en SharedPreferences y actualizar LiveData
+    fun saveMovies(movies: List<MovieEntity>) {
+        val currentMovies = _allMovies.value ?: emptyList()
+        val newMovies = movies.filter { newMovie ->
+            currentMovies.none { it.idMovie == newMovie.idMovie } // 🔹 Evita duplicados
+        }
+
+        if (newMovies.isNotEmpty()) {
+            val updatedList = currentMovies + newMovies
+            val json = Gson().toJson(updatedList) // 🔹 Guarda todas las películas sin eliminar las anteriores
+            sharedPreferences.edit().putString("movies_list", json).apply()
+            _allMovies.postValue(updatedList)
+        }
+    }
+
+
+    // 🔹 Cargar todas las películas desde SharedPreferences
+     fun loadMoviesFromPreferences() {
+        val json = sharedPreferences.getString("movies_list", null)
+        val movies = if (json != null) {
+            Gson().fromJson(json, Array<MovieEntity>::class.java).toList()
         } else {
             emptyList()
         }
+        _allMovies.postValue(movies) // 🔹 Actualiza LiveData
     }
 
-    // Método para obtener una película por su ID
-    fun getMovieById(idMovie: Long): MovieEntity? {
-        return getAllMovies().find { it.idMovie == idMovie }
-    }
-
-    // Método para obtener películas por categoría
+    // 🔹 Obtener películas por categoría (usando `map {}`)
     fun getMoviesByCategory(category: String): List<MovieEntity> {
-        return getAllMovies().filter { it.category == category }
+        return _allMovies.value?.filter { it.category == category } ?: emptyList()
     }
 
-    // Método para actualizar el estado de favorito de una película
-    fun updateFavoriteStatus(idMovie: Long, isFavorite: Boolean) {
-        val movies = getAllMovies().map { movie ->
-            if (movie.idMovie == idMovie) movie.copy(isFavoriteMovie = isFavorite) else movie
+
+    // 🔹 Obtener una película por su ID (sin depender de `LiveData`)
+    fun getMovieById(idMovie: Long): MovieEntity? {
+        return allMovies.value?.find { it.idMovie == idMovie }
+    }
+
+    // 🔹 Obtener todas las películas favoritas (usando `map {}`)
+    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
+        return _allMovies.map { movies ->
+            movies.filter { it.isFavoriteMovie }
         }
-        saveMovies(movies)
     }
 
-    // Método para obtener todas las películas marcadas como favoritas
-    fun getAllFavoriteMovies(): List<MovieEntity> {
-        return getAllMovies().filter { it.isFavoriteMovie }
-    }
+    fun updateFavoriteStatus(idFavorite: Long, favorite: Boolean) {
+        val updatedMovies = _allMovies.value?.map { movie ->
+            if (movie.idMovie == idFavorite) {
+                movie.copy(isFavoriteMovie = favorite)
+            } else {
+                movie
+            }
+        } ?: emptyList()
 
-    // Método para eliminar una película por su ID
-    fun deleteMovieById(idMovie: Long) {
-        val movies = getAllMovies().filter { it.idMovie != idMovie }
-        saveMovies(movies)
-    }
+        // Guardar los cambios en SharedPreferences
+        val json = Gson().toJson(updatedMovies)
+        sharedPreferences.edit().putString("movies_list", json).apply()
 
-    // Método para eliminar todas las películas
-    fun clearAllMovies() {
-        val editor = sharedPreferencesStorage.edit()
-        editor.remove("movie_list")
-        editor.apply()
+        // Notificar a los observadores
+        _allMovies.postValue(updatedMovies)
     }
 }

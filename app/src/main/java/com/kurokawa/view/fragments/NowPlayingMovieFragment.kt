@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -55,13 +56,13 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
             val uniqueList = filteredList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
-
     }
 
+   @SuppressLint("SuspiciousIndentation")
    override fun getMovies(){
-       val nowPlayingListMovies = viewModel.getMovieByCategory("NowPlaying")
-            adapter.submitList(nowPlayingListMovies)
-
+        viewModel.getMovieByCategory("NowPlaying").observe(viewLifecycleOwner) { moviesNowPlaying ->
+           adapter.submitList(moviesNowPlaying)
+       }
     }
 
    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
@@ -69,5 +70,4 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
         intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)
     }
-
 }

@@ -1,5 +1,6 @@
 package com.kurokawa.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -58,9 +59,11 @@ class PopularMovieFragment : Fragment(),FragmentMetodos{
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun getMovies(){
-      val popularListMovies =   viewModel.getMovieByCategory("Popular")
-            adapter.submitList(popularListMovies)
+      viewModel.getMovieByCategory("Popular").observe(viewLifecycleOwner) {popularMovies ->
+          adapter.submitList(popularMovies)
+      }
     }
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {

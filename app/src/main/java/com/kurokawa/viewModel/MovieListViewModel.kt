@@ -18,9 +18,9 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     val apiKey = Constants.API_KEY
 
     /**VARIABLES LIVE DATA------------------------------------------------------------------------*/
-    //Obtener Todas las movies Favoritas y todas las movies en total
-    val getAllMovies:List<MovieEntity> = repository.getAllMoviesSharedPreferenceStorage()
-    val getAllFavoriteMovies: List<MovieEntity> = repository.getAllFavoriteMovies()
+
+    val allMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesSharedPreferenceStorage()
+    val getAllFavoriteMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
 
     //Obtiene las filtraciones de busqueda de todas las movies
     private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
@@ -51,24 +51,29 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     /**FUNCIONES PARA FILTRAR---------------------------------------------------------------------*/
     //Recibe el texto introducido en la barra de busqueda y filtra TODAS las movies
     fun filterMovies(query: String) {
-        val allMovies = getAllMovies
+        val allMovies = repository.getAllFavoriteMovies().value ?: emptyList()
         _filteredMovies.value = if (query.isEmpty()) {
             allMovies
         } else {
             allMovies.filter { it.title.contains(query, ignoreCase = true) }
+
         }
     }
 
     //Recibe el texto introducido en la barra de busqueda y filtra las movies Favoritas
     fun filterFavorites(query: String) {
-        val allFavorites = getAllFavoriteMovies // 🔹 Filtra SOLO favoritos
-        _filteredFavorites.value = if (query.isEmpty()) {
-            allFavorites
-        } else {
-            allFavorites.filter { it.title.contains(query, ignoreCase = true) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val allFavorites = repository.getAllFavoriteMovies().value ?: emptyList()
+            val filtered = if (query.isEmpty()) {
+                allFavorites
+            } else {
+                allFavorites.filter { it.title.contains(query, ignoreCase = true) }
+            }
+            withContext(Dispatchers.Main) {
+                _filteredFavorites.value = filtered
+            }
         }
     }
-
 
     /**FUNCION PARA ACTIVAR LA CARGA DE  TODAS LAS CATEGORIAS DE MOVIES DE LA API ----------------*/
     fun loadAllMovies() {
@@ -102,8 +107,15 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     }
 
     /**FUNCION PARA OBTENER LAS CATEGORIAS DESDE Storage---------------------------------------------*/
-    fun getMovieByCategory(category: String):List<MovieEntity> {
-        return repository.getByCategory(category)
+    fun getMovieByCategory(category: String): LiveData<List<MovieEntity>> {
+        val filteredList = MutableLiveData<List<MovieEntity>>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val movies = repository.getByCategory(category) // 🔹 Obtiene la lista de SharedPreferences
+            withContext(Dispatchers.Main) {
+                filteredList.value = movies
+            }
+        }
+        return filteredList
     }
 
     /**FUNCION CONSOLE----------------------------------------------------------------------------*/
