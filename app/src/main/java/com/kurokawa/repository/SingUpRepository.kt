@@ -12,6 +12,6 @@ class SignUpRepository(private val userDao: UserDao) {
 
     suspend fun registerUser(email: String, password: String) {
         val user = UserEntity(0, email, password)
-        userDao.addUser(user)
+        userDao.insertUser(user)
     }
 }
