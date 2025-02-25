@@ -7,16 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kurokawa.data.room.adapter.MoviesListAdapter
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
+import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 import com.kurokawa.databinding.FragmentAllMoviesBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
     private lateinit var _binding : FragmentAllMoviesBinding
@@ -49,21 +46,18 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
         binding.recyclerViewAll.adapter = adapter
     }
 
+    override fun observerFilter() {
+        val listMovies = allViewModel.getAllMovies
+        adapter.submitList(listMovies)
+    }
+
     override fun getMovies() {
-        allViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
-            val uniqueList = movies.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
-    }
-
-    override fun observerFilter(){
-        allViewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
-            val uniqueList = filteredList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
+        val listFavoritesMovies = allViewModel.getAllFavoriteMovies
+            adapter.submitList(listFavoritesMovies)
 
     }
+
+
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)

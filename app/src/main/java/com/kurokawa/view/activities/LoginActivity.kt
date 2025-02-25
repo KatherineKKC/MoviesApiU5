@@ -3,11 +3,9 @@ package com.kurokawa.view.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.kurokawa.databinding.ActivityLoginBinding
-import com.kurokawa.application.MyApplication
 import com.kurokawa.viewModel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

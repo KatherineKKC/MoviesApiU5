@@ -18,7 +18,6 @@ class IntroActivity : AppCompatActivity() {
     /** VARIABLES- BINDING - ADAPTER- VIEWMODEL-NAVCONTROLLER-------------------------------------*/
     private lateinit var _binding: ActivityIntroBinding
     private val binding: ActivityIntroBinding get() = _binding
-    private lateinit var navController: NavController
     /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

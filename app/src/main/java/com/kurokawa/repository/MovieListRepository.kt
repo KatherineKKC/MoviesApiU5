@@ -1,15 +1,13 @@
 package com.kurokawa.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
-import com.kurokawa.data.room.dao.MovieDao
-import com.kurokawa.data.room.database.MyDataBase
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovies
 import com.kurokawa.model.MovieModel
 
 
-class MovieListRepository( private val apiService: MovieApiService, private val movieDao: MovieDao) {
+class MovieListRepository( private val apiService: MovieApiService, private val sharedStorageMovies: SharedPreferencesStorageMovies) {
 
     /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
@@ -31,7 +29,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Popular",
                     )
                 }
-             movieDao.insertMovies(movieListEntity)
+             sharedStorageMovies.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -61,7 +59,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "TopRated",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            sharedStorageMovies.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -91,7 +89,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "NowPlaying",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            sharedStorageMovies.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -122,7 +120,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Upcoming",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            sharedStorageMovies.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
@@ -134,14 +132,14 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String)= movieDao.getMoviesByCategory(category)
+    fun getByCategory(category: String)= sharedStorageMovies.getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> =movieDao.getAllMovies()
+    fun getAllMoviesSharedPreferenceStorage() :List<MovieEntity> =sharedStorageMovies.getAllMovies()
 
 
     /**OBTENER TODAS LAS FAVORITAS */
-    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> = movieDao.getAllFavoritesMovies()
+    fun getAllFavoriteMovies(): List<MovieEntity> = sharedStorageMovies.getAllFavoriteMovies()
 
 
 

@@ -1,13 +1,12 @@
-package com.kurokawa.data.room.adapter
+package com.kurokawa.data.sharedPreferences.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kurokawa.data.room.difu.MovieDifu
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.sharedPreferences.difu.MovieDifu
+import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
-import com.kurokawa.model.MovieModel
 
 class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,

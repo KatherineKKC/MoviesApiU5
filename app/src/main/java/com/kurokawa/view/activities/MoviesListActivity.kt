@@ -12,8 +12,8 @@ import com.kurokawa.databinding.ActivityMoviesListBinding
 import com.kurokawa.model.MovieModel
 import com.kurokawa.viewModel.MovieListViewModel
 import com.kurokawa.R
-import com.kurokawa.data.room.adapter.MoviesListAdapter
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
+import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesListActivity : AppCompatActivity() {
@@ -113,14 +113,14 @@ class MoviesListActivity : AppCompatActivity() {
     //Carga la lista de todas las movies de room, si es empty realiza una nueva consulta a la API
     private fun loadInitialData() {
         viewModel.loadAllMovies()
-        viewModel.getAllMovies.observe(this) { allMovies ->
+        var allMovies = viewModel.getAllMovies
             if (allMovies.isNullOrEmpty()) {
                 loadMoviesApi()
             } else {
                 viewModel.filterMovies("")
             }
         }
-    }
+
 
    //Carga las movies desde la API y las contiene en una misma lista
     private fun loadMoviesApi() {
