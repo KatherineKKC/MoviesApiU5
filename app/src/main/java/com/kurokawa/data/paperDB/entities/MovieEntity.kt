@@ -1,4 +1,4 @@
-package com.kurokawa.data.sharedPreferences.entities
+package com.kurokawa.data.paperDB.entities
 import android.os.Parcelable
 import androidx.room.Entity
 import kotlinx.parcelize.Parcelize

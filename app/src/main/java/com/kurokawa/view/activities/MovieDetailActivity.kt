@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMovieDetailBinding
 import com.kurokawa.viewModel.MovieDetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

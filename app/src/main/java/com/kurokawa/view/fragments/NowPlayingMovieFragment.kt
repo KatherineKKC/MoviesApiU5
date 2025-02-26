@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.adapter.MoviesListAdapter
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.databinding.FragmentNowPlayingMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel

@@ -1,11 +1,11 @@
-package com.kurokawa.data.sharedPreferences.adapter
+package com.kurokawa.data.paperDB.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kurokawa.data.sharedPreferences.difu.MovieDifu
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.difu.MovieDifu
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
 
 class MoviesListAdapter(

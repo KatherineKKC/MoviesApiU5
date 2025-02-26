@@ -3,12 +3,12 @@ package com.kurokawa.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
-import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovies
+import com.kurokawa.data.paperDB.entities.MovieEntity
+import com.kurokawa.data.paperDB.paperDataBase.PaperDBMovies
 import com.kurokawa.model.MovieModel
 
 
-class MovieListRepository( private val apiService: MovieApiService, private val sharedStorageMovies: SharedPreferencesStorageMovies) {
+class MovieListRepository( private val apiService: MovieApiService, private val paperDBMovie: PaperDBMovies) {
 
     /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
@@ -30,7 +30,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Popular",
                     )
                 }
-             sharedStorageMovies.saveMovies(movieListEntity)
+             paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -60,7 +60,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "TopRated",
                     )
                 }
-            sharedStorageMovies.saveMovies(movieListEntity)
+            paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -90,7 +90,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "NowPlaying",
                     )
                 }
-            sharedStorageMovies.saveMovies(movieListEntity)
+            paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -121,7 +121,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Upcoming",
                     )
                 }
-            sharedStorageMovies.saveMovies(movieListEntity)
+            paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
@@ -133,16 +133,16 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String):List<MovieEntity> = sharedStorageMovies.getMoviesByCategory(category)
+    fun getByCategory(category: String):List<MovieEntity> = paperDBMovie.getMoviesByCategory(category)
 
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesSharedPreferenceStorage() :LiveData<List<MovieEntity>> = sharedStorageMovies.allMovies
+    fun getAllMoviesSharedPreferenceStorage() :LiveData<List<MovieEntity>> = paperDBMovie.allMovies
 
 
     /**OBTENER TODAS LAS FAVORITAS */
     fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
-        return sharedStorageMovies.getAllFavoriteMovies()
+        return paperDBMovie.getAllFavoriteMovies()
     }
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/

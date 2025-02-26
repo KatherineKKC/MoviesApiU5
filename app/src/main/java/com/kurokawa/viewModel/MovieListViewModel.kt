@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurokawa.repository.MovieListRepository
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.model.MovieModel
 import com.kurokawa.utils.Constants
 import kotlinx.coroutines.Dispatchers

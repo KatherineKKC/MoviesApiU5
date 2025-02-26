@@ -1,9 +1,8 @@
 package com.kurokawa.viewModel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.repository.MovieDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

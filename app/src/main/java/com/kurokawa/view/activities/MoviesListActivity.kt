@@ -12,8 +12,8 @@ import com.kurokawa.databinding.ActivityMoviesListBinding
 import com.kurokawa.model.MovieModel
 import com.kurokawa.viewModel.MovieListViewModel
 import com.kurokawa.R
-import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.adapter.MoviesListAdapter
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesListActivity : AppCompatActivity() {

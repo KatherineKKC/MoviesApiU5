@@ -105,5 +105,8 @@ dependencies {
     implementation(libs.koin.androidx.navigation)
 
 
+    //Paper DB
+    implementation(libs.paperdb)
+
 
 }

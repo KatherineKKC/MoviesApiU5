@@ -1,9 +1,9 @@
-package com.kurokawa.data.sharedPreferences.adapter
+package com.kurokawa.data.paperDB.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
 
 class MovieListViewHolder(view: ItemMoviesBinding) : RecyclerView.ViewHolder(view.root) {

@@ -1,7 +1,7 @@
-package com.kurokawa.data.sharedPreferences.difu
+package com.kurokawa.data.paperDB.difu
 
 import androidx.recyclerview.widget.DiffUtil
-import com.kurokawa.data.sharedPreferences.entities.MovieEntity
+import com.kurokawa.data.paperDB.entities.MovieEntity
 
 class MovieDifu(
     private val oldList: MutableList<MovieEntity>,

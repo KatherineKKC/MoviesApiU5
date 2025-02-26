@@ -1,11 +1,11 @@
 package com.kurokawa.utils
 
+import com.kurokawa.data.paperDB.paperDataBase.PaperDBMovies
+import com.kurokawa.data.paperDB.paperDataBase.PaperDBUser
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.kurokawa.data.remote.retrofit.RetrofitClient
-import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovies
-import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageUser
 import com.kurokawa.repository.*
 import com.kurokawa.viewModel.*
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -18,9 +18,9 @@ object AppModule {
         // API Service
         single { RetrofitClient.apiService }
 
-        // Inyectar SharedPreferences Storage
-        single { SharedPreferencesStorageMovies(androidApplication()) }
-        single { SharedPreferencesStorageUser(androidApplication()) }
+        // Inyectar PaperDB
+        single { PaperDBMovies() }
+        single { PaperDBUser() }
 
         // Inyectar Repositories
         single { MovieDetailRepository(get()) }

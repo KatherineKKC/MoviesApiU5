@@ -1,4 +1,4 @@
-package com.kurokawa.data.sharedPreferences.entities
+package com.kurokawa.data.paperDB.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
