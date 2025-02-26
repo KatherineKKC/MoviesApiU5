@@ -7,12 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
 import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.FragmentNowPlayingMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -49,22 +54,29 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
         binding.recyclereViewNowPlaying.adapter = adapter
     }
 
-   override fun observerFilter(){
-        viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
-            val uniqueList = filteredList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
+    override fun observerFilter() {
+        lifecycleScope.launch {
+            viewModel.filteredMovies.collectLatest { filteredList ->
+                Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
 
+                val uniqueList = filteredList.distinctBy { it.idMovie } // 🔹 Evita duplicados
+
+                adapter.submitList(uniqueList) // 🔹 Se ejecuta en el hilo principal
+            }
+        }
     }
 
-   override fun getMovies(){
-        viewModel.getMovieByCategory("NowPlaying").observe(viewLifecycleOwner){ nowPlayingMoveList->
-            val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
-
+    override fun getMovies() {
+        lifecycleScope.launch {
+            viewModel.getMovieByCategory("NowPlaying").collect { movies ->
+                val uniqueList = movies.distinctBy { it.idMovie }
+                withContext(Dispatchers.Main) { // ✅ Cambia al hilo principal
+                    adapter.submitList(uniqueList) // ✅ Ahora es seguro tocar la UI
+                }
+            }
+            }
     }
+
 
    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)

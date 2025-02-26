@@ -1,162 +1,116 @@
 package com.kurokawa.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.data.dataStore.store.MovieDataStore
 import com.kurokawa.model.MovieModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 
 
-class MovieListRepository( private val apiService: MovieApiService, private val movieDataStore: MovieDataStore) {
+class MovieListRepository(
+        private val apiKey: String,
+        private val apiService: MovieApiService,
+        private val movieDataStore: MovieDataStore
+    ) {
 
-    /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
-    /**POPULAR*/
-    suspend fun getPopularMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getPopularMovies(apiKey,page)
-        if (response.isSuccessful) {
-            val moviesModel = response.body()?.results
-            moviesModel?.let { listMovies ->
-                val movieListEntity = listMovies.map { movieModel ->
-                    MovieEntity(
-                        idMovie = movieModel.id,
-                        title = movieModel.title,
-                        posterPath = movieModel.posterPath,
-                        originalTitle = movieModel.originalTitle,
-                        overview = movieModel.overview,
-                        releaseDate = movieModel.releaseDate,
-                        voteAverage = movieModel.voteAverage,
-                        isFavoriteMovie = false,
-                        category = "Popular",
-                    )
-                }
-             movieDataStore.insertMovies(movieListEntity)
-                showMessageSuccessfulConsole(movieListEntity)
+        // Función privada para manejar la inserción y logging
+        // En el Repository
+        suspend fun syncMoviesWithDataStore(movies: List<MovieModel>, category: String): List<MovieEntity> {
+            val existingMovies = movieDataStore.getAllMovies().firstOrNull() ?: emptyList()
+            val newMovies = movies.map { movieModel ->
+                val existingMovie = existingMovies.find { it.idMovie == movieModel.id }
+                MovieEntity(
+                    idMovie = movieModel.id,
+                    title = movieModel.title,
+                    posterPath = movieModel.posterPath,
+                    originalTitle = movieModel.originalTitle,
+                    overview = movieModel.overview,
+                    releaseDate = movieModel.releaseDate,
+                    voteAverage = movieModel.voteAverage,
+                    isFavoriteMovie = existingMovie?.isFavoriteMovie ?: false, // Mantener el estado de favorito
+                    category = category
 
-            }
-        }else{
-            showErrorToConsole()
-        }
-        return if( response.isSuccessful) response.body()?.results else null
-    }
-
-
-    /**MEJOR VALORADAS TOP-RATED */
-    suspend fun getTopRatedMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getTopRatedMovies(apiKey,page)
-        if (response.isSuccessful) {
-            val moviesModel = response.body()?.results
-            moviesModel?.let { listMovies ->
-                val movieListEntity = listMovies.map { movieModel ->
-                    MovieEntity(
-                        idMovie =movieModel.id,
-                        title = movieModel.title,
-                        posterPath = movieModel.posterPath,
-                        originalTitle = movieModel.originalTitle,
-                        overview = movieModel.overview,
-                        releaseDate = movieModel.releaseDate,
-                        voteAverage = movieModel.voteAverage,
-                        isFavoriteMovie = false,
-                        category = "TopRated",
-                    )
-                }
-            movieDataStore.insertMovies(movieListEntity)
-                showMessageSuccessfulConsole(movieListEntity)
+                )
 
             }
-        }else{
-            showErrorToConsole()
+
+            Log.e("MOVIE-REPOSITORY", "Se están guardando ${newMovies.size} películas en DataStore")
+            newMovies.forEach { Log.e("MOVIE-REPOSITORY", "Guardada: ${it.title} - Categoría: ${it.category}") }
+
+            movieDataStore.insertMovies(newMovies)
+            return newMovies
         }
-        return if( response.isSuccessful) response.body()?.results else null
-    }
 
 
-    /**EN CARTELERA NOW-PLAYING*/
-    suspend fun getNowPlayingMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getNowPlayingMovies(apiKey,page)
-        if (response.isSuccessful) {
-            val moviesModel = response.body()?.results
-            moviesModel?.let { listMovies ->
-                val movieListEntity = listMovies.map { movieModel ->
-                    MovieEntity(
-                        idMovie = movieModel.id,
-                        title = movieModel.title,
-                        posterPath = movieModel.posterPath,
-                        originalTitle = movieModel.originalTitle,
-                        overview = movieModel.overview,
-                        releaseDate = movieModel.releaseDate,
-                        voteAverage = movieModel.voteAverage,
-                        isFavoriteMovie = false,
-                        category = "NowPlaying",
-                    )
-                }
-            movieDataStore.insertMovies(movieListEntity)
-                showMessageSuccessfulConsole(movieListEntity)
 
+    // Función genérica para obtener películas de la API
+        private suspend fun getMoviesFromApi(
+            apiCall: suspend () -> List<MovieModel>?,
+            category: String
+        ): List<MovieModel>? {
+            return try {
+                val movies = apiCall()
+                movies?.let { syncMoviesWithDataStore(it, category) }
+                movies
+            } catch (e: Exception) {
+                Log.e("MOVIE-REPOSITORY", "Error al obtener películas: ${e.message}")
+                null
             }
-        }else{
-            showErrorToConsole()
         }
-        return if( response.isSuccessful) response.body()?.results else null
-    }
 
-
-
-    /**PROXIMOS ESTRENOS UPCOMING */
-    suspend fun getUpcomingMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getUpcomingMovies(apiKey,page)
-        if (response.isSuccessful) {
-            val moviesModel = response.body()?.results
-            moviesModel?.let { listMovies ->
-                val movieListEntity = listMovies.map { movieModel ->
-                    MovieEntity(
-                        idMovie = movieModel.id,
-                        title = movieModel.title,
-                        posterPath = movieModel.posterPath,
-                        originalTitle = movieModel.originalTitle,
-                        overview = movieModel.overview,
-                        releaseDate = movieModel.releaseDate,
-                        voteAverage = movieModel.voteAverage,
-                        isFavoriteMovie = false,
-                        category = "Upcoming",
-                    )
-                }
-            movieDataStore.insertMovies(movieListEntity)
-                showMessageSuccessfulConsole(movieListEntity)
-            }
-
-            return moviesModel
+        // Funciones específicas para cada categoría
+        suspend fun getPopularMovie(page: Int): List<MovieModel>? {
+            return getMoviesFromApi(
+                { apiService.getPopularMovies(apiKey, page).body()?.results },
+                "Popular"
+            )
         }
-        showErrorToConsole()
-        return   null
-    }
 
-    /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
-    /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String)= movieDataStore.getMoviesByCategory(category)
+        suspend fun getTopRatedMovie(page: Int): List<MovieModel>? {
+            return getMoviesFromApi(
+                { apiService.getTopRatedMovies(apiKey, page).body()?.results },
+                "TopRated"
+            )
+        }
 
-    /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> =movieDataStore.getAllMovies()
+        suspend fun getNowPlayingMovie(page: Int): List<MovieModel>? {
+            return getMoviesFromApi(
+                { apiService.getNowPlayingMovies(apiKey, page).body()?.results },
+                "NowPlaying"
+            )
+        }
+
+        suspend fun getUpcomingMovie(page: Int): List<MovieModel>? {
+            return getMoviesFromApi(
+                { apiService.getUpcomingMovies(apiKey, page).body()?.results },
+                "Upcoming"
+            )
+        }
+
+        // Resto del código sin cambios...
 
 
-    /**OBTENER TODAS LAS FAVORITAS */
-    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> = movieDataStore.getAllFavoritesMovies()
+        /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
+        /**OBTENER POR CATEGORIAS */
+        fun getByCategory(category: String) = movieDataStore.getMoviesByCategory(category)
+
+        /**OBTENER TODAS LAS PELICULAS */
+        fun getAllMoviesDataStore(): Flow<List<MovieEntity>> = movieDataStore.getAllMovies()
 
 
-
-    /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
-    /**INSERT  MOVIES */
-    fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>){
-        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en ROOM  ${listIntoRoom.size}")
-    }
-
-    /**ERROR INSERTAR MOVIES */
-    fun showErrorToConsole(){
-        Log.e("---MOVIE-LIST-REPOSITORY---","Error al INSERTAR las movies EN ROOM")
-    }
+        /**OBTENER TODAS LAS FAVORITAS */
+        fun getAllFavoriteMovies(): Flow<List<MovieEntity>> = movieDataStore.getAllFavoritesMovies()
 
 
 
 
 
 }
+
+
+
+
+

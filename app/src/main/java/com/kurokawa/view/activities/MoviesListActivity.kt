@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.kurokawa.databinding.ActivityMoviesListBinding
@@ -14,6 +15,9 @@ import com.kurokawa.viewModel.MovieListViewModel
 import com.kurokawa.R
 import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
 import com.kurokawa.data.dataStore.entities.MovieEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesListActivity : AppCompatActivity() {
@@ -112,38 +116,18 @@ class MoviesListActivity : AppCompatActivity() {
 
     //Carga la lista de todas las movies de room, si es empty realiza una nueva consulta a la API
     private fun loadInitialData() {
-        viewModel.loadAllMovies()
-        viewModel.getAllMovies.observe(this) { allMovies ->
-            if (allMovies.isNullOrEmpty()) {
-                loadMoviesApi()
-            } else {
-                viewModel.filterMovies("")
+        lifecycleScope.launch {
+            viewModel.allMovies.collect { allMovies ->
+                Log.d("MOVIE-LIST-VIEWMODEL", "Se han obtenido ${allMovies.size} películas")
+                if (allMovies.isEmpty()) {
+                } else {
+                    adapter.submitList(allMovies)
+                }
             }
         }
     }
 
    //Carga las movies desde la API y las contiene en una misma lista
-    private fun loadMoviesApi() {
-        viewModel.loadAllMovies()
-        val liveDataList = listOf(
-            viewModel.popularMovie,
-            viewModel.topRatedMovie,
-            viewModel.nowPlayingMovie,
-            viewModel.upcomingMovie
-        )
-
-        val moviesResults = mutableListOf<List<MovieModel>?>()
-        liveDataList.forEach { liveData ->
-            liveData.observe(this) { moviesApi ->
-                if (!moviesApi.isNullOrEmpty()) {
-                    moviesResults.add(moviesApi)
-                    if (moviesResults.size == liveDataList.size) {
-                        Log.d("MOVIE-LIST-ACTIVITY", "Datos API recibidos, actualizando UI...")
-                    }
-                }
-            }
-        }
-    }
 
     //Navega al fragmento según la opcion del toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -209,6 +193,14 @@ class MoviesListActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            viewModel.allMovies.collect { allMovies ->
+                adapter.submitList(allMovies)  // 🔹 Recargar lista de películas cuando se regresa
+            }
+        }
+    }
 
 }
 

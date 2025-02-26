@@ -7,12 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
 import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.FragmentAllMoviesBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
@@ -47,20 +52,29 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
     override fun getMovies() {
-        allViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
-            val uniqueList = movies.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
+        lifecycleScope.launch(Dispatchers.IO) { // ✅ Ejecuta el código en un hilo de fondo
+            allViewModel.loadAllMovies()
+            allViewModel.allMovies.collect { movies ->
+                val uniqueList = movies.distinctBy { it.idMovie }
+                withContext(Dispatchers.Main) { // ✅ Cambia al hilo principal
+                    adapter.submitList(uniqueList) // ✅ Ahora es seguro tocar la UI
+                }
+            }
         }
     }
 
-    override fun observerFilter(){
-        allViewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
-            val uniqueList = filteredList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
+    override fun observerFilter() {
+        lifecycleScope.launch {
+            allViewModel.filteredMovies.collectLatest { filteredList ->
+                Log.e("ALL-MOVIES-FRAGMENT", "Filtrando  ${filteredList.size} películas")
 
+                val uniqueList = filteredList.distinctBy { it.idMovie } // 🔹 Evita duplicados
+
+                adapter.submitList(uniqueList) // 🔹 Se ejecuta en el hilo principal
+            }
+        }
     }
+
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)

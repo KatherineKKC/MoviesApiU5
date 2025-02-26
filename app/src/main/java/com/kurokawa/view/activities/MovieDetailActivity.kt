@@ -5,11 +5,15 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.kurokawa.R
 import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMovieDetailBinding
 import com.kurokawa.viewModel.MovieDetailsViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -32,13 +36,14 @@ class MovieDetailActivity : AppCompatActivity() {
         //ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE
         binding.btnFavorite.setOnClickListener {
             currentMovie?.let { movie ->
-                movieViewModel.updateFavoriteMovies(movie)
+                movieViewModel.stateFavoriteMovies(movie)
             }
         }
 
         //Boton para regresar a la vista anterior
         binding.btnBack.setOnClickListener{
             navigateToLastView()
+
         }
     }
 
@@ -60,15 +65,23 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     //Observa que la movie haya sido seleccionada como Favorita o no y la actualiza
+    // Observa los cambios en el estado de la película en tiempo real
     private fun observerStateMovies(idMovie: Long) {
-        movieViewModel.getMovieById(idMovie).observe(this){ updateMovie->
-            currentMovie =updateMovie
-            showDetailsMovie(updateMovie!!)
+        lifecycleScope.launch {
+            movieViewModel.getMovieById(idMovie).collect { updatedMovie ->
+                updatedMovie?.let {
+                    currentMovie = updatedMovie
+                    withContext(Dispatchers.Main) {
+                        showDetailsMovie(updatedMovie)  // ✅ Asegura que la UI se actualiza correctamente
+                    }
+                }
+            }
         }
     }
 
 
-   //Muestra todos los detalles de la Movie recibida
+
+    //Muestra todos los detalles de la Movie recibida
     @SuppressLint("SetTextI18n")
     private fun showDetailsMovie(movie: MovieEntity) {
         binding.tvTitle.text = movie.title
