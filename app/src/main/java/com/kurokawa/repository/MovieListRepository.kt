@@ -3,13 +3,12 @@ package com.kurokawa.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.kurokawa.data.remote.service.MovieApiService
-import com.kurokawa.data.room.dao.MovieDao
-import com.kurokawa.data.room.database.MyDataBase
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.entities.MovieEntity
+import com.kurokawa.data.dataStore.store.MovieDataStore
 import com.kurokawa.model.MovieModel
 
 
-class MovieListRepository( private val apiService: MovieApiService, private val movieDao: MovieDao) {
+class MovieListRepository( private val apiService: MovieApiService, private val movieDataStore: MovieDataStore) {
 
     /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
@@ -31,7 +30,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Popular",
                     )
                 }
-             movieDao.insertMovies(movieListEntity)
+             movieDataStore.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -61,7 +60,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "TopRated",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            movieDataStore.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -91,7 +90,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "NowPlaying",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            movieDataStore.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
@@ -122,7 +121,7 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Upcoming",
                     )
                 }
-            movieDao.insertMovies(movieListEntity)
+            movieDataStore.insertMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
@@ -134,14 +133,14 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String)= movieDao.getMoviesByCategory(category)
+    fun getByCategory(category: String)= movieDataStore.getMoviesByCategory(category)
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> =movieDao.getAllMovies()
+    fun getAllMoviesRoom() : LiveData<List<MovieEntity>> =movieDataStore.getAllMovies()
 
 
     /**OBTENER TODAS LAS FAVORITAS */
-    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> = movieDao.getAllFavoritesMovies()
+    fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> = movieDataStore.getAllFavoritesMovies()
 
 
 

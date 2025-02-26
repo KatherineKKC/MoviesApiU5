@@ -1,17 +1,13 @@
 package com.kurokawa.repository
 
-import com.kurokawa.data.room.dao.UserDao
-import com.kurokawa.data.room.entities.UserEntity
+import com.kurokawa.data.dataStore.entities.UserEntity
+import com.kurokawa.data.dataStore.store.UserDataStore
 
-class SignUpRepository(private val userDao: UserDao) {
+class SignUpRepository(private val userDataStore: UserDataStore) {
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    suspend fun isUserRegistered(email: String, password: String): Boolean {
-        val user = userDao.getUser(email,password)
-        return user != null
-    }
 
-    suspend fun registerUser(email: String, password: String) {
+    suspend fun registerUser(email: String, password: String): Boolean {
         val user = UserEntity(0, email, password)
-        userDao.insertUser(user)
+        return  userDataStore.saveUser(user)
     }
 }

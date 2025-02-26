@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kurokawa.R
-import com.kurokawa.data.room.adapter.MoviesListAdapter
-import com.kurokawa.data.room.entities.MovieEntity
-import com.kurokawa.databinding.FragmentPopularMovieBinding
+import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.FragmentUpcomingMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UpcomingMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/

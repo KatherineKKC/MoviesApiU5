@@ -1,14 +1,13 @@
 package com.kurokawa.view.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMovieDetailBinding
 import com.kurokawa.viewModel.MovieDetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,7 +63,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun observerStateMovies(idMovie: Long) {
         movieViewModel.getMovieById(idMovie).observe(this){ updateMovie->
             currentMovie =updateMovie
-            showDetailsMovie(updateMovie)
+            showDetailsMovie(updateMovie!!)
         }
     }
 

@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kurokawa.data.room.adapter.MoviesListAdapter
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.FragmentFavoriteMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel

@@ -1,6 +1,6 @@
 package com.kurokawa.view.fragments
 
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.entities.MovieEntity
 interface FragmentMetodos {
     fun setupRecycler()
     fun observerFilter()

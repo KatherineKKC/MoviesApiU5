@@ -1,10 +1,9 @@
 package com.kurokawa.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.repository.MovieDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ class MovieDetailsViewModel(private val repository: MovieDetailRepository): View
         }
     }
 
-    fun getMovieById(id: Long): LiveData<MovieEntity> {
+    fun getMovieById(id: Long): LiveData<MovieEntity?> {
         return repository.getMovieById(id)
     }
 

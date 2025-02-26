@@ -104,5 +104,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.navigation)
 
+    //DataStorage
+    implementation(libs.datastore.preferences)
 
 }

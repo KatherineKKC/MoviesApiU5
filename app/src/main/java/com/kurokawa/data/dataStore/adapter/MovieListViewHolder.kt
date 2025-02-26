@@ -1,9 +1,9 @@
-package com.kurokawa.data.room.adapter
+package com.kurokawa.data.dataStore.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kurokawa.R
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
 
 class MovieListViewHolder(view: ItemMoviesBinding) : RecyclerView.ViewHolder(view.root) {

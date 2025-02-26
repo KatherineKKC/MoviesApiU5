@@ -1,13 +1,12 @@
-package com.kurokawa.data.room.adapter
+package com.kurokawa.data.dataStore.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kurokawa.data.room.difu.MovieDifu
-import com.kurokawa.data.room.entities.MovieEntity
+import com.kurokawa.data.dataStore.difu.MovieDifu
+import com.kurokawa.data.dataStore.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
-import com.kurokawa.model.MovieModel
 
 class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,
