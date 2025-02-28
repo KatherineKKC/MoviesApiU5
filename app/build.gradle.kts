@@ -10,6 +10,12 @@ android {
     namespace = "com.kurokawa"
     compileSdk = 35
 
+
+    //Indicarle el lugar de almacenamiento de la db room para que no salte el warning.
+    ksp {
+        arg("room.shemaLocation", "$projectDir/schemas")
+    }
+
     defaultConfig {
         applicationId = "com.kurokawa"
         minSdk = 24
@@ -18,9 +24,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
     }
+
+
     viewBinding {
         enable = true
     }
@@ -104,5 +110,11 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.navigation)
 
+//Firebase
+        implementation(platform(libs.firebase.bom))  // 🔹 BoM maneja versiones automáticamente
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.firestore)
+        implementation(libs.firebase.crashlytics)
+        implementation(libs.firebase.storage)
 
 }
