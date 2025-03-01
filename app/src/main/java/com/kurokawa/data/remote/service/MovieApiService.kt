@@ -1,6 +1,6 @@
 package com.kurokawa.data.remote.service
 
-import com.kurokawa.model.MovieResult
+import com.kurokawa.model.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -11,23 +11,23 @@ interface MovieApiService {
     suspend fun getPopularMovies(
         @Query("api_key") apikey: String,
         @Query("page") page: Int
-    ): Response<MovieResult>
+    ): Response<MovieResponse>
 
     @GET("movie/top_rated?language=es-ES")
     suspend fun getTopRatedMovies(
         @Query("api_key") apikey: String,
         @Query("page") page: Int
-    ): Response<MovieResult>
+    ): Response<MovieResponse>
 
     @GET("movie/upcoming?language=es-ES")
     suspend fun getUpcomingMovies(
         @Query("api_key") apikey: String,
         @Query("page") page: Int
-    ): Response<MovieResult>
+    ): Response<MovieResponse>
 
     @GET("movie/now_playing?language=es-ES")
     suspend fun getNowPlayingMovies(
         @Query("api_key") apikey: String,
         @Query("page") page: Int
-    ): Response<MovieResult>
+    ): Response<MovieResponse>
 }

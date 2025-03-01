@@ -44,4 +44,6 @@
     <string name="tv_dates">12 de julio de 2023</string>
     <string name="sinopsis_de_la_pel_cula">Sinopsis de la película...</string>
     <string name="btn_back">Volver al menú principal</string>
+    <string name="default_notification_channel_id">default_channel</string>
+
 </resources>

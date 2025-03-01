@@ -3,8 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     id("kotlin-parcelize")
-
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 android {
     namespace = "com.kurokawa"
@@ -111,10 +112,12 @@ dependencies {
     implementation(libs.koin.androidx.navigation)
 
 //Firebase
-        implementation(platform(libs.firebase.bom))  // 🔹 BoM maneja versiones automáticamente
+        implementation(platform(libs.firebase.bom))  //  BoM maneja versiones automáticamente
         implementation(libs.firebase.analytics)
         implementation(libs.firebase.firestore)
         implementation(libs.firebase.crashlytics)
         implementation(libs.firebase.storage)
+        implementation(libs.firebase.auth)
+
 
 }

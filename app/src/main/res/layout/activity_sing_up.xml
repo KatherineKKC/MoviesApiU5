@@ -7,58 +7,82 @@
     android:layout_height="match_parent"
     tools:context=".view.activities.SingUpActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_sing"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:padding="15dp"
-            android:text="Registrase "
-            android:textAlignment="center"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
+            android:orientation="vertical"
+            android:padding="30dp"
+            android:gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/et_email_sing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:ems="10"
-            android:hint="@string/et_email"
-            android:inputType="textEmailAddress"
-            android:padding="15dp" />
+            <TextView
+                android:id="@+id/tv_sing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="Registrarse"
+                android:textColor="@color/netflix_red"
+                android:textAlignment="center"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_password_sing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:ems="10"
-            android:hint="@string/et_password"
-            android:inputType="textPassword"
-            android:padding="15dp" />
+            <!-- Imagen de perfil -->
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/darker_gray"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_foreground"/>
 
-        <Button
-            android:id="@+id/btn_sing"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_margin="30dp"
-            android:hint="@string/btn_sing"
-            android:text="@string/btn_sing" />
+            <!-- Botón para seleccionar imagen -->
+            <Button
+                android:id="@+id/btn_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar imagen"
+                android:layout_marginBottom="30dp" />
 
+            <EditText
+                android:id="@+id/et_email_sing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:padding="14dp"
+                android:layout_marginBottom="25dp"/>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/et_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre de usuario"
+                android:inputType="text"
+                android:padding="14dp"
+                android:layout_marginBottom="25dp"/>
+
+            <EditText
+                android:id="@+id/et_password_sing2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:padding="14dp"
+                android:layout_marginBottom="35dp"/>
+
+            <Button
+                android:id="@+id/btn_sing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrarse"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

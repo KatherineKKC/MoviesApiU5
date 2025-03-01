@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "411862716207",
+    "project_id": "moviesu5",
+    "storage_bucket": "moviesu5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411862716207:android:f67347a03756e8acd15bda",
+        "android_client_info": {
+          "package_name": "com.kurokawa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411862716207-k826370qdnpbv71f9n872imvkjpn2jqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSiYyjC58RExqpV1AfTuahvfUdykjqSkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411862716207-k826370qdnpbv71f9n872imvkjpn2jqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,9 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kurokawa.data.remote.retrofit.RetrofitClient
 import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.room.database.MyDataBase
@@ -29,6 +32,8 @@ val appModule = module {
     //Api
     single { RetrofitClient.apiService }
 
+    single<FirebaseAuth> { Firebase.auth }
+
     // Inyectar DAOs
     single { get<MyDataBase>().movieDao() }
     single { get<MyDataBase>().userDao() }
@@ -36,8 +41,8 @@ val appModule = module {
     //  Inyectar Repositories
     single { MovieDetailRepository(get()) }
     single { MovieListRepository(get(), get()) }
-    single { LoginRepository(get()) }
-    single { SignUpRepository(get())}
+    single { LoginRepository(get(), get()) }
+    single { SignUpRepository(get(), get())}
 
     //Inyectar ViewModels
     viewModel { MovieDetailsViewModel(get()) }

@@ -1,30 +1,24 @@
 package com.kurokawa.viewModel
 
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurokawa.repository.SignUpRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val repository: SignUpRepository) : ViewModel() {
-    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
+
     private val _signUpResult = MutableLiveData<Boolean>()
     val signUpResult: LiveData<Boolean> get() = _signUpResult
 
-
-    /**FUNCIONES----------------------------------------------------------------------------------*/
-    fun registerUser(email: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val isRegistered = repository.isUserRegistered(email,password)
-            if (isRegistered) {
-                _signUpResult.postValue(false) // El usuario ya existe
-            } else {
-                repository.registerUser(email, password)
-                _signUpResult.postValue(true) // Registro exitoso
-            }
+    fun registerUser(email: String, password: String, displayName: String, imageUri: Uri?) {
+        viewModelScope.launch {
+            val isSuccess = repository.registerUser(email, password, displayName, imageUri)
+            _signUpResult.postValue(isSuccess)
         }
     }
 }
+

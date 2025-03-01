@@ -1,6 +1,6 @@
 [versions]
 agp = "8.8.2"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -20,7 +20,9 @@ javapoet = "1.13.0"
 okhttp = "4.11.0"
 kotlinxSerialization = "1.6.3"
 koin = "3.5.3"
-firebase-bom = "31.1.1"
+firebase-bom = "33.10.0"
+google-services = "4.4.2"
+crashlytics-gradle ="3.0.3"
 
 [libraries]
 # AndroidX
@@ -85,9 +87,14 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+
+#google service firabas
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspPlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-gradle" }

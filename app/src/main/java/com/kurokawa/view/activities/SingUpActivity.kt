@@ -1,7 +1,9 @@
 package com.kurokawa.view.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -10,53 +12,86 @@ import com.kurokawa.viewModel.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SingUpActivity : AppCompatActivity() {
-    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding: ActivitySingUpBinding
-    private val binding: ActivitySingUpBinding get() = _binding
-    private val signUpViewModel: SignUpViewModel by viewModel()
 
-    /**MAIN---------------------------------------------------------------------------------------*/
+    /** VIEW BINDING Y VIEWMODEL ----------------------------------------------------------------*/
+    private lateinit var binding: ActivitySingUpBinding
+    private val viewModel: SignUpViewModel by viewModel()
+
+    /** VARIABLES ------------------------------------------------------------------------------*/
+    private var imageUri: Uri? = null // Guarda la imagen seleccionada
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            imageUri = it
+            binding.ivProfile.setImageURI(it) // Muestra la imagen en el ImageView
+        }
+    }
+
+    /** MAIN ---------------------------------------------------------------------------------- */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivitySingUpBinding.inflate(layoutInflater)
+        binding = ActivitySingUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Boton para registrar un usuario
-        binding.btnSing.setOnClickListener {
-            val email = binding.etEmailSing.text.toString().trim()
-            val password = binding.etPasswordSing.text.toString().trim()
-            validateField(email, password)
-        }
-
-        //Funcion llamada
-        observeSignUpResult()
+        setupUI()
+        observeViewModel()
     }
 
-    /**FUNCIONES----------------------------------------------------------------------------------*/
-    //Verifica que los campos no esten vacios y registra el usuario
-    private fun validateField(email: String, password: String) {
-        if (email.isEmpty() || password.isEmpty()) {
-            Snackbar.make(binding.root, "Los campos de texto deben estar llenos", Snackbar.LENGTH_SHORT).show()
-        } else {
-            signUpViewModel.registerUser(email, password)
-        }
+    /** CONFIGURACIÓN DE UI ------------------------------------------------------------------ */
+    private fun setupUI() {
+        binding.btnSelectImage.setOnClickListener { pickImageLauncher.launch("image/*") }
+        binding.btnSing.setOnClickListener { createUser() }
     }
 
-    //Verifica si el usuario ya existia o navega de nuevo a login para que inicie sesion
-    private fun observeSignUpResult() {
-        signUpViewModel.signUpResult.observe(this, Observer { isSuccess ->
+    /** FUNCIÓN PARA REGISTRAR USUARIO ------------------------------------------------------ */
+    private fun createUser() {
+        if (!checkFields()) return
+
+        val email = binding.etEmailSing.text.toString().trim()
+        val password = binding.etPasswordSing2.text.toString().trim()
+        val displayName = binding.etDisplayName.text.toString().trim()
+
+        viewModel.registerUser(email, password, displayName, imageUri)
+    }
+
+    /** OBSERVAR EL ESTADO DEL REGISTRO ----------------------------------------------------- */
+    private fun observeViewModel() {
+        viewModel.signUpResult.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 Snackbar.make(binding.root, "El usuario se ha registrado con éxito", Snackbar.LENGTH_SHORT).show()
                 navigateToLogin()
             } else {
-                Snackbar.make(binding.root, "El usuario ya existe", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error al registrar usuario", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
 
-    //Navega a la vista de Login
+    /** NAVEGAR A LOGIN -------------------------------------------------------------------- */
     private fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
+    }
+
+    /** VALIDAR CAMPOS DEL FORMULARIO ---------------------------------------------------- */
+    private fun checkFields(): Boolean {
+        var isValid = true
+        val email = binding.etEmailSing.text.toString().trim().lowercase()
+        val password = binding.etPasswordSing2.text.toString()
+
+
+            if (email.isEmpty()) {
+            binding.etEmailSing.error = "Ingrese un correo"
+            isValid = false
+        }
+        if (password.length < 7 || !password.any { it.isLowerCase() } || !password.any { it.isUpperCase() }) {
+            binding.etPasswordSing2.error = "Ingrese una contraseña con más de 6 caracteres, incluyendo mayúsculas y minúsculas"
+            isValid = false
+        }
+
+        if (binding.etDisplayName.text.toString().trim().isEmpty()) {
+            binding.etDisplayName.error = "Ingrese un nombre de usuario"
+            isValid = false
+        }
+
+        return isValid
     }
 }
