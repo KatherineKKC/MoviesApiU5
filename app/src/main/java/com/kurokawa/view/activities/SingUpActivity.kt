@@ -78,11 +78,11 @@ class SingUpActivity : AppCompatActivity() {
         val password = binding.etPasswordSing2.text.toString()
 
 
-            if (email.isEmpty()) {
+        if (email.isEmpty()) {
             binding.etEmailSing.error = "Ingrese un correo"
             isValid = false
         }
-        if (password.length < 7 || !password.any { it.isLowerCase() } || !password.any { it.isUpperCase() }) {
+        if (password.length < 7 || !password.any { it.isLowerCase() } || !password.any { it.isUpperCase() } || password.isEmpty()) {
             binding.etPasswordSing2.error = "Ingrese una contraseña con más de 6 caracteres, incluyendo mayúsculas y minúsculas"
             isValid = false
         }

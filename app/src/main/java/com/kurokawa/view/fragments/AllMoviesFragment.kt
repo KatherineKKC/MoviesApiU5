@@ -50,7 +50,8 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
     override fun getMovies() {
-        allViewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
+        allViewModel.loadAllMovies()
+            allViewModel.getAllMovies.observe(viewLifecycleOwner) { movies ->
             val uniqueList = movies.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }

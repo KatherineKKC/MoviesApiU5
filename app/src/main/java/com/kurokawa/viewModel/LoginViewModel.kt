@@ -16,6 +16,8 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     //Variables de liveData
     private val _userRoom = MutableLiveData<FirebaseUser?>()
     var userRoom : MutableLiveData<FirebaseUser?> = _userRoom
+    private val _isAnonymous = MutableLiveData<Boolean>()
+    var isAnonymous :LiveData<Boolean> = _isAnonymous
 
     //Autentificamos el usuario con firebase
     fun isUserLogged(email: String, password: String){
@@ -33,5 +35,15 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     // Cierra la sesión
     fun signOut() {
         repository.signOut()
+    }
+
+    fun sigInAnonymous() {
+        viewModelScope.launch(Dispatchers.IO){
+             val anonymous = repository.signInLikeAnonymous()
+            if (anonymous != null)
+                 withContext(Dispatchers.Main){
+                     _isAnonymous.value = anonymous
+                 }
+        }
     }
 }

@@ -22,9 +22,23 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         isLoggedUser()
         navigateToSignUp()
+        signInLikeAnonimous()
     }
 
     //FUNCIONES
+    private fun signInLikeAnonimous(){
+        binding.btnAnonymous.setOnClickListener {
+            viewModel.sigInAnonymous()
+            viewModel.isAnonymous.observe(this){signInAnonymous ->
+                if (signInAnonymous){
+                    navigateToMovieList()
+                }else{
+                    Toast.makeText(this, "Error al ingresar sin registro", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     private fun isLoggedUser(){
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim().lowercase()
@@ -46,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
            }
         }
     }
+
 
     private fun navigateToMovieList() {
         val intent = Intent(this, MoviesListActivity::class.java)

@@ -51,23 +51,17 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
         binding.recyclerViewFavorites.adapter = adapter
     }
 
-    override  fun observerFilter() {
-        viewModel.filteredFavorites.observe(viewLifecycleOwner) { filteredList ->
-            Log.e(
-                "ALL-MOVIES-FRAGMENT",
-                "Actualizando RecyclerView con ${filteredList.size} películas"
-            )
-            val uniqueList = filteredList.distinctBy { it.idMovie }
+    override fun getMovies() {
+        viewModel.filterFavorites("")
+            viewModel.filteredFavorites.observe(viewLifecycleOwner) { movies ->
+            val uniqueList = movies.distinctBy { it.idMovie }
+            Log.e("FAVORITE-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
             adapter.submitList(uniqueList)
         }
     }
 
-  override fun getMovies() {
-        viewModel.getAllFavoriteMovies.observe(viewLifecycleOwner) { movies ->
-            val uniqueList = movies.distinctBy { it.idMovie }
-            Log.e("ALL-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
-            adapter.submitList(uniqueList)
-        }
+    override  fun observerFilter() {
+
     }
 
    override fun navigateToMovieDetail(movieDetail: MovieEntity) {

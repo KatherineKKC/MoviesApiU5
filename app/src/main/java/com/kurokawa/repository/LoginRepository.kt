@@ -21,4 +21,13 @@ class LoginRepository(
             null
         }
     }
+
+    fun signInLikeAnonymous():Boolean {
+        try {
+            val result = auth.signInAnonymously()
+            return true
+        }catch (e:Exception){
+            return false
+        }
+    }
 }
