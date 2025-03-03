@@ -11,7 +11,7 @@ interface UserDao {
 
     // Insertar un nuevo usuario
     @Insert
-    suspend fun insertUser(user: UserEntity)
+    suspend fun insertUser(user: UserEntity): Long
 
 
 }
