@@ -30,10 +30,12 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_all_movies"
-        android:title="@string/ver_todas"
+        android:id="@+id/menu_profile"
+        android:title="Mi perfil"
         android:orderInCategory="1"
         app:showAsAction="never" />
+
+
 
     <item
         android:id="@+id/menu_search"

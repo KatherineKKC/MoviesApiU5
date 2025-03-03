@@ -52,16 +52,21 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
     }
 
     override fun getMovies() {
-        viewModel.filterFavorites("")
-            viewModel.filteredFavorites.observe(viewLifecycleOwner) { movies ->
-            val uniqueList = movies.distinctBy { it.idMovie }
-            Log.e("FAVORITE-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
-            adapter.submitList(uniqueList)
+        viewModel.getAllFavoritesMovies.observe(viewLifecycleOwner) { lisFavorites->
+            if (lisFavorites != null){
+                val unique = lisFavorites.distinctBy { it.idMovie }
+                adapter.submitList(unique)
+            }
         }
     }
 
     override  fun observerFilter() {
-
+        viewModel.filterFavorites("")
+        viewModel.filteredFavorites.observe(viewLifecycleOwner) { movies ->
+            val uniqueList = movies.distinctBy { it.idMovie }
+            Log.e("FAVORITE-MOVIES-FRAGMENT", "Recibiendo de viewModel ${uniqueList.size} películas")
+            adapter.submitList(uniqueList)
+        }
     }
 
    override fun navigateToMovieDetail(movieDetail: MovieEntity) {

@@ -54,33 +54,31 @@ class MoviesListActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.popularMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas Populares" // Título específico
                 }
                 R.id.topRatedMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas Mejor Valoradas"
                 }
                 R.id.upcomingMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Próximos Estrenos"
                 }
                 R.id.nowPlayingMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas en Cartelera"
                 }
                 R.id.favoriteMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Mis Favoritas"
                 }
                 R.id.allMoviesFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                    binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = false
                     supportActionBar?.title = "Todas las Películas"
+                }
+                R.id.profileFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.title = "Mi perfil"
                 }
                 else -> {
                     Log.e("MOVIES-LIST-ACTIVITY", "Error al mostrar los items del toolbar")
@@ -154,7 +152,7 @@ class MoviesListActivity : AppCompatActivity() {
                 R.id.menu_top_rated -> navigateTo(R.id.topRatedMovieFragment)
                 R.id.menu_upcomming -> navigateTo(R.id.upcomingMovieFragment)
                 R.id.menu_now_playing -> navigateTo(R.id.nowPlayingMovieFragment)
-                R.id.menu_all_movies -> navigateTo(R.id.allMoviesFragment)
+                R.id.menu_profile -> navigateTo(R.id.profileFragment)
                 else -> super.onOptionsItemSelected(item)
             }
 

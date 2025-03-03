@@ -34,4 +34,9 @@
         android:name="com.kurokawa.view.fragments.UpcomingMovieFragment"
         tools:layout="@layout/fragment_upcoming_movie"
         android:label="Proximamente"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kurokawa.view.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

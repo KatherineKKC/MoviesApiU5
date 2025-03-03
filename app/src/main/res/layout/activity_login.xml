@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="67dp"
             android:layout_margin="30dp"
-            android:text="@string/btn_sing"
+            android:text="@string/entrar_sin_registro"
             tools:text="@string/ingresar_sin_registro" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

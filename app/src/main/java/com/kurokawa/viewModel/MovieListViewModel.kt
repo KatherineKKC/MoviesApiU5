@@ -20,6 +20,7 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     /**VARIABLES LIVE DATA------------------------------------------------------------------------*/
     //Obtener Todas las movies Favoritas y todas las movies en total
     val getAllMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesRoom()
+    val getAllFavoritesMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
 
     //Obtiene las filtraciones de busqueda de todas las movies
     private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
