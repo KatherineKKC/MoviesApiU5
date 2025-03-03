@@ -19,6 +19,7 @@ class SingUpActivity : AppCompatActivity() {
 
     /** VARIABLES ------------------------------------------------------------------------------*/
     private var imageUri: Uri? = null // Guarda la imagen seleccionada
+
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             imageUri = it
@@ -58,11 +59,20 @@ class SingUpActivity : AppCompatActivity() {
         viewModel.signUpResult.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 Snackbar.make(binding.root, "El usuario se ha registrado con éxito", Snackbar.LENGTH_SHORT).show()
+                clearBox()
                 navigateToLogin()
             } else {
                 Snackbar.make(binding.root, "Error al registrar usuario", Snackbar.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun clearBox(){
+        binding.etEmailSing.setText("")
+        binding.etPasswordSing2.setText("")
+        binding.etDisplayName.setText("")
+        binding.ivProfile.setImageURI(null) // Limpia la imagen
+        imageUri = null
     }
 
     /** NAVEGAR A LOGIN -------------------------------------------------------------------- */
@@ -73,25 +83,14 @@ class SingUpActivity : AppCompatActivity() {
 
     /** VALIDAR CAMPOS DEL FORMULARIO ---------------------------------------------------- */
     private fun checkFields(): Boolean {
-        var isValid = true
-        val email = binding.etEmailSing.text.toString().trim().lowercase()
+        val email = binding.etEmailSing.text.toString().trim()
         val password = binding.etPasswordSing2.text.toString()
+        val displayName = binding.etDisplayName.text.toString().trim()
 
-
-        if (email.isEmpty()) {
-            binding.etEmailSing.error = "Ingrese un correo"
-            isValid = false
+        if (email.isEmpty() || password.length < 7 || displayName.isEmpty()) {
+            Snackbar.make(binding.root, "Todos los campos son obligatorios", Snackbar.LENGTH_SHORT).show()
+            return false
         }
-        if (password.length < 7 || !password.any { it.isLowerCase() } || !password.any { it.isUpperCase() } || password.isEmpty()) {
-            binding.etPasswordSing2.error = "Ingrese una contraseña con más de 6 caracteres, incluyendo mayúsculas y minúsculas"
-            isValid = false
-        }
-
-        if (binding.etDisplayName.text.toString().trim().isEmpty()) {
-            binding.etDisplayName.error = "Ingrese un nombre de usuario"
-            isValid = false
-        }
-
-        return isValid
+        return true
     }
 }

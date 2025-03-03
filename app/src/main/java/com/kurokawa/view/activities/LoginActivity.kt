@@ -2,6 +2,7 @@ package com.kurokawa.view.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signInLikeAnonimous(){
         binding.btnAnonymous.setOnClickListener {
             viewModel.sigInAnonymous()
-            viewModel.isAnonymous.observe(this){signInAnonymous ->
+            viewModel.signInAnonymous.observe(this){signInAnonymous ->
                 if (signInAnonymous){
                     navigateToMovieList()
                 }else{
@@ -49,9 +50,11 @@ class LoginActivity : AppCompatActivity() {
                viewModel.userRoom.observe(this){ isLogged->
                    if (isLogged != null){
                        Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
+                       clearBox()
                        navigateToMovieList()
                    }else{
                        Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show()
+
                    }
                }
            }else{
@@ -59,6 +62,11 @@ class LoginActivity : AppCompatActivity() {
 
            }
         }
+    }
+
+    private fun clearBox(){
+        binding.etEmail.setText("")
+        binding.etPassword.setText("")
     }
 
 
