@@ -1,4 +1,14 @@
-  🎬 Bienvenido a Pelix
+ ## 📌 Sobre este Proyecto
+
+Este proyecto comenzó como una **actividad de la UTAD** en la que se implementaba la arquitectura **MVVM** junto con una base de datos local. Sin embargo, decidí **expandirlo** para comparar diferentes opciones de bases de datos locales y mejorar la gestión de datos en la app.
+
+Ahora, el proyecto soporta múltiples implementaciones, incluyendo:
+- **Room Database**
+- **DataStore Preferences**
+- **Firebase Firestore**
+- **Shared Preferences**
+- **Paper DB**
+  
 
 Pelix es una aplicación de películas donde puedes:
 ✔ Explorar películas organizadas por categorías.
