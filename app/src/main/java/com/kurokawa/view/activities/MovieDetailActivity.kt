@@ -16,8 +16,8 @@ class MovieDetailActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding: ActivityMovieDetailBinding
     private val binding: ActivityMovieDetailBinding get() = _binding
-    private val movieViewModel :MovieDetailsViewModel by  viewModel()
-    private var currentMovie :MovieEntity? = null
+    private val movieViewModel: MovieDetailsViewModel by viewModel()
+    private var currentMovie: MovieEntity? = null
 
 
     /**MAIN---------------------------------------------------------------------------------------*/
@@ -27,7 +27,7 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE
-       getMovieIntent()
+        getMovieIntent()
 
         //ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE
         binding.btnFavorite.setOnClickListener {
@@ -37,21 +37,21 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         //Boton para regresar a la vista anterior
-        binding.btnBack.setOnClickListener{
+        binding.btnBack.setOnClickListener {
             navigateToLastView()
         }
     }
 
 
-
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    private fun getMovieIntent(){
-        val movieSelected: MovieEntity? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("MOVIE", MovieEntity::class.java)
-        } else {
-            @Suppress("DEPRECATION") // Suprime la advertencia en versiones antiguas
-            intent.getParcelableExtra("MOVIE")
-        }
+    private fun getMovieIntent() {
+        val movieSelected: MovieEntity? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra("MOVIE", MovieEntity::class.java)
+            } else {
+                @Suppress("DEPRECATION") // Suprime la advertencia en versiones antiguas
+                intent.getParcelableExtra("MOVIE")
+            }
 
         if (movieSelected != null) {
             observerStateMovies(movieSelected.idMovie)
@@ -72,7 +72,6 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
 
-
     //Muestra todos los detalles de la Movie recibida
     @SuppressLint("SetTextI18n")
     private fun showDetailsMovie(movie: MovieEntity) {
@@ -81,7 +80,7 @@ class MovieDetailActivity : AppCompatActivity() {
         binding.tvOverview.text = movie.overview
         binding.tvRelease.text = movie.releaseDate
         binding.tvVote.text = movie.voteAverage.toString()
-        binding.btnFavorite.isChecked= movie.isFavoriteMovie
+        binding.btnFavorite.isChecked = movie.isFavoriteMovie
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             .placeholder(R.drawable.ic_launcher_foreground)
@@ -96,7 +95,6 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun navigateToLastView() {
         finish() // Cierra la actividad actual y vuelve a la anterior sin recargarla
     }
-
 
 
 }

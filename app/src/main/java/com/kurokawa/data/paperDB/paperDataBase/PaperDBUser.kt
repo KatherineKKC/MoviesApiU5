@@ -7,12 +7,12 @@ class PaperDBUser {
 
     private val USER_KEY = "user_data"
 
-    /** 🔹 Guardar usuario en PaperDB */
+    //GUARDA EL USUARIO EN PAPER
     fun saveUser(user: UserEntity) {
         Paper.book().write(USER_KEY, user)
     }
 
-    /** 🔹 Obtener usuario desde PaperDB */
+    //OBTIENE EL USUARIO DE PAPER
     fun getUser(): UserEntity? {
         return Paper.book().read(USER_KEY, null)
     }

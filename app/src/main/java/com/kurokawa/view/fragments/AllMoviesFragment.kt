@@ -16,18 +16,20 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
+    /**VARIABLES----------------------------------------------------------------------------------*/
     private lateinit var _binding : FragmentAllMoviesBinding
     private val binding: FragmentAllMoviesBinding get() = _binding
 
     private lateinit var adapter: MoviesListAdapter
     private val allViewModel : MovieListViewModel by  sharedViewModel() // activityViewModels() si fuera activity
 
+    /**VISTA-------------------------------------------------------------------------------------*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAllMoviesBinding.inflate(inflater)
         return binding.root
     }
 
-    /**LOGICA*/
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
@@ -38,6 +40,7 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
 
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
+   //INICIALIZAR EL ADAPTER Y CONFIGURAR EL RECYCLER
    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movie ->
             navigateToMovieDetail(movie)
@@ -46,12 +49,14 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
         binding.recyclerViewAll.adapter = adapter
     }
 
+    //OBSERVAR LA BUSQUEDA DE PELICULAS Y FILTRARLAS
     override fun observerFilter() {
         allViewModel.filteredMovies.observe(viewLifecycleOwner){ listMovies ->
                 adapter.submitList(listMovies)
         }
     }
 
+    //OBTENER TODAS LAS PELICULAS Y ACTUALIZA LA LISTA
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
         allViewModel.allMovies.observe(viewLifecycleOwner) { movies ->
@@ -61,8 +66,7 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
 
     }
 
-
-
+    //NAVEGAR A DETALLE DE LA PELICULA
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
         intent.putExtra("MOVIE", movieDetail)

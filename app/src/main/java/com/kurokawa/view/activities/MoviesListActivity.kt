@@ -8,12 +8,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.kurokawa.databinding.ActivityMoviesListBinding
-import com.kurokawa.model.MovieModel
-import com.kurokawa.viewModel.MovieListViewModel
 import com.kurokawa.R
 import com.kurokawa.data.paperDB.adapter.MoviesListAdapter
 import com.kurokawa.data.paperDB.entities.MovieEntity
+import com.kurokawa.databinding.ActivityMoviesListBinding
+import com.kurokawa.model.MovieModel
+import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesListActivity : AppCompatActivity() {
@@ -47,7 +47,8 @@ class MoviesListActivity : AppCompatActivity() {
         binding.toolbar.title = ""
 
         //NavhostFragment
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_graph_movies) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_graph_movies) as NavHostFragment
         navController = navHostFragment.navController
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -57,31 +58,37 @@ class MoviesListActivity : AppCompatActivity() {
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas Populares" // Título específico
                 }
+
                 R.id.topRatedMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas Mejor Valoradas"
                 }
+
                 R.id.upcomingMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Próximos Estrenos"
                 }
+
                 R.id.nowPlayingMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Películas en Cartelera"
                 }
+
                 R.id.favoriteMovieFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = true
                     supportActionBar?.title = "Mis Favoritas"
                 }
+
                 R.id.allMoviesFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                     binding.toolbar.menu.findItem(R.id.menu_all_movies)?.isVisible = false
                     supportActionBar?.title = "Todas las Películas"
                 }
+
                 else -> {
                     Log.e("MOVIES-LIST-ACTIVITY", "Error al mostrar los items del toolbar")
                 }
@@ -112,17 +119,17 @@ class MoviesListActivity : AppCompatActivity() {
 
     //Carga la lista de todas las movies de shared, si es empty realiza una nueva consulta a la API
     private fun loadInitialData() {
-        val  moviesList = viewModel.loadAllMovies()
-            if (moviesList != null) {
-                loadMoviesApi()
-            } else {
-                adapter.submitList(moviesList)
-                viewModel.filterMovies("")
-            }
+        val moviesList = viewModel.loadAllMovies()
+        if (moviesList != null) {
+            loadMoviesApi()
+        } else {
+            adapter.submitList(moviesList)
+            viewModel.filterMovies("")
         }
+    }
 
 
-   //Carga las movies desde la API y las contiene en una misma lista
+    //Carga las movies desde la API y las contiene en una misma lista
     private fun loadMoviesApi() {
         viewModel.loadAllMovies()
         val liveDataList = listOf(
@@ -148,15 +155,15 @@ class MoviesListActivity : AppCompatActivity() {
     //Navega al fragmento según la opcion del toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-            return when (item.itemId) {
-                R.id.menu_favorites -> navigateTo(R.id.favoriteMovieFragment)
-                R.id.menu_populares -> navigateTo(R.id.popularMovieFragment)
-                R.id.menu_top_rated -> navigateTo(R.id.topRatedMovieFragment)
-                R.id.menu_upcomming -> navigateTo(R.id.upcomingMovieFragment)
-                R.id.menu_now_playing -> navigateTo(R.id.nowPlayingMovieFragment)
-                R.id.menu_all_movies -> navigateTo(R.id.allMoviesFragment)
-                else -> super.onOptionsItemSelected(item)
-            }
+        return when (item.itemId) {
+            R.id.menu_favorites -> navigateTo(R.id.favoriteMovieFragment)
+            R.id.menu_populares -> navigateTo(R.id.popularMovieFragment)
+            R.id.menu_top_rated -> navigateTo(R.id.topRatedMovieFragment)
+            R.id.menu_upcomming -> navigateTo(R.id.upcomingMovieFragment)
+            R.id.menu_now_playing -> navigateTo(R.id.nowPlayingMovieFragment)
+            R.id.menu_all_movies -> navigateTo(R.id.allMoviesFragment)
+            else -> super.onOptionsItemSelected(item)
+        }
 
 
     }
@@ -192,7 +199,7 @@ class MoviesListActivity : AppCompatActivity() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.filterMovies(query ?: "")
-                Log.e("MOVI-LIST-ACTIVITY","$query")
+                Log.e("MOVI-LIST-ACTIVITY", "$query")
                 return false
             }
 

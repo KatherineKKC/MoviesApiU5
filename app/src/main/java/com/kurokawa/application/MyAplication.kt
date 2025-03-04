@@ -1,10 +1,10 @@
 package com.kurokawa
 
 import android.app.Application
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import com.kurokawa.utils.AppModule
 import io.paperdb.Paper
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MyAplication : Application() {
     override fun onCreate() {

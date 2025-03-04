@@ -2,18 +2,21 @@ package com.kurokawa.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.data.paperDB.entities.MovieEntity
 import com.kurokawa.data.paperDB.paperDataBase.PaperDBMovies
+import com.kurokawa.data.remote.service.MovieApiService
 import com.kurokawa.model.MovieModel
 
 
-class MovieListRepository( private val apiService: MovieApiService, private val paperDBMovie: PaperDBMovies) {
+class MovieListRepository(
+    private val apiService: MovieApiService,
+    private val paperDBMovie: PaperDBMovies
+) {
 
     /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
     suspend fun getPopularMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getPopularMovies(apiKey,page)
+        val response = apiService.getPopularMovies(apiKey, page)
         if (response.isSuccessful) {
             val moviesModel = response.body()?.results
             moviesModel?.let { listMovies ->
@@ -30,26 +33,26 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Popular",
                     )
                 }
-             paperDBMovie.saveMovies(movieListEntity)
+                paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
-        }else{
+        } else {
             showErrorToConsole()
         }
-        return if( response.isSuccessful) response.body()?.results else null
+        return if (response.isSuccessful) response.body()?.results else null
     }
 
 
     /**MEJOR VALORADAS TOP-RATED */
     suspend fun getTopRatedMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getTopRatedMovies(apiKey,page)
+        val response = apiService.getTopRatedMovies(apiKey, page)
         if (response.isSuccessful) {
             val moviesModel = response.body()?.results
             moviesModel?.let { listMovies ->
                 val movieListEntity = listMovies.map { movieModel ->
                     MovieEntity(
-                        idMovie =movieModel.id,
+                        idMovie = movieModel.id,
                         title = movieModel.title,
                         posterPath = movieModel.posterPath,
                         originalTitle = movieModel.originalTitle,
@@ -60,20 +63,20 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "TopRated",
                     )
                 }
-            paperDBMovie.saveMovies(movieListEntity)
+                paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
-        }else{
+        } else {
             showErrorToConsole()
         }
-        return if( response.isSuccessful) response.body()?.results else null
+        return if (response.isSuccessful) response.body()?.results else null
     }
 
 
     /**EN CARTELERA NOW-PLAYING*/
     suspend fun getNowPlayingMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getNowPlayingMovies(apiKey,page)
+        val response = apiService.getNowPlayingMovies(apiKey, page)
         if (response.isSuccessful) {
             val moviesModel = response.body()?.results
             moviesModel?.let { listMovies ->
@@ -90,21 +93,20 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "NowPlaying",
                     )
                 }
-            paperDBMovie.saveMovies(movieListEntity)
+                paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
 
             }
-        }else{
+        } else {
             showErrorToConsole()
         }
-        return if( response.isSuccessful) response.body()?.results else null
+        return if (response.isSuccessful) response.body()?.results else null
     }
-
 
 
     /**PROXIMOS ESTRENOS UPCOMING */
     suspend fun getUpcomingMovie(apiKey: String, page: Int): List<MovieModel>? {
-        val response = apiService.getUpcomingMovies(apiKey,page)
+        val response = apiService.getUpcomingMovies(apiKey, page)
         if (response.isSuccessful) {
             val moviesModel = response.body()?.results
             moviesModel?.let { listMovies ->
@@ -121,23 +123,24 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
                         category = "Upcoming",
                     )
                 }
-            paperDBMovie.saveMovies(movieListEntity)
+                paperDBMovie.saveMovies(movieListEntity)
                 showMessageSuccessfulConsole(movieListEntity)
             }
 
             return moviesModel
         }
         showErrorToConsole()
-        return   null
+        return null
     }
 
     /**FUNCIONES PARA OBTENER LAS MOVIES DESDE ROOM-----------------------------------------------*/
     /**OBTENER POR CATEGORIAS */
-    fun getByCategory(category: String):List<MovieEntity> = paperDBMovie.getMoviesByCategory(category)
+    fun getByCategory(category: String): List<MovieEntity> =
+        paperDBMovie.getMoviesByCategory(category)
 
 
     /**OBTENER TODAS LAS PELICULAS */
-    fun getAllMoviesSharedPreferenceStorage() :LiveData<List<MovieEntity>> = paperDBMovie.allMovies
+    fun getAllMoviesSharedPreferenceStorage(): LiveData<List<MovieEntity>> = paperDBMovie.allMovies
 
 
     /**OBTENER TODAS LAS FAVORITAS */
@@ -147,17 +150,17 @@ class MovieListRepository( private val apiService: MovieApiService, private val 
 
     /**FUNCIONES PARA MOSTRAR LAS PELICULAS Y ERRORES POR CONSOLA---------------------------------*/
     /**INSERT  MOVIES */
-    fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>){
-        Log.e("---MOVIE-LIST-REPOSITORY---", "se guardaron todas las peliculas en SharedPreferencese  ${listIntoRoom.size}")
+    fun showMessageSuccessfulConsole(listIntoRoom: List<MovieEntity>) {
+        Log.e(
+            "---MOVIE-LIST-REPOSITORY---",
+            "se guardaron todas las peliculas en SharedPreferencese  ${listIntoRoom.size}"
+        )
     }
 
     /**ERROR INSERTAR MOVIES */
-    fun showErrorToConsole(){
-        Log.e("---MOVIE-LIST-REPOSITORY---","Error al INSERTAR las movies EN SharedPreferencese")
+    fun showErrorToConsole() {
+        Log.e("---MOVIE-LIST-REPOSITORY---", "Error al INSERTAR las movies EN SharedPreferencese")
     }
-
-
-
 
 
 }

@@ -7,7 +7,7 @@ class MovieDifu(
     private val oldList: MutableList<MovieEntity>,
     private val newList: List<MovieEntity>
 
-) :DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
     }

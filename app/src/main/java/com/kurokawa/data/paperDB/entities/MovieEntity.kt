@@ -1,4 +1,5 @@
 package com.kurokawa.data.paperDB.entities
+
 import android.os.Parcelable
 import androidx.room.Entity
 import kotlinx.parcelize.Parcelize
@@ -6,7 +7,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(
     tableName = "movies",
-    primaryKeys =["idMovie", "category"])
+    primaryKeys = ["idMovie", "category"]
+)
 data class MovieEntity(
     val idMovie: Long,
     val posterPath: String?,

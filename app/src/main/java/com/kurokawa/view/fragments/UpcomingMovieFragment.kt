@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.paperDB.adapter.MoviesListAdapter
 import com.kurokawa.data.paperDB.entities.MovieEntity
@@ -63,16 +63,17 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
 
     @SuppressLint("SuspiciousIndentation")
     override fun getMovies() {
-        val upcomingListMovies = viewModel.getMovieByCategory("Upcoming").observe(viewLifecycleOwner){ umpcomingMovies->
-            viewModel.filterMovies("")
-            adapter.submitList(umpcomingMovies)
-        }
+        val upcomingListMovies = viewModel.getMovieByCategory("Upcoming")
+            .observe(viewLifecycleOwner) { umpcomingMovies ->
+                viewModel.filterMovies("")
+                adapter.submitList(umpcomingMovies)
+            }
     }
 
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail )
+        intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)
     }
 

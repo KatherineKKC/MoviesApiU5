@@ -7,7 +7,7 @@ import com.kurokawa.repository.MovieDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieDetailsViewModel(private val repository: MovieDetailRepository): ViewModel() {
+class MovieDetailsViewModel(private val repository: MovieDetailRepository) : ViewModel() {
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
     fun updateFavoriteMovies(movieSelected: MovieEntity) {

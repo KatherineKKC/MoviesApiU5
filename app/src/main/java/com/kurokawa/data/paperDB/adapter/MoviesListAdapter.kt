@@ -10,7 +10,8 @@ import com.kurokawa.databinding.ItemMoviesBinding
 
 class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,
-    private val onClick: (MovieEntity) -> Unit) : RecyclerView.Adapter<MovieListViewHolder>() {
+    private val onClick: (MovieEntity) -> Unit
+) : RecyclerView.Adapter<MovieListViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
@@ -37,7 +38,6 @@ class MoviesListAdapter(
         listMovies = newMovies.toMutableList()
         notifyDataSetChanged()
     }
-
 
 
 }

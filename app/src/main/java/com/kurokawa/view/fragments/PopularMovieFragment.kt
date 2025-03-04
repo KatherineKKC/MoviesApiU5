@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.paperDB.adapter.MoviesListAdapter
 import com.kurokawa.data.paperDB.entities.MovieEntity
@@ -16,12 +16,12 @@ import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class PopularMovieFragment : Fragment(),FragmentMetodos{
+class PopularMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding : FragmentPopularMovieBinding
+    private lateinit var _binding: FragmentPopularMovieBinding
     private val binding: FragmentPopularMovieBinding get() = _binding
     private lateinit var adapter: MoviesListAdapter
-    private val viewModel : MovieListViewModel by sharedViewModel()
+    private val viewModel: MovieListViewModel by sharedViewModel()
 
     /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
@@ -36,13 +36,13 @@ class PopularMovieFragment : Fragment(),FragmentMetodos{
     /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       setupRecycler()
+        setupRecycler()
         getMovies()
         observerFilter()
     }
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-   override fun setupRecycler(){
+    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
             navigateToMovieDetail(movieDetail)
         }
@@ -50,9 +50,12 @@ class PopularMovieFragment : Fragment(),FragmentMetodos{
         binding.recyclerViewPopular.adapter = adapter
     }
 
-    override fun observerFilter(){
+    override fun observerFilter() {
         viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+            Log.e(
+                "ALL-MOVIES-FRAGMENT",
+                "Actualizando RecyclerView con ${filteredList.size} películas"
+            )
             val uniqueList = filteredList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
@@ -60,11 +63,11 @@ class PopularMovieFragment : Fragment(),FragmentMetodos{
     }
 
     @SuppressLint("SuspiciousIndentation")
-    override fun getMovies(){
-      viewModel.getMovieByCategory("Popular").observe(viewLifecycleOwner) {popularMovies ->
-          viewModel.filterMovies("")
-          adapter.submitList(popularMovies)
-      }
+    override fun getMovies() {
+        viewModel.getMovieByCategory("Popular").observe(viewLifecycleOwner) { popularMovies ->
+            viewModel.filterMovies("")
+            adapter.submitList(popularMovies)
+        }
     }
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {

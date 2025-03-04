@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream
 import java.net.URL
 
 class PaperDBMovies {
-
+    /**OBSERVADORES-------------------------------------------------------------------------------*/
     private val _allMovies = MutableLiveData<List<MovieEntity>>(emptyList())
     val allMovies: LiveData<List<MovieEntity>> get() = _allMovies
 
@@ -19,9 +19,13 @@ class PaperDBMovies {
         loadMovies()
     }
 
+
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+    //GUARDAR LA PELISCULAS
     fun saveMovies(movieList: List<MovieEntity>) {
         // Obtener la lista almacenada o una lista vacía si no hay nada guardado
-        val storedMovies = Paper.book().read("movies_list", emptyList<MovieEntity>())?.toMutableList()
+        val storedMovies =
+            Paper.book().read("movies_list", emptyList<MovieEntity>())?.toMutableList()
         // Agregar nuevas películas sin duplicados
         movieList.forEach { newMovie ->
             val index = storedMovies?.indexOfFirst { it.idMovie == newMovie.idMovie }
@@ -34,38 +38,25 @@ class PaperDBMovies {
         _allMovies.postValue(storedMovies!!)
     }
 
-    /** 🔹 Guardar o actualizar una lista de películas en PaperDB */
-    fun saveOrUpdateMovies(movies: List<MovieEntity>) {
-        val storedMovies = Paper.book().read("movies_list", emptyList<MovieEntity>())?.toMutableList()
 
-        movies.forEach { newMovie ->
-            val index = storedMovies!!.indexOfFirst { it.idMovie == newMovie.idMovie }
-            if (index != -1)
-                storedMovies[index] = newMovie // Actualizar película existente
 
-        }
-
-        Paper.book().write("movies_list", storedMovies!!)
-        _allMovies.postValue(storedMovies!!)
-    }
-
-    /** 🔹 Cargar todas las películas desde PaperDB */
+    //CARGAR TODAS LAS PELICULAS DE PAPER DB
     fun loadMovies() {
         val movies = Paper.book().read("movies_list", emptyList<MovieEntity>())
         _allMovies.postValue(movies!!)
     }
 
-    /** 🔹 Obtener películas por categoría */
+   //OBTENER POR CATEGORIA DE PELICULA
     fun getMoviesByCategory(category: String): List<MovieEntity> {
         return _allMovies.value?.filter { it.category == category } ?: emptyList()
     }
 
-    /** 🔹 Obtener una película por su ID */
+  //OBTENER POR ID DE PELICULA
     fun getMovieById(idMovie: Long): MovieEntity? {
         return _allMovies.value?.find { it.idMovie == idMovie }
     }
 
-    /** 🔹 Obtener películas favoritas */
+  // OBTENER TODAS LA PELICULAS FAVORITAS
     fun getAllFavoriteMovies(): LiveData<List<MovieEntity>> {
         return _allMovies.map { movies -> movies.filter { it.isFavoriteMovie } }
     }

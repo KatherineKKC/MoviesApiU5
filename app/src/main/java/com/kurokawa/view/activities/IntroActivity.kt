@@ -18,6 +18,7 @@ class IntroActivity : AppCompatActivity() {
     /** VARIABLES- BINDING - ADAPTER- VIEWMODEL-NAVCONTROLLER-------------------------------------*/
     private lateinit var _binding: ActivityIntroBinding
     private val binding: ActivityIntroBinding get() = _binding
+
     /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +26,11 @@ class IntroActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupViewPager()
+    }
 
-    } private fun setupViewPager() {
+    /**FUNCIONES----------------------------------------------------------------------------------*/
+    //ACTUALIZAR LA NAVEGACION Y MARCAR EL PROGRESO ENTRE FRAGMENTOS PARA ORIENTAR AL USUARIO
+    private fun setupViewPager() {
         val viewPager = binding.viewPager
         val progressBar = binding.progressBar
 
