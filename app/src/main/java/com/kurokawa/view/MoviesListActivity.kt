@@ -3,7 +3,6 @@ package com.kurokawa.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.application.MyApplication
@@ -15,13 +14,12 @@ import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ActivityMoviesListBinding
 import com.kurokawa.model.MovieModel
 import com.kurokawa.viewModel.MovieListViewModel
-import java.util.ArrayList
 
 class MoviesListActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var binding: ActivityMoviesListBinding
     private lateinit var movieViewModel: MovieListViewModel
-    private lateinit var adapter : MoviesListAdapter
+    private lateinit var adapter: MoviesListAdapter
     private lateinit var applicacion: MyApplication
     private lateinit var repository: MovieListRepository
     private lateinit var apiService: MovieApiService
@@ -34,7 +32,7 @@ class MoviesListActivity : AppCompatActivity() {
 
         /**INICIALIZACION DE ADAPTER */
         val listMovies = mutableListOf<MovieEntity>()
-        adapter = MoviesListAdapter(listMovies){ movies ->
+        adapter = MoviesListAdapter(listMovies) { movies ->
             onItemSelected(movies)
         }
 
@@ -47,19 +45,15 @@ class MoviesListActivity : AppCompatActivity() {
 
         /**INICIALIZACION DE API, REPOSITORY Y VIEWMODEL*/
         apiService = RetrofitClient.apiService
-        repository = MovieListRepository(apiService,applicacion)
+        repository = MovieListRepository(apiService, applicacion)
         movieViewModel = MovieListViewModel(repository)
 
 
         /**FUNCION PARA CONTROLAR LLAMADAS A LA API Y CARGAR TODAS LAS MOVIES*/
         loadMoviesApi()
 
-        binding.btnFavoriteActivity.setOnClickListener {
-            navigateToFAvorite()
-        }
 
     }
-
 
 
     /**FUNCIONES ---------------------------------------------------------------------------------*/
@@ -73,7 +67,10 @@ class MoviesListActivity : AppCompatActivity() {
                 loadMoviesApi()
             } else {
                 adapter.submitList(localMovies)
-                Log.e("MOVIES-LIST-ACTIVITY", "Las de ROOM sin movies duplicadas por categorias son: :${localMovies.size}")
+                Log.e(
+                    "MOVIES-LIST-ACTIVITY",
+                    "Las de ROOM sin movies duplicadas por categorias son: :${localMovies.size}"
+                )
             }
         }
 
@@ -93,7 +90,7 @@ class MoviesListActivity : AppCompatActivity() {
         liveDataList.forEach { liveData ->
             liveData.observe(this) { moviesApi ->
                 if (!moviesApi.isNullOrEmpty()) {
-                      moviesResults.add(moviesApi)
+                    moviesResults.add(moviesApi)
                     if (moviesResults.size == liveDataList.size) {
                         Log.d("MOVIE-LIST-ACTIVITY", "Datos API recibidos, actualizando Room...")
                         loadAllMoviesRoom() // Actualizar UI con datos combinados
@@ -104,17 +101,16 @@ class MoviesListActivity : AppCompatActivity() {
     }
 
 
-
-
-
+    //Obtiene la movie seleccionada y extrae el id para navegar a los detalles de la movie
     private fun onItemSelected(movieSelected: MovieEntity) {
-        if(movieSelected.idMovie != null){
+        if (movieSelected.idMovie != null) {
             navigateToMovieDetail(movieSelected)
             Log.e("MOVIES-LIST-ACTIVITY", "La movie seleccionada es :$movieSelected ")
-        }else{
+        } else {
             Log.e("MOVIES-LIST-ACTIVITY", "Error al obtener la movie seleccionada ")
         }
     }
+
 
     private fun navigateToMovieDetail(movieSelected: MovieEntity) {
         val intent = Intent(this, MovieDetailActivity::class.java)
@@ -123,16 +119,5 @@ class MoviesListActivity : AppCompatActivity() {
         Log.e("MOVIES-LIST-ACTIVITY", "La movie enviada a la activity detail es: $movieSelected ")
 
     }
-
-
-    private fun navigateToFAvorite() {
-
-        val intent = Intent(this, FavoriteMovieActivity::class.java)
-        startActivity(intent)
-        Log.e("MOVIES-LIST-ACTIVITY", "Navegando a la movie activity ")
-
-    }
-
-
 
 }

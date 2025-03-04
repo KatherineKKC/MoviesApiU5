@@ -1,4 +1,5 @@
 package com.kurokawa.model
+
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -6,12 +7,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MovieModel(
     @SerializedName("id")
-    val id:Long,
+    val id: Long,
 
     @SerializedName("original_title")
     val originalTitle: String,
     @SerializedName("overview")
-    val overview:String,
+    val overview: String,
 
     @SerializedName("poster_path")
     val posterPath: String? = null,
@@ -25,4 +26,4 @@ data class MovieModel(
     @SerializedName("vote_average")
     val voteAverage: Double,
 
-): Parcelable
+    ) : Parcelable

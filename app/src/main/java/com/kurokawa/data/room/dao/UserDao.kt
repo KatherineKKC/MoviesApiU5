@@ -7,13 +7,13 @@ import com.kurokawa.data.room.entities.UserEntity
 
 @Dao
 interface UserDao {
-   @Insert
-   suspend fun addUser(user: UserEntity)
+    @Insert
+    suspend fun addUser(user: UserEntity)
 
 
-   @Query("SELECT * FROM user")
-   suspend fun getUsers(): List<UserEntity>
+    @Query("SELECT * FROM user")
+    suspend fun getUsers(): List<UserEntity>
 
-   @Query("SELECT * FROM user WHERE email=:emailParameter AND password= :passwordParameter")
-   suspend fun getUser(emailParameter :String, passwordParameter:String) : UserEntity
+    @Query("SELECT * FROM user WHERE email=:emailParameter AND password= :passwordParameter")
+    suspend fun getUser(emailParameter: String, passwordParameter: String): UserEntity
 }

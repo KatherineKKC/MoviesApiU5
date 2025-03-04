@@ -8,11 +8,9 @@ import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.data.room.entities.UserEntity
 
 
-
-
-    @Database(entities = [ UserEntity::class, MovieEntity::class], version = 3)
-    abstract  class MyDataBase : RoomDatabase(){
-        abstract fun userDao(): UserDao
-        abstract fun movieDao(): MovieDao
-    }
+@Database(entities = [UserEntity::class, MovieEntity::class], version = 3)
+abstract class MyDataBase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+    abstract fun movieDao(): MovieDao
+}
 

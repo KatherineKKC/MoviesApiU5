@@ -52,8 +52,6 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     }
 
 
-
-
     /**FUNCION PARA ACTIVAR LA CARGA DE  TODAS LAS CATEGORIAS DE MOVIES DE LA API ----------------*/
     /**POPULAR*/
     fun loadAllMovies() {

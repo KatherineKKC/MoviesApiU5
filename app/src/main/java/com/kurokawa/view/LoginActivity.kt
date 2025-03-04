@@ -6,34 +6,46 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.kurokawa.databinding.ActivityLoginBinding
 import com.kurokawa.application.MyApplication
+import com.kurokawa.databinding.ActivityLoginBinding
 import com.kurokawa.viewModel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var _binding : ActivityLoginBinding
+
+    /**VARIABLES----------------------------------------------------------------------------------*/
+    private lateinit var _binding: ActivityLoginBinding
     private val binding: ActivityLoginBinding get() = _binding
     private lateinit var applicacion: MyApplication
-    private val viewModel : LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
+
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /**INICIALIZACION DE APPLICATION*/
         applicacion = application as MyApplication
-        binding.btnLogin.setOnClickListener{
+
+        /**BOTON VERIFICA QUE LOS CAMPOS ESTEN LLENOS*/
+        binding.btnLogin.setOnClickListener {
             var email = binding.etEmail.text.toString().trim()
             var password = binding.etPassword.text.toString().trim()
-                validateFields(email,password)
+            validateFields(email, password)
         }
-        binding.btnSingup.setOnClickListener{
+
+        /**BOTON PARA REGISTRARSE Y NAVEGAR A LA VISTA DE REGISTRO*/
+        binding.btnSingup.setOnClickListener {
             navigateToSingUp()
         }
+
+        /**METODO PARA OBSERVAR EL LOGIN Y DAR ACCESO */
         observeLogin()
     }
 
 
+    /**FUNCIONES----------------------------------------------------------------------------------*/
     //Funcion para navegar a la vista SingUp Registro
     private fun navigateToSingUp() {
         val intent = Intent(this, SingUpActivity::class.java)
@@ -41,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //Funcion para validar los campos de texto
-    private fun validateFields( email: String, password:String){
+    private fun validateFields(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password) //LLama al metodo de viewmodel
         } else {
@@ -49,13 +61,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-
+    //Funcion para navegar a la vista principal despues de la verificacion
     private fun navigateToMovies() {
         val intent = Intent(this, MoviesListActivity::class.java)
         startActivity(intent)
     }
 
+    //Observar si la verificacion de usuario ha sido correcta
     private fun observeLogin() {
         viewModel.loginResult.observe(this, Observer { isLoggedIn ->
             if (isLoggedIn) {
@@ -67,8 +79,4 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
-
 }

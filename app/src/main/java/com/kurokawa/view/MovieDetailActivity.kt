@@ -16,10 +16,10 @@ class MovieDetailActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding: ActivityMovieDetailBinding
     private val binding: ActivityMovieDetailBinding get() = _binding
-    private lateinit var applicacion :MyApplication
-    private lateinit var movieViewModel :MovieDetailsViewModel
+    private lateinit var applicacion: MyApplication
+    private lateinit var movieViewModel: MovieDetailsViewModel
     private lateinit var repository: MovieDetailRepository
-    private var currentMovie :MovieEntity? = null
+    private var currentMovie: MovieEntity? = null
 
 
     /**MAIN---------------------------------------------------------------------------------------*/
@@ -33,16 +33,10 @@ class MovieDetailActivity : AppCompatActivity() {
 
         /**OBTENER EL ID DE LA MOVIE SELECCIONADA VER LOS CAMBIOS Y MOSTRAR LOS DETALLES DE LA MOVIE*/
         val movieSelected = intent.getParcelableExtra<MovieEntity>("MOVIE")
-        if (movieSelected != null){
+        if (movieSelected != null) {
             observerStateMovies(movieSelected.idMovie)
         }
 
-        /**ESCUCHAR EL BOTON FAVORITO Y ACTUALIZAR EL ESTADO DE LA MOVIE*/
-        binding.btnFavorite.setOnClickListener {
-            currentMovie?.let { movie ->
-                movieViewModel.updateFavoriteMovies(movie)
-            }
-        }
     }
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
@@ -50,13 +44,13 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun inicializer() {
         applicacion = application as MyApplication
         repository = MovieDetailRepository(applicacion)
-        movieViewModel  = MovieDetailsViewModel(repository)
+        movieViewModel = MovieDetailsViewModel(repository)
     }
 
     /**OBSERVA LA MOVIE Y ACTUALIZA LA VISTA*/
     private fun observerStateMovies(idMovie: Long) {
-        movieViewModel.getMovieById(idMovie).observe(this){ updateMovie->
-            currentMovie =updateMovie
+        movieViewModel.getMovieById(idMovie).observe(this) { updateMovie ->
+            currentMovie = updateMovie
             showDetailsMovie(updateMovie)
         }
     }

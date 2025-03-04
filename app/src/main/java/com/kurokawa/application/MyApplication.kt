@@ -11,7 +11,7 @@ class MyApplication : Application() {
             private set
     }
 
-    lateinit var myDataBase:MyDataBase
+    lateinit var myDataBase: MyDataBase
 
     override fun onCreate() {
         super.onCreate()

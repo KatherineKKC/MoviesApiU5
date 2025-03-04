@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kurokawa.data.room.difu.MovieDifu
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
-import com.kurokawa.model.MovieModel
 
 class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,
-    private val onClick: (MovieEntity) -> Unit) : RecyclerView.Adapter<MovieListViewHolder>() {
-
+    private val onClick: (MovieEntity) -> Unit
+) : RecyclerView.Adapter<MovieListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         val binding = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieListViewHolder(binding)
     }
+
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
         val movie = listMovies[position]
@@ -32,10 +32,6 @@ class MoviesListAdapter(
         listMovies.clear()
         listMovies.addAll(newlistMovies)
         diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun updateData(listMovies: List<MovieModel>?) {
-
     }
 
 
