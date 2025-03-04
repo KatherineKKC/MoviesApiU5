@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import com.kurokawa.data.room.database.MyDataBase
 import com.kurokawa.data.room.entities.MovieEntity
 
-class MovieDetailRepository(private val myDataBase: MyDataBase){
+class MovieDetailRepository(private val myDataBase: MyDataBase) {
     /**FUNCIONES----------------------------------------------------------------------------------*/
     suspend fun updateFavoriteMovie(movieEntity: MovieEntity) {
         var isFavorite = movieEntity.isFavoriteMovie
         val idFavorite = movieEntity.idMovie
-       myDataBase.movieDao().updateFavoriteStatus(idFavorite,isFavorite)
+        myDataBase.movieDao().updateFavoriteStatus(idFavorite, isFavorite)
         Log.e("MOVIE-DETAILS-REPOSITORY", "El estado de favorito  es: $isFavorite")
 
     }

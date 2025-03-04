@@ -1,4 +1,5 @@
 package com.kurokawa.application
+
 import android.app.Application
 import appModule
 import org.koin.android.ext.koin.androidContext

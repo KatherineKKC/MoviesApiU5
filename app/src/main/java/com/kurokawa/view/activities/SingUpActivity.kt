@@ -36,7 +36,11 @@ class SingUpActivity : AppCompatActivity() {
     //Verifica que los campos no esten vacios y registra el usuario
     private fun validateField(email: String, password: String) {
         if (email.isEmpty() || password.isEmpty()) {
-            Snackbar.make(binding.root, "Los campos de texto deben estar llenos", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.root,
+                "Los campos de texto deben estar llenos",
+                Snackbar.LENGTH_SHORT
+            ).show()
         } else {
             signUpViewModel.registerUser(email, password)
         }
@@ -46,7 +50,11 @@ class SingUpActivity : AppCompatActivity() {
     private fun observeSignUpResult() {
         signUpViewModel.signUpResult.observe(this, Observer { isSuccess ->
             if (isSuccess) {
-                Snackbar.make(binding.root, "El usuario se ha registrado con éxito", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    "El usuario se ha registrado con éxito",
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 navigateToLogin()
             } else {
                 Snackbar.make(binding.root, "El usuario ya existe", Snackbar.LENGTH_SHORT).show()

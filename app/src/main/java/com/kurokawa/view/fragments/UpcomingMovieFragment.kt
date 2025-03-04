@@ -3,20 +3,17 @@ package com.kurokawa.view.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kurokawa.R
 import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
-import com.kurokawa.databinding.FragmentPopularMovieBinding
 import com.kurokawa.databinding.FragmentUpcomingMovieBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UpcomingMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
@@ -73,7 +70,7 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail )
+        intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)
     }
 
