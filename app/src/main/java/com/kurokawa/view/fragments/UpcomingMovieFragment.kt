@@ -3,10 +3,10 @@ package com.kurokawa.view.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
@@ -57,7 +57,10 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
     override fun observerFilter() {
         lifecycleScope.launch {
             viewModel.filteredMovies.collectLatest { filteredList ->
-                Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+                Log.e(
+                    "ALL-MOVIES-FRAGMENT",
+                    "Actualizando RecyclerView con ${filteredList.size} películas"
+                )
 
                 val uniqueList = filteredList.distinctBy { it.idMovie } // 🔹 Evita duplicados
 
@@ -68,10 +71,10 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
 
 
     override fun getMovies() {
-        lifecycleScope.launch(Dispatchers.IO){
-            viewModel.getMovieByCategory("Upcoming").collect{ nowPlayingMoveList->
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getMovieByCategory("Upcoming").collect { nowPlayingMoveList ->
                 val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     adapter.submitList(uniqueList)
                     viewModel.filterFavorites("")
 
@@ -83,7 +86,7 @@ class UpcomingMovieFragment : Fragment(), FragmentMetodos {
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("MOVIE", movieDetail )
+        intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)
     }
 

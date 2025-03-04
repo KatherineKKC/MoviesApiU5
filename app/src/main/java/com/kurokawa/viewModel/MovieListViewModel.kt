@@ -3,9 +3,13 @@ package com.kurokawa.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.data.dataStore.entities.MovieEntity
-import kotlinx.coroutines.flow.*
+import com.kurokawa.repository.MovieListRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 class MovieListViewModel(private val repository: MovieListRepository) : ViewModel() {
@@ -14,7 +18,7 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     private val _allMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
     val allMovies: StateFlow<List<MovieEntity>> get() = _allMovies
 
-    private val _allFavoriteMovies= MutableStateFlow<List<MovieEntity>>(emptyList())
+    private val _allFavoriteMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
     val allFavoriteMovies: StateFlow<List<MovieEntity>> get() = _allFavoriteMovies
 
     /** 🔹 Estado de las películas filtradas */
@@ -26,7 +30,6 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     val filteredFavorites: StateFlow<List<MovieEntity>> get() = _filteredFavorites
 
 
-
     /** 🔹 Cargar todas las películas desde API o DataStore */
     fun loadAllMovies() {
         viewModelScope.launch {
@@ -34,13 +37,19 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
                 val moviesFromStore = repository.getAllMoviesDataStore().firstOrNull()
 
                 if (moviesFromStore.isNullOrEmpty()) {
-                    val popular = repository.getPopularMovie(1)?.let { repository.syncMoviesWithDataStore(it, "Popular") } ?: emptyList()
-                    val topRated = repository.getTopRatedMovie(1)?.let { repository.syncMoviesWithDataStore(it, "TopRated") } ?: emptyList()
-                    val nowPlaying = repository.getNowPlayingMovie(1)?.let { repository.syncMoviesWithDataStore(it, "NowPlaying") } ?: emptyList()
-                    val upcoming = repository.getUpcomingMovie(1)?.let { repository.syncMoviesWithDataStore(it, "Upcoming") } ?: emptyList()
+                    val popular = repository.getPopularMovie(1)
+                        ?.let { repository.syncMoviesWithDataStore(it, "Popular") } ?: emptyList()
+                    val topRated = repository.getTopRatedMovie(1)
+                        ?.let { repository.syncMoviesWithDataStore(it, "TopRated") } ?: emptyList()
+                    val nowPlaying = repository.getNowPlayingMovie(1)
+                        ?.let { repository.syncMoviesWithDataStore(it, "NowPlaying") }
+                        ?: emptyList()
+                    val upcoming = repository.getUpcomingMovie(1)
+                        ?.let { repository.syncMoviesWithDataStore(it, "Upcoming") } ?: emptyList()
 
                     // 🔹 Combina las listas y elimina duplicados
-                    val allMovies = (popular + topRated + nowPlaying + upcoming).distinctBy { it.idMovie }
+                    val allMovies =
+                        (popular + topRated + nowPlaying + upcoming).distinctBy { it.idMovie }
                     _allMovies.value = allMovies
                 } else {
                     _allMovies.value = moviesFromStore
@@ -52,14 +61,17 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
         }
     }
 
-    fun loadAllFavorites(){
+    fun loadAllFavorites() {
         viewModelScope.launch {
             val movieFavoriteFromStore = repository.getAllFavoriteMovies().firstOrNull()
-            if (movieFavoriteFromStore != null){
+            if (movieFavoriteFromStore != null) {
                 _allFavoriteMovies.value = movieFavoriteFromStore
-            }else{
-                val listFavorites =repository.getAllFavoriteMovies().firstOrNull()
-                Log.e("MOVIE-LIST-VIEW-MODEL", "Intenando obtener las movies favoritas del repositorio ${listFavorites?.size}")
+            } else {
+                val listFavorites = repository.getAllFavoriteMovies().firstOrNull()
+                Log.e(
+                    "MOVIE-LIST-VIEW-MODEL",
+                    "Intenando obtener las movies favoritas del repositorio ${listFavorites?.size}"
+                )
             }
         }
     }

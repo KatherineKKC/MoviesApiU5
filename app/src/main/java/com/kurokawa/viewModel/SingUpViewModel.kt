@@ -18,7 +18,7 @@ class SignUpViewModel(private val repository: SignUpRepository) : ViewModel() {
     /**FUNCIONES----------------------------------------------------------------------------------*/
     fun registerUser(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val isRegistered = repository.registerUser(email,password)
+            val isRegistered = repository.registerUser(email, password)
             if (isRegistered) {
                 _signUpResult.postValue(false) // El usuario ya existe
             } else {

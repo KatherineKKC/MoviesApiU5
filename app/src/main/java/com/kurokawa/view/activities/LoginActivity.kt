@@ -3,20 +3,17 @@ package com.kurokawa.view.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.kurokawa.databinding.ActivityLoginBinding
-import com.kurokawa.application.MyApplication
 import com.kurokawa.viewModel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding : ActivityLoginBinding
+    private lateinit var _binding: ActivityLoginBinding
     private val binding: ActivityLoginBinding get() = _binding
-    private val viewModel : LoginViewModel by viewModel()
-
+    private val viewModel: LoginViewModel by viewModel()
 
 
     /**MAIN---------------------------------------------------------------------------------------*/
@@ -26,14 +23,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Boton para entrar en la app
-        binding.btnLogin.setOnClickListener{
+        binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-                validateFields(email,password)
+            validateFields(email, password)
         }
 
         //Navega a la activity de registro
-        binding.btnSingup.setOnClickListener{
+        binding.btnSingup.setOnClickListener {
             navigateToSingUp()
         }
 
@@ -49,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //Funcion para validar los campos de texto
-    private fun validateFields( email: String, password:String){
+    private fun validateFields(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password) //LLama al metodo de viewmodel
         } else {
@@ -75,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, IntroActivity::class.java)
         startActivity(intent)
     }
-
 
 
 }

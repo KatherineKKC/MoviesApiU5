@@ -3,10 +3,10 @@ package com.kurokawa.view.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.dataStore.adapter.MoviesListAdapter
@@ -22,15 +22,16 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TopRatedMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding : FragmentTopRatedMovieBinding
+    private lateinit var _binding: FragmentTopRatedMovieBinding
     private val binding: FragmentTopRatedMovieBinding get() = _binding
     private lateinit var adapter: MoviesListAdapter
-    private val viewModel : MovieListViewModel by sharedViewModel()
+    private val viewModel: MovieListViewModel by sharedViewModel()
 
     /**VISTA--------------------------------------------------------------------------------------*/
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        _binding  = FragmentTopRatedMovieBinding.inflate(inflater)
+        _binding = FragmentTopRatedMovieBinding.inflate(inflater)
         return binding.root
     }
 
@@ -45,7 +46,7 @@ class TopRatedMovieFragment : Fragment(), FragmentMetodos {
     /**FUNCIONES----------------------------------------------------------------------------------*/
 
     override fun setupRecycler() {
-        adapter = MoviesListAdapter(mutableListOf()){ movieDetail ->
+        adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
             navigateToMovieDetail(movieDetail)
         }
         binding.recyclerViewTopRated.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -56,7 +57,10 @@ class TopRatedMovieFragment : Fragment(), FragmentMetodos {
     override fun observerFilter() {
         lifecycleScope.launch {
             viewModel.filteredMovies.collectLatest { filteredList ->
-                Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+                Log.e(
+                    "ALL-MOVIES-FRAGMENT",
+                    "Actualizando RecyclerView con ${filteredList.size} películas"
+                )
 
                 val uniqueList = filteredList.distinctBy { it.idMovie } // 🔹 Evita duplicados
 
@@ -66,10 +70,10 @@ class TopRatedMovieFragment : Fragment(), FragmentMetodos {
     }
 
     override fun getMovies() {
-        lifecycleScope.launch(Dispatchers.IO){
-            viewModel.getMovieByCategory("TopRated").collect{ nowPlayingMoveList->
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getMovieByCategory("TopRated").collect { nowPlayingMoveList ->
                 val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     adapter.submitList(uniqueList)
                 }
             }

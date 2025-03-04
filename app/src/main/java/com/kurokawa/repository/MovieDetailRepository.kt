@@ -6,10 +6,10 @@ import com.kurokawa.data.dataStore.store.MovieDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MovieDetailRepository(private val movieDataStore: MovieDataStore){
+class MovieDetailRepository(private val movieDataStore: MovieDataStore) {
     /**FUNCIONES----------------------------------------------------------------------------------*/
     suspend fun stateFavoriteMovie(id: Long, isFavorite: Boolean) {
-        movieDataStore.updateFavoriteStatus(id,isFavorite)
+        movieDataStore.updateFavoriteStatus(id, isFavorite)
         Log.e("MOVIE-DETAILS-REPOSITORY", "El estado de favorito  es: $isFavorite")
     }
 
@@ -22,7 +22,7 @@ class MovieDetailRepository(private val movieDataStore: MovieDataStore){
     /**OBTENER TODAS LAS FAVORITAS */
     fun getAllFavoriteMovies(): Flow<List<MovieEntity>> {
         return movieDataStore.getAllMovies().map { movies ->
-            val favoriteMovies = movies.filter { it.isFavoriteMovie == true}
+            val favoriteMovies = movies.filter { it.isFavoriteMovie == true }
             Log.e("MOVIE-DATASTORE", "Películas favoritas encontradas: ${favoriteMovies.size}")
             favoriteMovies
         }

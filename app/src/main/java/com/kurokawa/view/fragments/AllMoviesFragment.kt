@@ -21,18 +21,21 @@ import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
+    /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private lateinit var _binding : FragmentAllMoviesBinding
     private val binding: FragmentAllMoviesBinding get() = _binding
 
     private lateinit var adapter: MoviesListAdapter
-    private val allViewModel : MovieListViewModel by  sharedViewModel() // activityViewModels() si fuera activity
+    private val allViewModel : MovieListViewModel by  sharedViewModel()
 
+
+    /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAllMoviesBinding.inflate(inflater)
         return binding.root
     }
 
-    /**LOGICA*/
+    /**MAIN---------------------------------------------------------------------------------------*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()

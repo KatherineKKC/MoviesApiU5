@@ -8,6 +8,6 @@ class SignUpRepository(private val userDataStore: UserDataStore) {
 
     suspend fun registerUser(email: String, password: String): Boolean {
         val user = UserEntity(0, email, password)
-        return  userDataStore.saveUser(user)
+        return userDataStore.saveUser(user)
     }
 }
