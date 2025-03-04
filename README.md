@@ -5,7 +5,7 @@ Este proyecto comenzó como una **actividad de la UTAD** en la que se implementa
 Ahora, el proyecto soporta múltiples implementaciones, incluyendo:
 - **Room Database**
 - **DataStore Preferences**
-- **Firebase **
+- **Firebase**
 - **Shared Preferences**
 - **Paper DB**
   
