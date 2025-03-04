@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kurokawa.data.room.difu.MovieDifu
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.databinding.ItemMoviesBinding
-import com.kurokawa.model.MovieModel
 
 class MoviesListAdapter(
     var listMovies: MutableList<MovieEntity>,
-    private val onClick: (MovieEntity) -> Unit) : RecyclerView.Adapter<MovieListViewHolder>() {
+    private val onClick: (MovieEntity) -> Unit
+) : RecyclerView.Adapter<MovieListViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
@@ -41,7 +41,6 @@ class MoviesListAdapter(
             notifyItemChanged(index)
         }
     }
-
 
 
 }

@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "user")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true) var idUser: Int =0,
+    @PrimaryKey(autoGenerate = true) var idUser: Int = 0,
     val idFirebaseUser: String,
-    val email:String,
+    val email: String,
     val displayName: String?,
     val imagePath: String?
 )

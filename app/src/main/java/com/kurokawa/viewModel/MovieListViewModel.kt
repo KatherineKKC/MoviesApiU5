@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.data.room.entities.MovieEntity
 import com.kurokawa.model.MovieModel
+import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,39 +17,38 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     /**API----------------------------------------------------------------------------------------*/
     val apiKey = Constants.API_KEY
 
-    /**VARIABLES LIVE DATA------------------------------------------------------------------------*/
-    //Obtener Todas las movies Favoritas y todas las movies en total
+    /**OBSERVADORES-------------------------------------------------------------------------------*/
+    //OBTIENE TODAS LAS FAVORITAS Y TODAS LA MOVIES
     val getAllMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesRoom()
-    val getAllFavoritesMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
+    val getAllFavoritesMovies: LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
 
-    //Obtiene las filtraciones de busqueda de todas las movies
+    //OBSERVA LA BUSQUEDA Y FILTRA LAS PELICULAS (TODAS)
     private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
     val filteredMovies: LiveData<List<MovieEntity>> get() = _filteredMovies
 
-    //Obtiene las filtraciones de busqueda de todas las favoritas
+    //OBSERVA LA BUSQUEDA Y FILTRA LAS PELICULAS FAVORITAS
     private val _filteredFavorites = MutableLiveData<List<MovieEntity>>()
     val filteredFavorites: LiveData<List<MovieEntity>> get() = _filteredFavorites
 
-    //Obtiene movies por categoria
-    //popular
+    //OBSERVA MOVIES POPULAR
     private val _popularMovie = MutableLiveData<List<MovieModel>?>()
     val popularMovie: LiveData<List<MovieModel>?> = _popularMovie
 
-    //Mas valorada
+    //OBSERVA MOVIES TOP-RATED
     private val _topRatedMovie = MutableLiveData<List<MovieModel>?>()
     val topRatedMovie: LiveData<List<MovieModel>?> = _topRatedMovie
 
-    //En cartelera
+    //OBSERVA MOVIES NOWPLAYIN
     private val _nowPlayingMovie = MutableLiveData<List<MovieModel>?>()
     val nowPlayingMovie: LiveData<List<MovieModel>?> = _nowPlayingMovie
 
-    //Proximas
+    //OBSERVA MOVIES UPCOMIN
     private val _upcomingMovie = MutableLiveData<List<MovieModel>?>()
     val upcomingMovie: LiveData<List<MovieModel>?> = _upcomingMovie
 
 
     /**FUNCIONES PARA FILTRAR---------------------------------------------------------------------*/
-    //Recibe el texto introducido en la barra de busqueda y filtra TODAS las movies
+    //LEE LA BUSQUEDA DEL USUARIO Y FILTRA LAS PELICULAS
     fun filterMovies(query: String) {
         val allMovies = getAllMovies.value ?: emptyList()
         _filteredMovies.value = if (query.isEmpty()) {
@@ -59,23 +58,22 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
         }
     }
 
-    //Recibe el texto introducido en la barra de busqueda y filtra las movies Favoritas
+    //LEE LA BUSQUEDA DEL USUARIO Y FILTRA LAS PELICULAS FAVORITAS
     fun filterFavorites(query: String) {
-        viewModelScope.launch(Dispatchers.IO){
-            val allFavorites = repository.getAllFavoriteMovies().value ?: emptyList() // 🔹 Filtra SOLO favoritos
-            withContext(Dispatchers.Main){
-                if (allFavorites != null){
+        viewModelScope.launch(Dispatchers.IO) {
+            val allFavorites =
+                repository.getAllFavoriteMovies().value ?: emptyList() // 🔹 Filtra SOLO favoritos
+            withContext(Dispatchers.Main) {
+                if (allFavorites != null) {
                     _filteredFavorites.value = if (query.isEmpty()) {
                         allFavorites
-                }else {
+                    } else {
                         allFavorites.filter { it.title.contains(query, ignoreCase = true) }
                     }
+                }
             }
-          }
         }
     }
-
-
 
 
     /**FUNCION PARA ACTIVAR LA CARGA DE  TODAS LAS CATEGORIAS DE MOVIES DE LA API ----------------*/
@@ -118,7 +116,6 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     fun showErrorToConsole() {
         Log.e("MOVIE-LIST-VIEW-MODEL", "Se ha recibido una lista Vacia de la fun loadAllMovies")
     }
-
 
 }
 

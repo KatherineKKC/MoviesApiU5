@@ -8,14 +8,21 @@ import androidx.lifecycle.viewModelScope
 import com.kurokawa.repository.SignUpRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-class SignUpViewModel(private val repository: SignUpRepository) : ViewModel() {
 
+class SignUpViewModel(private val repository: SignUpRepository) : ViewModel() {
+    /**OBSERVADORES-------------------------------------------------------------------------------*/
     private val _signUpResult = MutableLiveData<Boolean>()
     val signUpResult: LiveData<Boolean> get() = _signUpResult
 
+    /**FUNCIONES----------------------------------------------------------------------------------*/
     fun registerUser(email: String, password: String, displayName: String, imageUri: Uri?) {
         viewModelScope.launch {
-            val isSuccess = repository.registerUser(email, password, displayName, imageUri) // 🔹 Convierte URI a String
+            val isSuccess = repository.registerUser(
+                email,
+                password,
+                displayName,
+                imageUri
+            ) // 🔹 Convierte URI a String
             viewModelScope.launch(Dispatchers.Main) {
                 _signUpResult.postValue(isSuccess)
             }

@@ -3,10 +3,10 @@ package com.kurokawa.view.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.room.adapter.MoviesListAdapter
 import com.kurokawa.data.room.entities.MovieEntity
@@ -16,12 +16,12 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
+class NowPlayingMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding : FragmentNowPlayingMovieBinding
+    private lateinit var _binding: FragmentNowPlayingMovieBinding
     private val binding: FragmentNowPlayingMovieBinding get() = _binding
     private lateinit var adapter: MoviesListAdapter
-    private val viewModel : MovieListViewModel by sharedViewModel()
+    private val viewModel: MovieListViewModel by sharedViewModel()
 
     /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
@@ -41,7 +41,7 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
     }
 
     /**FUNCIONES----------------------------------------------------------------------------------*/
-    override fun setupRecycler(){
+    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movieDetail ->
             navigateToMovieDetail(movieDetail)
         }
@@ -49,24 +49,28 @@ class NowPlayingMovieFragment : Fragment(),FragmentMetodos {
         binding.recyclereViewNowPlaying.adapter = adapter
     }
 
-   override fun observerFilter(){
+    override fun observerFilter() {
         viewModel.filteredMovies.observe(viewLifecycleOwner) { filteredList ->
-            Log.e("ALL-MOVIES-FRAGMENT", "Actualizando RecyclerView con ${filteredList.size} películas")
+            Log.e(
+                "ALL-MOVIES-FRAGMENT",
+                "Actualizando RecyclerView con ${filteredList.size} películas"
+            )
             val uniqueList = filteredList.distinctBy { it.idMovie }
             adapter.submitList(uniqueList)
         }
 
     }
 
-   override fun getMovies(){
-        viewModel.getMovieByCategory("NowPlaying").observe(viewLifecycleOwner){ nowPlayingMoveList->
-            val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
-            adapter.submitList(uniqueList)
-        }
+    override fun getMovies() {
+        viewModel.getMovieByCategory("NowPlaying")
+            .observe(viewLifecycleOwner) { nowPlayingMoveList ->
+                val uniqueList = nowPlayingMoveList.distinctBy { it.idMovie }
+                adapter.submitList(uniqueList)
+            }
 
     }
 
-   override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
         intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)

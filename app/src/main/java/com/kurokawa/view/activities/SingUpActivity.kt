@@ -20,12 +20,13 @@ class SingUpActivity : AppCompatActivity() {
     /** VARIABLES ------------------------------------------------------------------------------*/
     private var imageUri: Uri? = null // Guarda la imagen seleccionada
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            imageUri = it
-            binding.ivProfile.setImageURI(it) // Muestra la imagen en el ImageView
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                imageUri = it
+                binding.ivProfile.setImageURI(it) // Muestra la imagen en el ImageView
+            }
         }
-    }
 
     /** MAIN ---------------------------------------------------------------------------------- */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,16 +59,21 @@ class SingUpActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.signUpResult.observe(this, Observer { isSuccess ->
             if (isSuccess) {
-                Snackbar.make(binding.root, "El usuario se ha registrado con éxito", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    "El usuario se ha registrado con éxito",
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 clearBox()
                 navigateToLogin()
             } else {
-                Snackbar.make(binding.root, "Error al registrar usuario", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error al registrar usuario", Snackbar.LENGTH_SHORT)
+                    .show()
             }
         })
     }
 
-    private fun clearBox(){
+    private fun clearBox() {
         binding.etEmailSing.setText("")
         binding.etPasswordSing2.setText("")
         binding.etDisplayName.setText("")
@@ -88,7 +94,8 @@ class SingUpActivity : AppCompatActivity() {
         val displayName = binding.etDisplayName.text.toString().trim()
 
         if (email.isEmpty() || password.length < 7 || displayName.isEmpty()) {
-            Snackbar.make(binding.root, "Todos los campos son obligatorios", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Todos los campos son obligatorios", Snackbar.LENGTH_SHORT)
+                .show()
             return false
         }
         return true

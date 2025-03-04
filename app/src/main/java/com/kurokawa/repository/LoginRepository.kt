@@ -1,4 +1,5 @@
 package com.kurokawa.repository
+
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.kurokawa.data.room.dao.UserDao
@@ -13,6 +14,8 @@ class LoginRepository(private val userDao: UserDao, private val auth: FirebaseAu
     fun signOut() {
         auth.signOut()
     }
+
+    //INICIA SESION EN FIREBASE Y GUARDA LOS DATOS EN ROOM DE NO ESTAR REGISTRADO EN LA DB LOCAL
     private var idUSer = ""
     suspend fun sigInFirebaseEmailAndPassword(email: String, password: String): UserEntity? {
         return try {
@@ -46,8 +49,8 @@ class LoginRepository(private val userDao: UserDao, private val auth: FirebaseAu
     }
 
 
-    suspend fun getUserById():UserEntity?{
-       return userDao.getUserByFirebaseId(idUSer)
+    suspend fun getUserById(): UserEntity? {
+        return userDao.getUserByFirebaseId(idUSer)
     }
 
 
@@ -55,13 +58,13 @@ class LoginRepository(private val userDao: UserDao, private val auth: FirebaseAu
         try {
             userDao.deleteUserByFirebaseId(userFirebaseId)
             val auth = FirebaseAuth.getInstance().currentUser
-            if (auth != null){
-                auth.delete().addOnCompleteListener{ delete->
-                    if (delete.isSuccessful){
+            if (auth != null) {
+                auth.delete().addOnCompleteListener { delete ->
+                    if (delete.isSuccessful) {
                         Log.e("AUTH", "Usuario eliminado de Room y de Firebase: $userFirebaseId")
                     }
                 }
-            }else{
+            } else {
                 Log.e("AUTH", "Usuario no ha sido correctamente eliminado: $userFirebaseId")
             }
         } catch (e: Exception) {
@@ -69,6 +72,7 @@ class LoginRepository(private val userDao: UserDao, private val auth: FirebaseAu
         }
     }
 
+    //INGRESA A LA APP COMO ANONIMO /INVITADO
     suspend fun signInLikeAnonymous(): String? = suspendCancellableCoroutine { continuation ->
         val auth = FirebaseAuth.getInstance()
         auth.signInAnonymously()
@@ -79,11 +83,12 @@ class LoginRepository(private val userDao: UserDao, private val auth: FirebaseAu
                     continuation.resume(idAnonymous) // Devuelve el UID
                 } else {
                     Log.e("AUTH", "Error en autenticación anónima", task.exception)
-                    continuation.resumeWithException(task.exception ?: Exception("Error desconocido"))
+                    continuation.resumeWithException(
+                        task.exception ?: Exception("Error desconocido")
+                    )
                 }
             }
     }
-
 
 
 }
