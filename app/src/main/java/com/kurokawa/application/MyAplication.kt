@@ -1,9 +1,9 @@
 package com.kurokawa
 
 import android.app.Application
+import com.kurokawa.utils.AppModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import com.kurokawa.utils.AppModule
 
 class MyAplication : Application() {
     override fun onCreate() {

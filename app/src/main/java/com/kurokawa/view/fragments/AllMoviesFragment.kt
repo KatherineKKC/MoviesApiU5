@@ -3,12 +3,10 @@ package com.kurokawa.view.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
@@ -16,16 +14,19 @@ import com.kurokawa.databinding.FragmentAllMoviesBinding
 import com.kurokawa.view.activities.MovieDetailActivity
 import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AllMoviesFragment : Fragment(), FragmentMetodos {
-    private lateinit var _binding : FragmentAllMoviesBinding
+    private lateinit var _binding: FragmentAllMoviesBinding
     private val binding: FragmentAllMoviesBinding get() = _binding
 
     private lateinit var adapter: MoviesListAdapter
-    private val allViewModel : MovieListViewModel by  sharedViewModel() // activityViewModels() si fuera activity
+    private val allViewModel: MovieListViewModel by sharedViewModel() // activityViewModels() si fuera activity
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentAllMoviesBinding.inflate(inflater)
         return binding.root
     }
@@ -39,9 +40,8 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
 
-
     /**FUNCIONES----------------------------------------------------------------------------------*/
-   override fun setupRecycler() {
+    override fun setupRecycler() {
         adapter = MoviesListAdapter(mutableListOf()) { movie ->
             navigateToMovieDetail(movie)
         }
@@ -50,8 +50,8 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
     }
 
     override fun observerFilter() {
-        allViewModel.filteredMovies.observe(viewLifecycleOwner){ listMovies ->
-                adapter.submitList(listMovies)
+        allViewModel.filteredMovies.observe(viewLifecycleOwner) { listMovies ->
+            adapter.submitList(listMovies)
         }
     }
 
@@ -63,7 +63,6 @@ class AllMoviesFragment : Fragment(), FragmentMetodos {
         }
 
     }
-
 
 
     override fun navigateToMovieDetail(movieDetail: MovieEntity) {

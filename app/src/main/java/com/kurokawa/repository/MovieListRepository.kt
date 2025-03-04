@@ -10,7 +10,7 @@ import com.kurokawa.model.MovieModel
 
 class MovieListRepository( private val apiService: MovieApiService, private val sharedStorageMovies: SharedPreferencesStorageMovies) {
 
-    /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR EN ROOM /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
+    /**FUNCIONES PARA OBTENER RESULT DE APY/ INSERTAR LAS MOVIES EN ROOM POR CATEGORIAS  /REGRESAR LA LISTA DE MOVIES(MODEL)-*/
     /**POPULAR*/
     suspend fun getPopularMovie(apiKey: String, page: Int): List<MovieModel>? {
         val response = apiService.getPopularMovies(apiKey,page)

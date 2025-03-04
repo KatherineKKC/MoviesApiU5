@@ -1,14 +1,20 @@
 package com.kurokawa.utils
 
-import org.koin.android.ext.koin.androidApplication
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 import com.kurokawa.data.remote.retrofit.RetrofitClient
 import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovies
 import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageUser
-import com.kurokawa.repository.*
-import com.kurokawa.viewModel.*
+import com.kurokawa.repository.LoginRepository
+import com.kurokawa.repository.MovieDetailRepository
+import com.kurokawa.repository.MovieListRepository
+import com.kurokawa.repository.SignUpRepository
+import com.kurokawa.viewModel.LoginViewModel
+import com.kurokawa.viewModel.MovieDetailsViewModel
+import com.kurokawa.viewModel.MovieListViewModel
+import com.kurokawa.viewModel.SignUpViewModel
+import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.dsl.module
 
 object AppModule {
     val module = module {

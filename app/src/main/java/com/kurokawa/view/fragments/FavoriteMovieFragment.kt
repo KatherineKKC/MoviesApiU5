@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kurokawa.data.sharedPreferences.adapter.MoviesListAdapter
@@ -18,12 +18,12 @@ import com.kurokawa.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-class FavoriteMovieFragment : Fragment(),FragmentMetodos {
+class FavoriteMovieFragment : Fragment(), FragmentMetodos {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
-    private lateinit var _binding : FragmentFavoriteMovieBinding
+    private lateinit var _binding: FragmentFavoriteMovieBinding
     private val binding: FragmentFavoriteMovieBinding get() = _binding
     private lateinit var adapter: MoviesListAdapter
-    private val viewModel : MovieListViewModel by sharedViewModel()
+    private val viewModel: MovieListViewModel by sharedViewModel()
 
     /**VISTA--------------------------------------------------------------------------------------*/
     override fun onCreateView(
@@ -53,7 +53,7 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
         binding.recyclerViewFavorites.adapter = adapter
     }
 
-    override  fun observerFilter() {
+    override fun observerFilter() {
         viewModel.filteredFavorites.observe(viewLifecycleOwner) { filteredList ->
             Log.e(
                 "ALL-MOVIES-FRAGMENT",
@@ -63,16 +63,19 @@ class FavoriteMovieFragment : Fragment(),FragmentMetodos {
         }
     }
 
-  @SuppressLint("SuspiciousIndentation")
-  override fun getMovies() {
-      viewModel.allFavoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
-          viewModel.filterFavorites("")
-      Log.e("FAVORITE-MOVIES-FRAGMENT", "Películas favoritas obtenidas: ${favoriteMovies.size}")
-      adapter.submitList(favoriteMovies)
-  })
+    @SuppressLint("SuspiciousIndentation")
+    override fun getMovies() {
+        viewModel.allFavoriteMovies.observe(viewLifecycleOwner, Observer { favoriteMovies ->
+            viewModel.filterFavorites("")
+            Log.e(
+                "FAVORITE-MOVIES-FRAGMENT",
+                "Películas favoritas obtenidas: ${favoriteMovies.size}"
+            )
+            adapter.submitList(favoriteMovies)
+        })
     }
 
-   override fun navigateToMovieDetail(movieDetail: MovieEntity) {
+    override fun navigateToMovieDetail(movieDetail: MovieEntity) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java)
         intent.putExtra("MOVIE", movieDetail)
         startActivity(intent)

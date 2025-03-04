@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.data.sharedPreferences.entities.MovieEntity
 import com.kurokawa.model.MovieModel
+import com.kurokawa.repository.MovieListRepository
 import com.kurokawa.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     /**VARIABLES LIVE DATA------------------------------------------------------------------------*/
 
     val allMovies: LiveData<List<MovieEntity>> = repository.getAllMoviesSharedPreferenceStorage()
-    val allFavoriteMovies : LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
+    val allFavoriteMovies: LiveData<List<MovieEntity>> = repository.getAllFavoriteMovies()
 
     //Obtiene las filtraciones de busqueda de todas las movies
     private val _filteredMovies = MutableLiveData<List<MovieEntity>>()
@@ -105,7 +105,8 @@ class MovieListViewModel(private val repository: MovieListRepository) : ViewMode
     fun getMovieByCategory(category: String): LiveData<List<MovieEntity>> {
         val filteredList = MutableLiveData<List<MovieEntity>>()
         viewModelScope.launch(Dispatchers.IO) {
-            val movies = repository.getByCategory(category) // 🔹 Obtiene la lista de SharedPreferences
+            val movies =
+                repository.getByCategory(category) // 🔹 Obtiene la lista de SharedPreferences
             withContext(Dispatchers.Main) {
                 filteredList.value = movies
             }

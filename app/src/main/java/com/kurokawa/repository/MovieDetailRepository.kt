@@ -7,6 +7,7 @@ import com.kurokawa.data.sharedPreferences.storage.SharedPreferencesStorageMovie
 
 class MovieDetailRepository(private val sharedStorageMovies: SharedPreferencesStorageMovies){
     /**FUNCIONES----------------------------------------------------------------------------------*/
+    //ACTUALIZA EL ESTADO FAVORITO DE LA MOVIE
    fun updateFavoriteMovie(movieEntity: MovieEntity) {
         var isFavorite = movieEntity.isFavoriteMovie
         val idFavorite = movieEntity.idMovie
@@ -15,6 +16,7 @@ class MovieDetailRepository(private val sharedStorageMovies: SharedPreferencesSt
 
     }
 
+    //OBTIENE LOS DATOS DE LA PELICULA POR ID
     fun getMovieById(id: Long): MovieEntity? {
         return sharedStorageMovies.getMovieById(id)
     }

@@ -7,7 +7,7 @@ class MovieDifu(
     private val oldList: MutableList<MovieEntity>,
     private val newList: List<MovieEntity>
 
-) :DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
     }
@@ -19,7 +19,6 @@ class MovieDifu(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].idMovie == newList[newItemPosition].idMovie
     }
-
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition] == newList[newItemPosition]

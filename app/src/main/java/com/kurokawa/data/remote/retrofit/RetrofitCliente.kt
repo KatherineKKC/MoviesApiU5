@@ -13,7 +13,7 @@ object RetrofitClient {
             .build()
     }
 
-    val apiService :MovieApiService by lazy {
+    val apiService: MovieApiService by lazy {
         retrofit.create(MovieApiService::class.java)
     }
 

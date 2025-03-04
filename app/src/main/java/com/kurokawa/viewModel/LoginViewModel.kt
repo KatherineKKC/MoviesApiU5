@@ -8,7 +8,7 @@ import com.kurokawa.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel (private val repository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     /**VARIABLES DECLARADAS-----------------------------------------------------------------------*/
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult: LiveData<Boolean> get() = _loginResult

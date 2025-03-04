@@ -6,14 +6,15 @@ import com.google.gson.Gson
 import com.kurokawa.data.sharedPreferences.entities.UserEntity
 
 
-
 class SharedPreferencesStorageUser(private val context: Context) {
-    private val sharedStorageUser= "UserSharedPreferencesDB"
+    /**VARIABLES ---------------------------------------------------------------------------------*/
+    private val sharedStorageUser = "UserSharedPreferencesDB"
     private val sharedPreferencesStorage: SharedPreferences =
         context.getSharedPreferences(sharedStorageUser, Context.MODE_PRIVATE)
     private val gson = Gson()
 
 
+    /**FUNCIONES ---------------------------------------------------------------------------------*/
     // Guardar usuario en SharedPreferences
     fun saveUser(user: UserEntity) {
         val editor = sharedPreferencesStorage.edit()
